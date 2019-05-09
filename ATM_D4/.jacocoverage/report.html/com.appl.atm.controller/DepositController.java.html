@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DepositController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ATM_New&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">com.appl.atm.controller</a> &gt; <span class="el_source">DepositController.java</span></div><h1>DepositController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.appl.atm.controller;
+
+import static com.appl.atm.model.Constants.*;
+import com.appl.atm.model.Deposit;
+import com.appl.atm.model.Transaction;
+import com.appl.atm.view.Keypad;
+import com.appl.atm.view.Screen;
+
+/**
+ *
+ * @author Annazar
+ */
+public class DepositController extends TransactionController {
+
+    private Deposit transaction;
+
+    public DepositController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
+<span class="fc" id="L23">	super(theKeypad, theScreen);</span>
+<span class="fc" id="L24">	transaction = (Deposit) theTransaction;</span>
+<span class="fc" id="L25">    }</span>
+
+    @Override
+    public int run() {
+<span class="fc" id="L29">	double amount = promptForDepositAmount();</span>
+
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">	if (amount == DEPOSIT_CANCELED) {</span>
+<span class="nc" id="L32">	    getScreen().displayMessageLine(&quot;Canceling transaction...&quot;);</span>
+	} else {
+<span class="fc" id="L34">	    transaction.setAmount(amount);</span>
+<span class="fc" id="L35">	    transaction.execute();</span>
+<span class="fc" id="L36">	    getScreen().displayMessage(&quot;Please insert a deposit envelope containing $&quot;);</span>
+<span class="fc" id="L37">	    getScreen().displayDollarAmount(amount);</span>
+<span class="fc" id="L38">	    getScreen().displayMessageLine(&quot;\n&quot;);</span>
+<span class="fc" id="L39">	    getScreen().displayMessageLine(&quot;Your envelope has been received.&quot;);</span>
+<span class="fc" id="L40">	    getScreen().displayMessageLine(&quot;NOTE: The money just deposited will not be available until we verify the amount of any enclosed cash and your checks clear.&quot;);</span>
+	}
+	
+<span class="fc" id="L43">	return 0;</span>
+    }
+
+    // prompt user to enter a deposit amount in cents 
+    private double promptForDepositAmount() {
+<span class="fc" id="L48">	Screen screen = getScreen(); // get reference to screen</span>
+
+	// display the prompt
+<span class="fc" id="L51">	screen.displayMessage(&quot;\nPlease enter a deposit amount in &quot;</span>
+		+ &quot;CENTS (or 0 to cancel): &quot;);
+<span class="fc" id="L53">	int input = getKeypad().getInput(); // receive input of deposit amount</span>
+
+	// check whether the user canceled or entered a valid amount
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">	if (input == DEPOSIT_CANCELED) {</span>
+<span class="nc" id="L57">	    return DEPOSIT_CANCELED;</span>
+	} else {
+<span class="fc" id="L59">	    return (double) input / 100; // return dollar amount</span>
+	}
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

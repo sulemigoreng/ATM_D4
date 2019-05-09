@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ATM.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ATM_New&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">com.appl.atm.controller</a> &gt; <span class="el_source">ATM.java</span></div><h1>ATM.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.appl.atm.controller;
+
+import com.appl.atm.model.BalanceInquiry;
+import com.appl.atm.model.BankDatabase;
+import com.appl.atm.model.CashDispenser;
+import com.appl.atm.model.Deposit;
+import com.appl.atm.model.DepositSlot;
+import com.appl.atm.model.Transaction;
+import com.appl.atm.model.Withdrawal;
+import com.appl.atm.view.Keypad;
+import com.appl.atm.view.Screen;
+import static com.appl.atm.model.Constants.*;
+
+/**
+ *
+ * @author Annazar
+ */
+public class ATM {
+    private int userAuthenticated;
+    private int currentAccountNumber; // current user's account number
+    private Screen screen; // ATM's screen
+    private Keypad keypad; // ATM's keypad
+    private CashDispenser cashDispenser; // ATM's cash dispenser
+    private DepositSlot depositSlot;
+    private BankDatabase bankDatabase; // account information database
+
+
+<span class="fc" id="L33">    public ATM() {</span>
+<span class="fc" id="L34">	userAuthenticated = 0;</span>
+<span class="fc" id="L35">	currentAccountNumber = 0;</span>
+<span class="fc" id="L36">	screen = new Screen();</span>
+<span class="fc" id="L37">	keypad = new Keypad();</span>
+<span class="fc" id="L38">	cashDispenser = new CashDispenser();</span>
+<span class="fc" id="L39">	depositSlot = new DepositSlot();</span>
+<span class="fc" id="L40">	bankDatabase = new BankDatabase();</span>
+<span class="fc" id="L41">    }</span>
+
+    // start ATM 
+    public void run() {
+	// welcome and authenticate user; perform transactions
+	while (true) {
+	    // loop while user is not yet authenticated
+<span class="fc" id="L48">	    screen.displayMessageLine(&quot;\nWelcome!\n&quot;);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">	    while (userAuthenticated != 1) {</span>
+<span class="fc" id="L50">		authenticateUser(); // authenticate user</span>
+	    }
+
+<span class="fc" id="L53">	    performTransactions(); // user is now authenticated</span>
+<span class="fc" id="L54">	    userAuthenticated = 0; // reset before next ATM session</span>
+<span class="fc" id="L55">	    currentAccountNumber = 0; // reset before next ATM session</span>
+<span class="fc" id="L56">	    screen.displayMessageLine(&quot;\nThank you! Goodbye!&quot;);</span>
+	}
+    }
+
+    // attempts to authenticate user against database
+    private void authenticateUser() {
+<span class="fc" id="L62">	screen.displayMessage(&quot;Please enter your account number\t: &quot;);</span>
+<span class="fc" id="L63">	int accountNumber = keypad.getInput(); // input account number</span>
+<span class="fc" id="L64">	screen.displayMessage(&quot;Enter your PIN\t\t\t\t: &quot;); // prompt for PIN</span>
+<span class="fc" id="L65">	int pin = keypad.getInput(); // input PIN</span>
+
+	// set userAuthenticated to boolean value returned by database
+<span class="fc" id="L68">	userAuthenticated</span>
+<span class="fc" id="L69">		= bankDatabase.authenticateUser(accountNumber, pin);</span>
+
+	// check whether authentication succeeded
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">	if (userAuthenticated == 1) {</span>
+<span class="fc" id="L73">	    currentAccountNumber = accountNumber; // save user's account #</span>
+	} else {
+<span class="nc" id="L75">	    screen.displayMessageLine(</span>
+		    &quot;Invalid account number or PIN. Please try again.\n&quot;);
+	}
+<span class="fc" id="L78">    }</span>
+
+    // display the main menu and perform transactions
+    private void performTransactions() {
+	// local variable to store transaction currently being processed
+<span class="fc" id="L83">	Transaction currentTransaction = null;</span>
+<span class="fc" id="L84">	TransactionController currentTransactionController = null;</span>
+
+<span class="fc" id="L86">	boolean userExited = false; // user has not chosen to exit</span>
+
+	// loop while user has not chosen option to exit system
+<span class="fc bfc" id="L89" title="All 2 branches covered.">	while (!userExited) {</span>
+	    // show main menu and get user selection
+<span class="fc" id="L91">	    int mainMenuSelection = displayMainMenu();</span>
+
+	    // decide how to proceed based on user's menu selection
+<span class="pc bpc" id="L94" title="1 of 5 branches missed.">	    switch (mainMenuSelection) {</span>
+		// user chose to perform one of three transaction types
+		case BALANCE_INQUIRY:
+
+		    // initialize as new object of chosen type
+<span class="fc" id="L99">		    currentTransaction</span>
+<span class="fc" id="L100">			    = createTransaction(mainMenuSelection);</span>
+<span class="fc" id="L101">		    currentTransactionController</span>
+			    = new BalanceInquiryController(currentTransaction, keypad, screen);
+<span class="fc" id="L103">		    currentTransactionController.run(); // execute transaction</span>
+<span class="fc" id="L104">		    break;</span>
+		    
+		case WITHDRAWAL:
+<span class="fc" id="L107">		    currentTransaction</span>
+<span class="fc" id="L108">			    = createTransaction(mainMenuSelection);</span>
+<span class="fc" id="L109">		    currentTransactionController</span>
+			    = new WithdrawalController(currentTransaction, keypad, screen);
+<span class="fc" id="L111">		    currentTransactionController.run(); // execute transaction</span>
+<span class="fc" id="L112">		    break;</span>
+		    
+		case DEPOSIT:
+<span class="fc" id="L115">		    currentTransaction</span>
+<span class="fc" id="L116">			    = createTransaction(mainMenuSelection);</span>
+<span class="fc" id="L117">		    currentTransactionController</span>
+			    = new DepositController(currentTransaction, keypad, screen);
+<span class="fc" id="L119">		    currentTransactionController.run(); // execute transaction</span>
+<span class="fc" id="L120">		    break;</span>
+		    
+		case EXIT: // user chose to terminate session
+<span class="fc" id="L123">		    screen.displayMessageLine(&quot;\nExiting the system...&quot;);</span>
+<span class="fc" id="L124">		    userExited = true; // this ATM session should end</span>
+<span class="fc" id="L125">		    break;</span>
+		    
+		default: // 
+<span class="nc" id="L128">		    screen.displayMessageLine(</span>
+			    &quot;\nYou did not enter a valid selection. Try again.&quot;);
+		    break;
+	    }
+<span class="fc" id="L132">	}</span>
+<span class="fc" id="L133">    }</span>
+
+    // display the main menu and return an input selection
+    private int displayMainMenu() {
+<span class="fc" id="L137">	screen.displayMessageLine(&quot;\nMain menu:&quot;);</span>
+<span class="fc" id="L138">	screen.displayMessageLine(&quot;1 - View my balance&quot;);</span>
+<span class="fc" id="L139">	screen.displayMessageLine(&quot;2 - Withdraw cash&quot;);</span>
+<span class="fc" id="L140">	screen.displayMessageLine(&quot;3 - Deposit funds&quot;);</span>
+<span class="fc" id="L141">	screen.displayMessageLine(&quot;4 - Exit\n&quot;);</span>
+<span class="fc" id="L142">	screen.displayMessage(&quot;Enter a choice: &quot;);</span>
+<span class="fc" id="L143">	return keypad.getInput(); // return user's selection</span>
+    }
+
+    private Transaction createTransaction(int type) {
+<span class="fc" id="L147">	Transaction temp = null;</span>
+
+<span class="pc bpc" id="L149" title="1 of 4 branches missed.">	switch (type) {</span>
+	    case BALANCE_INQUIRY:
+<span class="fc" id="L151">		temp = new BalanceInquiry(</span>
+			currentAccountNumber, bankDatabase);
+<span class="fc" id="L153">		break;</span>
+	    case WITHDRAWAL:
+<span class="fc" id="L155">		temp = new Withdrawal(</span>
+			currentAccountNumber, bankDatabase, cashDispenser);
+<span class="fc" id="L157">		break;</span>
+	    case DEPOSIT:
+<span class="fc" id="L159">		temp = new Deposit(</span>
+			currentAccountNumber, bankDatabase, depositSlot);
+		break;
+	}
+
+<span class="fc" id="L164">	return temp;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

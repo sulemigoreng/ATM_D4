@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Account.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ATM_New&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">com.appl.atm.model</a> &gt; <span class="el_source">Account.java</span></div><h1>Account.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.appl.atm.model;
+
+/**
+ *
+ * @author Annazar
+ */
+public class Account {
+    
+    private int accountNumber; // account number
+    private int pin; // PIN for authentication
+    private double availableBalance; // funds available for withdrawal
+    private double totalBalance; // funds available &amp; pending deposits
+
+    // Account constructor initializes attributes
+    public Account(int theAccountNumber, int thePIN, 
+<span class="fc" id="L21">	double theAvailableBalance, double theTotalBalance) {</span>
+
+<span class="fc" id="L23">	accountNumber = theAccountNumber;</span>
+<span class="fc" id="L24">	pin = thePIN;</span>
+<span class="fc" id="L25">	availableBalance = theAvailableBalance;</span>
+<span class="fc" id="L26">	totalBalance = theTotalBalance;</span>
+<span class="fc" id="L27">    } </span>
+
+    public void credit(double amount) {
+<span class="fc" id="L30">	totalBalance += amount;</span>
+<span class="fc" id="L31">    }</span>
+
+    public void debit(double amount) {
+<span class="fc" id="L34">	availableBalance -= amount;</span>
+<span class="fc" id="L35">	totalBalance -= amount;</span>
+<span class="fc" id="L36">    }</span>
+
+    /**
+     * @return the accountNumber
+     */
+    public int getAccountNumber() {
+<span class="fc" id="L42">        return accountNumber;</span>
+    }
+
+    /**
+     * @param accountNumber the accountNumber to set
+     */
+    public void setAccountNumber(int accountNumber) {
+<span class="nc" id="L49">        this.accountNumber = accountNumber;</span>
+<span class="nc" id="L50">    }</span>
+
+    /**
+     * @return the pin
+     */
+    public int getPin() {
+<span class="fc" id="L56">        return pin;</span>
+    }
+
+    /**
+     * @param pin the pin to set
+     */
+    public void setPin(int pin) {
+<span class="nc" id="L63">        this.pin = pin;</span>
+<span class="nc" id="L64">    }</span>
+
+    /**
+     * @return the availableBalance
+     */
+    public double getAvailableBalance() {
+<span class="fc" id="L70">        return availableBalance;</span>
+    }
+
+    /**
+     * @param availableBalance the availableBalance to set
+     */
+    public void setAvailableBalance(double availableBalance) {
+<span class="nc" id="L77">        this.availableBalance = availableBalance;</span>
+<span class="nc" id="L78">    }</span>
+
+    /**
+     * @return the totalBalance
+     */
+    public double getTotalBalance() {
+<span class="fc" id="L84">        return totalBalance;</span>
+    }
+
+    /**
+     * @param totalBalance the totalBalance to set
+     */
+    public void setTotalBalance(double totalBalance) {
+<span class="nc" id="L91">        this.totalBalance = totalBalance;</span>
+<span class="nc" id="L92">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
