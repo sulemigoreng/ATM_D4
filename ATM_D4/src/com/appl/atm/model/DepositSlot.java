@@ -16,7 +16,6 @@ public class DepositSlot {
         double amount) {
         
         boolean acceptedStatus = addList(envelopes, theAccount, amount);
-        
 	return acceptedStatus; // deposit envelope was received
     } 
     
