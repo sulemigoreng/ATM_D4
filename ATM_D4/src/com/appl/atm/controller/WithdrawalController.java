@@ -39,7 +39,9 @@ public class WithdrawalController extends TransactionController {
 		getScreen().displayMessageLine("Your balance isn't enough for this withdrawal.");
 	    } else if (res == CASHDISPENSER_NOT_ENOUGH) {
 		getScreen().displayMessageLine("Cash dispenser doesn't have sufficient amount of cash.");
-	    }
+	    } else if (res == REACHED_MAX_WITHDRAWAL) {
+                getScreen().displayMessageLine("You have reached the maximum amount of withdrawal.");
+            }
 	}
 
 	return 0;

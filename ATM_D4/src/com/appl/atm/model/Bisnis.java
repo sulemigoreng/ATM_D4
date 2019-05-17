@@ -1,10 +1,10 @@
 package com.appl.atm.model;
 
 public class Bisnis extends Customer {
-    private static double MAX_WITHDRAWAL = 2000;
+    private static double MAX_WITHDRAWAL = 1000;
     private static double MAX_TRANSFER   = 1000;
 
-    public Bisnis(int theAccountNumber, int thePIN, int theAvailableBalance, int theTotalBalance) {
+    public Bisnis(int theAccountNumber, int thePIN, double theAvailableBalance, double theTotalBalance) {
         super(theAccountNumber, thePIN, theAvailableBalance, theTotalBalance);
     }
 

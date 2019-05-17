@@ -1,8 +1,8 @@
 package com.appl.atm.model;
 
 public class MasaDepan extends Customer {
-    private double maxWithdrawal;
-    private double maxTransfer;
+    private static double MAX_WITHDRAWAL = 100;
+    private static double MAX_TRANSFER = 200;
 
     public MasaDepan(int theAccountNumber, int thePIN, double theAvailableBalance, double theTotalBalance) {
         super(theAccountNumber, thePIN, theAvailableBalance, theTotalBalance);
@@ -10,22 +10,14 @@ public class MasaDepan extends Customer {
 
     @Override
     public double getMaxWithdrawal() {
-        return maxWithdrawal;
-    }
-
-    public void setMaxWithdrawal(double maxWithdrawal) {
-        this.maxWithdrawal = maxWithdrawal;
+        return MAX_WITHDRAWAL;
     }
 
     @Override
     public double getMaxTransfer() {
-        return maxTransfer;
+        return MAX_TRANSFER;
     }
 
-    public void setMaxTransfer(int maxTransfer) {
-        this.maxTransfer = maxTransfer;
-    }
-    
     @Override
     public boolean isMasaDepan(){
         return true;
