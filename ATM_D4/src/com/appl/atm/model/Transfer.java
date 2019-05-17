@@ -4,11 +4,23 @@
  * and open the template in the editor.
  */
 package com.appl.atm.model;
-
+import com.appl.atm.view.Keypad;
+import com.appl.atm.view.Screen;
 /**
  *
  * @author Fadhil
  */
-public class Transfer {
+public class Transfer extends Transaction {
+    private Keypad keypad;
+    private double tAmmount;
+    private int tAccount;
     
+    public Transfer(int userAccountNumber, BankDatabase atmBankDatabase, Keypad atmKeypad){
+        super(userAccountNumber,atmBankDatabase);
+        keypad = atmKeypad;
+    }
+    
+    public int execute(){
+        return 0;
+    }
 }
