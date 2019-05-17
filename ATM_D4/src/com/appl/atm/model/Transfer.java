@@ -5,15 +5,13 @@
  */
 package com.appl.atm.model;
 
-import static com.appl.atm.model.Constants.*;
-
-
 /**
  *
  * @author Fadhil
  */
-
 public class Transfer extends Transaction{
+    private double amount;
+    private int accountTransfered;
 
     public Transfer(int userAccountNumber, BankDatabase atmBankDatabase) {
         super(userAccountNumber, atmBankDatabase);
@@ -21,8 +19,37 @@ public class Transfer extends Transaction{
 
     @Override
     public int execute() {
-        return 0;
+        Customer account = getBankDatabase().getCustomer(getAccountNumber());
         
+        if(account.isCustomer()){
+            amount = 100; //Nanti ganti pake modul dari view
+            if(account.getAvailableBalance() < amount){
+                //saldo ga cukup
+            }
+            else{
+                if(account.getMaxTransfer() > amount){
+                    accountTransfered = 1234; // ganti pake keypad input account
+                    
+                    if(getBankDatabase().getAccount(accountTransfered)!=null){
+                        Customer accountTransfer = getBankDatabase().getCustomer(accountTransfered);
+                        
+                        account.credit(amount);
+                        accountTransfer.debit(amount);
+                        //display transfer success
+                    }
+                    else{
+                        //account tidak ditemukan
+                    }
+                }
+                else{
+                    //melebihi batas maks transfer
+                }
+            }
+        }
+        else{
+            //account bukan customer
+        }
+        return 0;
     }
     
     /*
@@ -62,5 +89,4 @@ public class Transfer extends Transaction{
         }
         
     */
-
 }
