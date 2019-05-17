@@ -34,7 +34,7 @@ public class Withdrawal extends Transaction {
             }
         }
         
-	if (account.getAvailableBalance() < amount) {
+	if (account.getAvailableBalance() < amount || account.getAvailableBalance()-amount < 10) {
 	    return BALANCE_NOT_ENOUGH;
 	}
 
