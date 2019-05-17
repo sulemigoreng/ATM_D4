@@ -6,6 +6,7 @@
 package com.appl.atm.model;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  *
@@ -19,6 +20,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    private int tryCount;
    private ArrayList<Integer> pinLog;
    private double dailyWithdrawal[];
+   private TreeSet<Payment> invoiceList;
 
    // Account constructor initializes attributes
    public Customer (int theAccountNumber, int thePIN, 
@@ -32,6 +34,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       tryCount = 0;
       dailyWithdrawal = new double[31];
       setPin(thePIN);
+      invoiceList = new TreeSet<Payment>();
    }
 
    public Customer (int theAccountNumber, double theBalance) {
@@ -42,6 +45,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       totalBalance = theBalance;
       tryCount = 0;
       dailyWithdrawal = new double[31];
+      invoiceList = new TreeSet<Payment>();
    }
    
    // returns available balance
@@ -136,5 +140,30 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
     public void debit(double amount) {
       availableBalance -= amount;
       totalBalance -= amount;
+    }
+
+    public void addInvoice(int id, int applicant, double amount, String description) {
+      invoiceList.add(new Payment(id, description, amount, applicant));
+    }
+
+    public void deleteInvoice(int id) {
+      for (Payment payment : invoiceList) {
+         if (payment.getID() == id) {
+            invoiceList.remove(payment);
+         }
+      }
+    }
+
+    public TreeSet<Payment> getInvoiceList() {
+       return invoiceList;
+    }
+
+    public Payment getInvoce(int id) {
+      for (Payment payment : invoiceList) {
+         if (payment.getID() == id) {
+            return payment;
+         }
+      }
+      return null;
     }
 }
