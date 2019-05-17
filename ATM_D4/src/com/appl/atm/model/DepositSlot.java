@@ -12,7 +12,7 @@ import java.util.HashMap;
  * @author Annazar
  */
 public class DepositSlot {
-    public boolean isEnvelopeReceived(HashMap envelopes, IAccount theAccount,
+    public boolean isEnvelopeReceived(HashMap envelopes, Customer theAccount,
         double amount) {
         
         boolean acceptedStatus = addList(envelopes, theAccount, amount);
@@ -20,7 +20,7 @@ public class DepositSlot {
     } 
     
     //Admin's method
-    public boolean addList(HashMap envelopes, IAccount theAccount, double amount) {
+    public boolean addList(HashMap envelopes, Customer theAccount, double amount) {
         if(envelopes.containsKey(theAccount)) {
             return false;
         } else {
