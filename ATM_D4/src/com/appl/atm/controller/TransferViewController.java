@@ -12,9 +12,21 @@ import com.appl.atm.view.View;
 public class TransferViewController {
     private View view = new View();
     
+    public void processInputRecipientV(){
+        view.inputRecipientAccountNumberV();
+    }
     
+    public void processInputTheAmountV(){
+        view.inputTheAmountV();
+    }
     
+    public void processDisplayMaxOneTimeLimitV(int limit){
+        view.displayMaxOneTimeLimitV(limit);
+    }
     
+    public void precessDisplayMaxOneDayLimitV(double limit){
+        view.displayMaxOneDayLimitV(limit);
+    }
     
      public int processTransferV(int recipientAccountNumber, double Amount){
         String answer;
