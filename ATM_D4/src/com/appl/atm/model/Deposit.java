@@ -28,7 +28,7 @@ public class Deposit extends Transaction {
     @Override
     public int execute() {
 	if (depositSlot.isEnvelopeReceived()) {
-	    Account account = getBankDatabase().getAccount(getAccountNumber());
+	    Customer account = getBankDatabase().getCustomer(getAccountNumber());
 	    account.credit(amount);
 	    return DEPOSIT_SUCCESSFUL;
 	} else {

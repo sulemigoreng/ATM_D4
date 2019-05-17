@@ -22,10 +22,10 @@ public class BalanceInquiry extends Transaction {
     }
     
     public double getAvailableBalance() {
-	return getBankDatabase().getAccount(getAccountNumber()).getAvailableBalance();
+	return getBankDatabase().getCustomer(getAccountNumber()).getAvailableBalance();
     }
     
     public double getTotalBalance() {
-	return getBankDatabase().getAccount(getAccountNumber()).getTotalBalance();
+	return getBankDatabase().getCustomer(getAccountNumber()).getTotalBalance();
     }
 }
