@@ -6,6 +6,8 @@
 package com.appl.atm.model;
 
 import static com.appl.atm.model.Constants.*;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  *
@@ -15,7 +17,8 @@ public class Deposit extends Transaction {
 
     private double amount; // amount to deposit
     private DepositSlot depositSlot; // reference to deposit slot
-
+    private HashMap<IAccount, Integer> envelopeList;
+    
     // Deposit constructor
     public Deposit(int userAccountNumber, BankDatabase atmBankDatabase,
 	    DepositSlot atmDepositSlot) {
@@ -23,11 +26,13 @@ public class Deposit extends Transaction {
 	// initialize superclass variables
 	super(userAccountNumber, atmBankDatabase);
 	depositSlot = atmDepositSlot;
+        envelopeList = new HashMap<IAccount, Integer>();
     }
 
     @Override
     public int execute() {
-	if (depositSlot.isEnvelopeReceived()) {
+	if (depositSlot.isEnvelopeReceived(envelopeList,
+                getBankDatabase().getAccount(getAccountNumber()), amount)) {
 	    Customer account = getBankDatabase().getCustomer(getAccountNumber());
 	    account.credit(amount);
 	    return DEPOSIT_SUCCESSFUL;

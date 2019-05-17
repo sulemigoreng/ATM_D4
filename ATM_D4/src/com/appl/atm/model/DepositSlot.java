@@ -5,12 +5,28 @@
  */
 package com.appl.atm.model;
 
+import java.util.HashMap;
+
 /**
  *
  * @author Annazar
  */
 public class DepositSlot {
-    public boolean isEnvelopeReceived() {
-	return true; // deposit envelope was received
+    public boolean isEnvelopeReceived(HashMap envelopes, IAccount theAccount,
+        double amount) {
+        
+        boolean acceptedStatus = addList(envelopes, theAccount, amount);
+        
+	return acceptedStatus; // deposit envelope was received
     } 
+    
+    //Admin's method
+    public boolean addList(HashMap envelopes, IAccount theAccount, double amount) {
+        if(envelopes.containsKey(theAccount)) {
+            return false;
+        } else {
+            envelopes.put(theAccount, amount);
+            return true;
+        }
+    }
 }
