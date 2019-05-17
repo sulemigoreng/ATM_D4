@@ -32,5 +32,38 @@ public class View {
         screen.displayDollarAmount(limit);
     }
     
+  public void displayMaxOneDayLimitV(double limit){
+        screen.displayMessage("\nThe maximum limit for one day transfer is ");
+        screen.displayDollarAmount(1000);
+        screen.displayMessage("\nThe amount of money you already transferred in one day : ");
+        screen.displayDollarAmount(limit);
+    }
     
+    public int processTransferV(String recipientAccountNumber, double Amount){
+        String answer;
+        boolean IsAnswerRight = false;
+        screen.displayMessageLine("\nThe recipient's account number : " + recipientAccountNumber);
+        screen.displayMessage("The amount of money to be transferred in one day : ");
+        screen.displayDollarAmount(Amount);
+        while(!IsAnswerRight) {
+            screen.displayMessageLine("\nAre these information correct? (Y/N)");
+            answer = keypad.getStr();
+            if(answer.equals("Y")){
+                screen.displayMessage("The money has been transferred.");
+                return 1;
+            }
+            else { 
+                if(answer.equals("N")){
+                    screen.displayMessage("Canceling Transfer...");
+                    return 2;
+                }
+                else {
+                    screen.displayMessageLine("Please enter Y/N.");
+                }
+            }
+        }
+        return 0;
+    }
 }
+    
+
