@@ -44,5 +44,9 @@ public class Admin implements IAccount {
     public void setPin(int pin) {
         this.pin = pin;
     }
-    
+
+    @Override
+    public boolean isAdmin() {
+        return true; //To change body of generated methods, choose Tools | Templates.
+    }
 }
