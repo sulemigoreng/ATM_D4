@@ -7,8 +7,8 @@ package com.appl.atm.controller;
 
 /**
  *
- * @author Fadhil
+ * @author IchaCahyaWulan
  */
-public class TransferControllerView {
+public class TransferViewController {
     
 }
