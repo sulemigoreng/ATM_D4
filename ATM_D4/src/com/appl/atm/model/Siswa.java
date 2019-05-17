@@ -27,5 +27,8 @@ public class Siswa extends Customer {
         return MAX_TRANSFER;
     }
     
-    
+    @Override
+    public boolean isSiswa(){
+        return true;
+    }
 }

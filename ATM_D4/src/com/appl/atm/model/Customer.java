@@ -137,4 +137,16 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       availableBalance -= amount;
       totalBalance -= amount;
     }
+    
+    public boolean isSiswa(){
+        return false;
+    }
+    
+    public boolean isBisnis(){
+        return false;
+    }
+    
+    public boolean isMasaDepan(){
+        return false;
+    }
 }

@@ -25,4 +25,9 @@ public class MasaDepan extends Customer {
     public void setMaxTransfer(int maxTransfer) {
         this.maxTransfer = maxTransfer;
     }
+    
+    @Override
+    public boolean isMasaDepan(){
+        return true;
+    }
 }

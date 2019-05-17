@@ -17,4 +17,9 @@ public class Bisnis extends Customer {
     public double getMaxTransfer() {
         return MAX_TRANSFER;
     }
+    
+    @Override
+    public boolean isBisnis(){
+        return true;
+    }
 }
