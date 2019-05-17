@@ -39,31 +39,35 @@ public class View {
         screen.displayDollarAmount(limit);
     }
     
-    public int processTransferV(int recipientAccountNumber, double Amount){
-        String answer;
-        boolean IsAnswerRight = false;
-        screen.displayMessageLine("\nThe recipient's account number : " + recipientAccountNumber);
-        screen.displayMessage("The amount of money to be transferred in one day : ");
-        screen.displayDollarAmount(Amount);
-        while(!IsAnswerRight) {
-            screen.displayMessageLine("\nAre these information correct? (Y/N)");
-            answer = keypad.getStr();
-            if(answer.equals("Y")){
-                screen.displayMessage("The money has been transferred.");
-                return 1;
-            }
-            else { 
-                if(answer.equals("N")){
-                    screen.displayMessage("Canceling Transfer...");
-                    return 2;
-                }
-                else {
-                    screen.displayMessageLine("Please enter Y/N.");
-                }
-            }
-        }
-        return 0;
-    }
+  public void displayAccountNumber(int recipientAccountNumber){
+      screen.displayMessageLine("\nThe recipient's account number : " + recipientAccountNumber);
+  }
+  
+  public void displayAmount(double Amount){
+      screen.displayMessage("The amount of money to be transferred in one day : ");
+      screen.displayDollarAmount(Amount);
+  }
+  
+  public String displayCorrect(){
+      String answer;
+      screen.displayMessageLine("\nAre these information correct? (Y/N)");
+      answer = keypad.getStr();
+      return answer;
+  }
+  
+  public void displayTransferred(){
+      screen.displayMessage("The money has been transferred.");
+  }
+  
+  public void displayCancelTransfer(){
+      screen.displayMessage("Canceling Transfer...");
+  }
+  
+  public void displayEnter(){
+      screen.displayMessageLine("Please enter Y/N.");
+  }
+  
+    
 }
     
 
