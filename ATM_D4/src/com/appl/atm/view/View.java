@@ -13,10 +13,10 @@ public class View {
     Screen screen = new Screen();
     Keypad keypad = new Keypad();
     
-    public String inputRecipientAccountNumberV(){
-        String accountNumber;
+    public int inputRecipientAccountNumberV(){
+        int accountNumber;
         screen.displayMessage("\nPlease enter the recipient's account number : ");
-        accountNumber = keypad.getStr();
+        accountNumber = keypad.getInput();
         return accountNumber;
     }
     
@@ -39,7 +39,7 @@ public class View {
         screen.displayDollarAmount(limit);
     }
     
-    public int processTransferV(String recipientAccountNumber, double Amount){
+    public int processTransferV(int recipientAccountNumber, double Amount){
         String answer;
         boolean IsAnswerRight = false;
         screen.displayMessageLine("\nThe recipient's account number : " + recipientAccountNumber);
