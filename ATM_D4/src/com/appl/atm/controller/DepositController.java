@@ -32,14 +32,18 @@ public class DepositController extends TransactionController {
 	    getScreen().displayMessageLine("Canceling transaction...");
 	} else {
 	    transaction.setAmount(amount);
-	    transaction.execute();
+	    int receive = transaction.execute();
 	    getScreen().displayMessage("Please insert a deposit envelope containing $");
 	    getScreen().displayDollarAmount(amount);
 	    getScreen().displayMessageLine("\n");
-	    getScreen().displayMessageLine("Your envelope has been received.");
-	    getScreen().displayMessageLine("NOTE: The money just deposited will not be available until we verify the amount of any enclosed cash and your checks clear.");
+            if(receive == DEPOSIT_SUCCESSFUL){
+                getScreen().displayMessageLine("Your envelope has been received.");
+                getScreen().displayMessageLine("NOTE: The money just deposited will not be available until we verify the amount of any enclosed cash and your checks clear.");
+                getScreen().displayMessageLine("check your balance to see the status of your previous deposit");
+            } else {
+                getScreen().displayMessageLine("Your envelope is not received");
+            }
 	}
-	
 	return 0;
     }
 
