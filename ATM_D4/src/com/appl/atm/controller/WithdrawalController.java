@@ -40,7 +40,8 @@ public class WithdrawalController extends TransactionController {
 	    } else if (res == CASHDISPENSER_NOT_ENOUGH) {
 		getScreen().displayMessageLine("Cash dispenser doesn't have sufficient amount of cash.");
 	    } else if (res == REACHED_MAX_WITHDRAWAL) {
-                getScreen().displayMessageLine("You have reached the maximum amount of withdrawal.");
+                getScreen().displayMessage("the nominal you choose exceeds the cash withdrawal limit of ");
+                getScreen().displayDollarAmount(transaction.getBankDatabase().getCustomer(transaction.getAccountNumber()).getMaxWithdrawal());
             }
 	}
 
