@@ -10,5 +10,5 @@ package com.appl.atm.controller;
  * @author dewan
  */
 public class TransferController {
-    
+  
 }
