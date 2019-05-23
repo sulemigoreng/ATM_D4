@@ -5,7 +5,7 @@
  */
 package com.appl.atm.model;
 
-import com.appl.atm.controller.TransferViewController;
+import static com.appl.atm.model.Constants.*;
 
 /**
  *
@@ -14,6 +14,7 @@ import com.appl.atm.controller.TransferViewController;
 public class Transfer extends Transaction{
     private double amount;
     private int accountTransfered;
+    private double max_transfer;
 
     public Transfer(int userAccountNumber, BankDatabase atmBankDatabase) {
         super(userAccountNumber, atmBankDatabase);
@@ -22,43 +23,71 @@ public class Transfer extends Transaction{
     @Override
     public int execute() {
         Customer account = getBankDatabase().getCustomer(getAccountNumber());
-        TransferViewController screen = new TransferViewController();
+        max_transfer = account.getMaxTransfer();
         
-        if(account.isCustomer()){
-            amount = screen.processInputTheAmountV();
+        if(account.getMaxTransfer()==0){
+            return IS_SISWA;
+        }
+        
+        if(getBankDatabase().getCustomer(accountTransfered)==null){
+            return ACCOUNT_NOT_FOUND;
+        }
+        
+        if(accountTransfered == getAccountNumber()){
+            return SAME_ACCOUNT;
+        }
+        
+        if(account.isCustomer()) {
+            //amount = screen.processInputTheAmountV();
             if(account.getAvailableBalance() < amount){
-                screen.processDisplayNotEnoughSaldo();
+                //screen.processDisplayNotEnoughSaldo();
+                return NOT_ENOUGH_SALDO;
             }
             if(amount == 0){
-                screen.processCanceled();
-                return 0;
+                //screen.processCanceled();
+                return TRANSFER_CANCELED;
             }
             else{
-                if(account.getMaxTransfer() > amount){
-                    accountTransfered = screen.processInputRecipientV();
+                if(account.getMaxTransfer() >= amount){
+                    //accountTransfered = screen.processInputRecipientV();
                     
-                    if(getBankDatabase().getAccount(accountTransfered)!=null && accountTransfered != getAccountNumber()){
                         Customer accountTransfer = getBankDatabase().getCustomer(accountTransfered);
                         
                         account.debit(amount);
                         accountTransfer.credit(amount);
-                        screen.processDisplayTransfered();
-                    }
-                    else{
-                        screen.processDisplayAccountNotFound();
-                    }
+                        //screen.processDisplayTransfered();
+                        return TRANSFER_SUCCESS;
+                    
                 }
                 else{
-                    screen.precessDisplayMaxOneDayLimitV(account.getMaxTransfer()); //ini bener ga?
+                    //screen.precessDisplayMaxOneDayLimitV(account.getMaxTransfer()); //ini bener ga?
+                    if(account.getMaxTransfer()==EXCEED_ONE_TIME_TRANSFER_BISNIS){
+                        return EXCEED_ONE_TIME_TRANSFER_BISNIS;
+                    }
+                    if(account.getMaxTransfer()==EXCEED_ONE_TIME_TRANSFER_MASA_DEPAN){
+                        return EXCEED_ONE_TIME_TRANSFER_MASA_DEPAN;
+                    }
                 }
             }
         }
         else{
-            screen.processDisplayAccountNotCustomer();
+            //screen.processDisplayAccountNotCustomer();
+            return NOT_A_CUSTOMER;
         }
         return 0;
     }
     
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
+    
+    public void setAccountTransferred(int accountNumber){
+        this.accountTransfered = accountNumber;
+    }
+    
+    public double getMaxT(){
+        return this.max_transfer;
+    }
     /*
        ATMBankDatabase bankDatabase = getBankDatabase();
         ATMScreen screen = getScreen();

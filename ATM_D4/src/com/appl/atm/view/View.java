@@ -27,7 +27,7 @@ public class View {
         return Amount;
     }
     
-    public void displayMaxOneTimeLimitV(int limit){
+    public void displayMaxOneTimeLimitV(double limit){
         screen.displayMessage("\nThe maximum limit for 1x transfer is ");
         screen.displayDollarAmount(limit);
     }
@@ -79,7 +79,17 @@ public class View {
       screen.displayMessageLine("Please enter Y/N.");
   }
   
-    
+  public void displaySiswaCantTransfer(){
+      screen.displayMessageLine("Siswa cannot transfer.");
+  }
+  
+  public void displayCantTransferToOwnAccount(){
+      screen.displayMessageLine("You cant transfer to your own account.");
+  }
+  
+  public void displayExceedsOneTimeTransfer(){
+      screen.displayMessageLine("The Amount of money is exceeding one time transfer limit.");
+  }
 }
     
 

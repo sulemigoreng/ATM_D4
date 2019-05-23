@@ -17,7 +17,7 @@ public class BankDatabase {
     
     public BankDatabase() {
         accounts = new ArrayList<IAccount>();
-	accounts.add(new MasaDepan(1234, 4321, 1000.0, 1200.0));
+	accounts.add(new Bisnis(1234, 4321, 10000.0, 12000.0));
 	accounts.add(new MasaDepan(8765, 5678, 200.0, 200.0));
     }
     
@@ -61,5 +61,5 @@ public class BankDatabase {
 	    return 2;
 	}
     }
-   
+
 }
