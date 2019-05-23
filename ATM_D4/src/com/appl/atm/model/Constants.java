@@ -28,4 +28,8 @@ public final class Constants {
     public static final int DEPOSIT_SUCCESSFUL = 1;
     public static final int ENVELOPE_IS_NOT_RECEIVED = 2;
     
+    // admin
+    public static final int CONFIRM_DEPOSIT = 1;
+    public static final int EXIT_ADMIN = 2;
+    
 }

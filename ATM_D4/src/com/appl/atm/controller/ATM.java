@@ -5,6 +5,7 @@
  */
 package com.appl.atm.controller;
 
+import com.appl.atm.model.Admin;
 import com.appl.atm.model.BalanceInquiry;
 import com.appl.atm.model.BankDatabase;
 import com.appl.atm.model.CashDispenser;
@@ -28,6 +29,7 @@ public class ATM {
     private CashDispenser cashDispenser; // ATM's cash dispenser
     private DepositSlot depositSlot;
     private BankDatabase bankDatabase; // account information database
+    private Admin theAdmin;
 
 
     public ATM() {
@@ -38,6 +40,7 @@ public class ATM {
 	cashDispenser = new CashDispenser();
 	depositSlot = new DepositSlot();
 	bankDatabase = new BankDatabase();
+        theAdmin = new Admin(1234, 1234);
     }
 
     // start ATM 
@@ -50,7 +53,11 @@ public class ATM {
 		authenticateUser(); // authenticate user
 	    }
 
-	    performTransactions(); // user is now authenticated
+	    if(currentAccountNumber == theAdmin.getPin()) {
+                adminMode();
+            } else {
+                performTransactions(); // user is now authenticated
+            }
 	    userAuthenticated = 0; // reset before next ATM session
 	    currentAccountNumber = 0; // reset before next ATM session
 	    screen.displayMessageLine("\nThank you! Goodbye!");
@@ -64,17 +71,22 @@ public class ATM {
 	screen.displayMessage("Enter your PIN\t\t\t\t: "); // prompt for PIN
 	int pin = keypad.getInput(); // input PIN
 
-	// set userAuthenticated to boolean value returned by database
-	userAuthenticated
+	if(theAdmin.isAdmin(accountNumber, pin)) {
+            userAuthenticated = 1;
+            currentAccountNumber = accountNumber;
+        } else {
+            // set userAuthenticated to boolean value returned by database
+            userAuthenticated
 		= bankDatabase.authenticateUser(accountNumber, pin);
 
-	// check whether authentication succeeded
-	if (userAuthenticated == 1) {
-	    currentAccountNumber = accountNumber; // save user's account #
-	} else {
-	    screen.displayMessageLine(
+            // check whether authentication succeeded
+            if (userAuthenticated == 1) {
+                currentAccountNumber = accountNumber; // save user's account #
+            } else {
+                screen.displayMessageLine(
 		    "Invalid account number or PIN. Please try again.\n");
-	}
+            }
+        }
     }
 
     // display the main menu and perform transactions
@@ -131,6 +143,34 @@ public class ATM {
 	    }
 	}
     }
+    
+    private void adminMode() {
+        boolean adminExited = false;
+        AdminController transactionController = null;
+        
+        while(!adminExited) {
+            int selection = adminMenu();
+            
+            switch(selection) {
+                case CONFIRM_DEPOSIT:
+                    //method confirm deposit
+                    screen.displayMessageLine("Confirm Deposit\n");
+                    transactionController = new AdminController();
+                    transactionController.confirmDeposit();
+                    break;
+                    
+                case EXIT_ADMIN:
+                    screen.displayMessageLine("\nExiting the system...");
+		    adminExited = true; // this ATM session should end
+		    break;
+                    
+                default: // 
+		    screen.displayMessageLine(
+			    "\nYou did not enter a valid selection. Try again.");
+		    break;
+            }
+        }
+    }
 
     // display the main menu and return an input selection
     private int displayMainMenu() {
@@ -141,6 +181,15 @@ public class ATM {
 	screen.displayMessageLine("4 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
 	return keypad.getInput(); // return user's selection
+    }
+    
+    private int adminMenu() {
+        screen.displayMessageLine("\n/* ADMIN MODE */");
+        screen.displayMessageLine("\nAdmin Menu : ");
+        screen.displayMessageLine("1 - Confirm deposit");
+        screen.displayMessageLine("2 - Exit\n");
+        screen.displayMessage("Enter a choice: ");
+	return keypad.getInput();
     }
 
     private Transaction createTransaction(int type) {

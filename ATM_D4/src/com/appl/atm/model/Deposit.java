@@ -31,9 +31,15 @@ public class Deposit extends Transaction {
 
     @Override
     public int execute() {
+<<<<<<< HEAD
         Customer account = getBankDatabase().getCustomer(getAccountNumber());
 	if (depositSlot.isEnvelopeReceived(envelopeList,
                 account, amount)) {
+=======
+	if (depositSlot.isEnvelopeReceived()) {
+            BankDatabase bankDatabase = getBankDatabase();
+	    Customer account = bankDatabase.getCustomer(getAccountNumber());
+>>>>>>> kel4/loginAsAdmin
 	    account.credit(amount);
 	    return DEPOSIT_SUCCESSFUL;
 	} else {
