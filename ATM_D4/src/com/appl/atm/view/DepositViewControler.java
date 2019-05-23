@@ -4,6 +4,12 @@
  * and open the template in the editor.
  */
 package com.appl.atm.view;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 /**
  *
  * @author ANDRA
@@ -33,4 +39,15 @@ public class DepositViewControler {
         screen.displayDollarAmount(20);
     }
     
+    public void showList(HashMap theList) {
+        //Sumber : https://beginnersbook.com/2013/12/hashmap-in-java-with-example/
+        Set set = theList.entrySet();
+        Iterator iterator = set.iterator();
+        screen.displayMessageLine("Account Number\t\tAmount");
+        while(iterator.hasNext()) {
+            Map.Entry mEntry = (Map.Entry)iterator.next();
+            screen.displayMessageLine(mEntry.getKey() + "\t\t"
+                    + mEntry.getValue());
+        }
+    }
 }

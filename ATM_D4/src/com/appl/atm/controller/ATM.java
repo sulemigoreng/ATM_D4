@@ -28,6 +28,7 @@ public class ATM {
     private Keypad keypad; // ATM's keypad
     private CashDispenser cashDispenser; // ATM's cash dispenser
     private DepositSlot depositSlot;
+    private Deposit deposit;
     private BankDatabase bankDatabase; // account information database
     private Admin theAdmin;
 
@@ -40,7 +41,7 @@ public class ATM {
 	cashDispenser = new CashDispenser();
 	depositSlot = new DepositSlot();
 	bankDatabase = new BankDatabase();
-        theAdmin = new Admin(1234, 1234);
+        theAdmin = new Admin(0000, 0000);
     }
 
     // start ATM 
@@ -53,7 +54,7 @@ public class ATM {
 		authenticateUser(); // authenticate user
 	    }
 
-	    if(currentAccountNumber == theAdmin.getPin()) {
+	    if(currentAccountNumber == theAdmin.getAccountNumber()) {
                 adminMode();
             } else {
                 performTransactions(); // user is now authenticated
@@ -155,7 +156,7 @@ public class ATM {
                 case CONFIRM_DEPOSIT:
                     //method confirm deposit
                     screen.displayMessageLine("Confirm Deposit\n");
-                    transactionController = new AdminController();
+                    transactionController = new AdminController(deposit, bankDatabase);
                     transactionController.confirmDeposit();
                     break;
                     

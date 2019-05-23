@@ -68,4 +68,8 @@ public class Deposit extends Transaction {
     public void setDepositSlot(DepositSlot depositSlot) {
 	this.depositSlot = depositSlot;
     }
+    
+    public HashMap getList() {
+        return envelopeList;
+    }
 }

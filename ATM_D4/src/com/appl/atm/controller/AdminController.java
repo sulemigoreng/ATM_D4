@@ -5,18 +5,40 @@
  */
 package com.appl.atm.controller;
 
+import com.appl.atm.model.BankDatabase;
+import com.appl.atm.model.Deposit;
+import com.appl.atm.model.DepositSlot;
+import com.appl.atm.view.DepositViewControler;
+import com.appl.atm.view.Keypad;
+import com.appl.atm.view.Screen;
+import java.util.HashMap;
 /**
  *
  * @author Zara Veda
  */
 public class AdminController {
+    Deposit deposit;
+    BankDatabase bankDatabase;
     
+    public AdminController(Deposit theDeposit, BankDatabase theBankDatabase) {
+        deposit = theDeposit;
+        bankDatabase = theBankDatabase;
+    }
     
     public void confirmDeposit(){
-        //showList
+        Screen screen = new Screen();
+        Keypad keypad = new Keypad();
+        DepositSlot updateSlot = new DepositSlot();
+        DepositViewControler depositView = new DepositViewControler();
+//        HashMap theList = deposit.getList();
         
-        //Pilih
+//        depositView.showList(deposit.getList());
+        screen.displayMessage("Choose the account number : ");
+        int choosen = keypad.getInput();
         
-        //deleteList
+//        updateSlot.deleteList(deposit.getList(), bankDatabase.getCustomer(choosen),
+//            deposit.getAmount());
+        
+//        depositView.showList(deposit.getList());
     }
 }
