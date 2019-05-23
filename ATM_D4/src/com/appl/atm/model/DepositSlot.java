@@ -29,7 +29,8 @@ public class DepositSlot {
             envelopes.put(theAccount, amount);
             return true;
         }
-
+    }
+    
     public boolean deleteList(HashMap envelopes, Customer theCustomer, double amount){
         if(envelopes.containsKey(theCustomer)){
             double balance = theCustomer.getAvailableBalance();
