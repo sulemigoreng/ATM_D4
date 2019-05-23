@@ -27,9 +27,14 @@ public class Withdrawal extends Transaction {
 
     @Override
     public int execute() {
-	Account account = getBankDatabase().getAccount(getAccountNumber());
-
-	if (account.getAvailableBalance() < amount) {
+	Customer account = getBankDatabase().getCustomer(getAccountNumber());
+        if(account.isSiswa() || account.isBisnis() || account.isMasaDepan()) {
+            if(amount > account.getMaxWithdrawal()) {
+                return REACHED_MAX_WITHDRAWAL;
+            }
+        }
+        
+	if (account.getAvailableBalance() < amount || account.getAvailableBalance()-amount < 10) {
 	    return BALANCE_NOT_ENOUGH;
 	}
 
