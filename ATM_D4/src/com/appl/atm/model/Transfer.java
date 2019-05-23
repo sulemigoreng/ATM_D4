@@ -5,6 +5,8 @@
  */
 package com.appl.atm.model;
 
+import com.appl.atm.controller.TransferViewController;
+
 /**
  *
  * @author Fadhil
@@ -20,34 +22,39 @@ public class Transfer extends Transaction{
     @Override
     public int execute() {
         Customer account = getBankDatabase().getCustomer(getAccountNumber());
+        TransferViewController screen = new TransferViewController();
         
         if(account.isCustomer()){
-            amount = 100; //Nanti ganti pake modul dari view
+            amount = screen.processInputTheAmountV();
             if(account.getAvailableBalance() < amount){
-                //saldo ga cukup
+                screen.processDisplayNotEnoughSaldo();
+            }
+            if(amount == 0){
+                screen.processCanceled();
+                return 0;
             }
             else{
                 if(account.getMaxTransfer() > amount){
-                    accountTransfered = 1234; // ganti pake keypad input account
+                    accountTransfered = screen.processInputRecipientV();
                     
-                    if(getBankDatabase().getAccount(accountTransfered)!=null){
+                    if(getBankDatabase().getAccount(accountTransfered)!=null && accountTransfered != getAccountNumber()){
                         Customer accountTransfer = getBankDatabase().getCustomer(accountTransfered);
                         
-                        account.credit(amount);
-                        accountTransfer.debit(amount);
-                        //display transfer success
+                        account.debit(amount);
+                        accountTransfer.credit(amount);
+                        screen.processDisplayTransfered();
                     }
                     else{
-                        //account tidak ditemukan
+                        screen.processDisplayAccountNotFound();
                     }
                 }
                 else{
-                    //melebihi batas maks transfer
+                    screen.precessDisplayMaxOneDayLimitV(account.getMaxTransfer()); //ini bener ga?
                 }
             }
         }
         else{
-            //account bukan customer
+            screen.processDisplayAccountNotCustomer();
         }
         return 0;
     }
