@@ -27,7 +27,7 @@ public class TransferController extends TransactionController{
 
     @Override
     public int run() {
-        
+        transaction.execute();
         return 0;
     }
 }

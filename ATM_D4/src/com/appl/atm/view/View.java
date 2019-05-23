@@ -32,6 +32,10 @@ public class View {
         screen.displayDollarAmount(limit);
     }
     
+    public void displayNotEnoughSaldo(){
+        screen.displayMessage("\nSaldo ga cukup."); //tolong ganti pake bahasa inggris
+    }
+    
   public void displayMaxOneDayLimitV(double limit){
         screen.displayMessage("\nThe maximum limit for one day transfer is ");
         screen.displayDollarAmount(1000);
@@ -61,6 +65,14 @@ public class View {
   
   public void displayCancelTransfer(){
       screen.displayMessage("Canceling Transfer...");
+  }
+  
+  public void displayNotConsumer(){
+      screen.displayMessage("Your are not consumer (alert)"); //perbaiki kalimatna hehe
+  }
+  
+  public void displayAccountNotFound(){
+      screen.displayMessage("Account not found."); // perbaiki
   }
   
   public void displayEnter(){
