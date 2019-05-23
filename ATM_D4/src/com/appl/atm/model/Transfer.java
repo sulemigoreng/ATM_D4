@@ -40,8 +40,8 @@ public class Transfer extends Transaction{
                     if(getBankDatabase().getAccount(accountTransfered)!=null && accountTransfered != getAccountNumber()){
                         Customer accountTransfer = getBankDatabase().getCustomer(accountTransfered);
                         
-                        account.credit(amount);
-                        accountTransfer.debit(amount);
+                        account.debit(amount);
+                        accountTransfer.credit(amount);
                         screen.processDisplayTransfered();
                     }
                     else{
