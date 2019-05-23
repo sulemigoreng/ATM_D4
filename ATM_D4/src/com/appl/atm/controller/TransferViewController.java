@@ -24,7 +24,7 @@ public class TransferViewController {
         view.displayMaxOneTimeLimitV(limit);
     }
     
-    public void precessDisplayMaxOneDayLimitV(double limit){ // tolong diperbaiki namanya hehe
+    public void processDisplayMaxOneDayLimitV(double limit){
         view.displayMaxOneDayLimitV(limit);
     }
     
@@ -37,7 +37,7 @@ public class TransferViewController {
     }
      
      public void processDisplayAccountNotCustomer(){
-        view.displayNotConsumer();
+        view.displayNotCustomer();
     }
      
      public void processCanceled(){

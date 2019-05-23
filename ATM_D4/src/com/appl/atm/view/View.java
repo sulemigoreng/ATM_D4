@@ -33,7 +33,7 @@ public class View {
     }
     
     public void displayNotEnoughSaldo(){
-        screen.displayMessage("\nSaldo ga cukup."); //tolong ganti pake bahasa inggris
+        screen.displayMessage("\nThe balance is not sufficient.");
     }
     
   public void displayMaxOneDayLimitV(double limit){
@@ -67,8 +67,8 @@ public class View {
       screen.displayMessage("Canceling Transfer...");
   }
   
-  public void displayNotConsumer(){
-      screen.displayMessage("Your are not consumer (alert)"); //perbaiki kalimatna hehe
+  public void displayNotCustomer(){
+      screen.displayMessage("Only Customer allowed."); //perbaiki kalimatna hehe
   }
   
   public void displayAccountNotFound(){
