@@ -5,6 +5,8 @@
  */
 package com.appl.atm.view;
 
+import static com.appl.atm.model.Constants.*;
+
 /**
  *
  * @author IchaCahyaWulan
@@ -90,6 +92,78 @@ public class View {
   public void displayExceedsOneTimeTransfer(){
       screen.displayMessageLine("The Amount of money is exceeding one time transfer limit.");
   }
+  public void displayMessageEnterCorrectly(){
+       screen.displayMessageLine("Please enter the correct choice");
+    }
+  public String displayConfirmUnblock(){
+      
+        screen.displayMessage("Are you sure you want to unblock?(Y/N)");
+        String inputChar = keypad.getStr();
+        return inputChar;
+  }
+  public void displayMessageHasBeenUnblock(){
+      screen.displayMessageLine("The Account has been unblocked.");
+  }
+  public void displayMessageCancelUnblock(){
+      screen.displayMessage("Canceling unblock...");
+  }
+  public void displayMessageCorrectLetter(){
+          screen.displayMessageLine("Please enter the correct letter.");
+  }
+  public int displayMenuAdmin(){
+        boolean IsRight = false;
+        int input;
+        screen.displayMessageLine("\nAdmin Mode Menu:");
+        screen.displayMessageLine("1 - Check cash in dispenser");
+        screen.displayMessageLine("2 - Add cash to dispenser");
+        screen.displayMessageLine("3 - Unblock an account number");
+        screen.displayMessageLine("4 - Add new account");
+        screen.displayMessageLine("5 - Change Date");
+        screen.displayMessageLine("6 - Enable or Disable limit");
+        screen.displayMessageLine("7 - Call it a day. Return all one day transfer limit to zero");
+        screen.displayMessageLine("8 - Exit");
+        while(!IsRight){
+            screen.displayMessage("\nEnter your choice : ");
+            input = keypad.getInput();
+            switch(input){
+                case 1: return input;
+                case 2: return input;
+                case 3: return input;
+                case 4: return input;
+                case 5: return input;
+                case 6: return input;
+                case 7: return input;
+                case CANCELED: return CANCELED;
+                default: displayMessageEnterCorrectly();
+            }
+        }
+        return 0;
+    }
+    public int displayInputAccountNumberToUnblock(){
+        screen.displayMessage("Please enter the account number which you want to unblock : ");
+        int accountNumber = keypad.getInput();
+        return accountNumber;
+    }
+    public int displayEnterAccountNumber(){
+        screen.displayMessage("Please enter the account number : ");
+        int accountNumber = keypad.getInput();
+        return accountNumber;
+    }
+    public int displayEnterPin(){
+        screen.displayMessage("\nPlease enter the PIN number : ");
+        int pin = keypad.getInput();
+        return pin;
+    }
+    public double displayEnterAvailableBalance(){
+        screen.displayMessage("\nPlease enter the Available balance : ");
+        double availableBalance = keypad.getInput();
+        return availableBalance;
+    }
+    public double displayEnterTotalBalance(){
+        screen.displayMessage("\nPlease enter the Total balance : ");
+        double totalBalance = keypad.getInput();
+        return totalBalance;
+    }
 }
     
 

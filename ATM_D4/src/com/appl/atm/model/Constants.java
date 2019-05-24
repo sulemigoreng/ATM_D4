@@ -12,6 +12,8 @@ package com.appl.atm.model;
  * @author Annazar
  */
 public final class Constants {
+    
+    public static final int CANCELED = 9;
     public static final int BALANCE_INQUIRY = 1;
     public static final int WITHDRAWAL = 2;
     public static final int DEPOSIT = 3;
