@@ -12,12 +12,13 @@ package com.appl.atm.model;
 public abstract class Transaction {
     private int accountNumber; // indicates account involved
     private BankDatabase bankDatabase; // account database
+ 
     
     public Transaction(int userAccountNumber, BankDatabase atmBankDatabase) {
         accountNumber = userAccountNumber;
         bankDatabase = atmBankDatabase;
     }
-    
+
     public abstract int execute();
 
     /**
