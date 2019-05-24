@@ -19,6 +19,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    private int tryCount;
    private ArrayList<Integer> pinLog;
    private double dailyWithdrawal[];
+   private ArrayList<String> transaksiLog;
 
    // Account constructor initializes attributes
    public Customer (int theAccountNumber, int thePIN, 
@@ -26,6 +27,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       pinLog = new ArrayList<Integer>();
       pinLog.add(new Integer(thePIN));
       accountNumber = theAccountNumber;
+      transaksiLog = new ArrayList<String>();
 
       availableBalance = theAvailableBalance;
       totalBalance = theTotalBalance;
@@ -36,6 +38,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
 
    public Customer (int theAccountNumber, double theBalance) {
       pinLog = new ArrayList<Integer>();
+      transaksiLog = new ArrayList<String>();
       accountNumber = theAccountNumber;
       setPin(0);
       availableBalance = theBalance;
@@ -62,7 +65,11 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    public ArrayList<Integer> getPinLog() {
       return pinLog;
    }
-
+   
+   public ArrayList<String> getTransaksiLog() {
+      return transaksiLog;
+   }
+   
    public void setPin(int newPin) {
       this.pin = newPin;
    }
