@@ -17,8 +17,21 @@ public class BankDatabase {
     
     public BankDatabase() {
         accounts = new ArrayList<IAccount>();
+        accounts.add(new Admin(0, 1234));
 	accounts.add(new MasaDepan(1234, 4321, 1000.0, 1200.0));
 	accounts.add(new MasaDepan(8765, 5678, 200.0, 200.0));
+    }
+    
+    public void addAccountSiswa(int accountNumber){
+        accounts.add(new Siswa(accountNumber, 0, 0, 0));
+    }
+    
+    public void addAccountBisnis(){
+        
+    }
+    
+    public void addAccountMasaDepan(){
+        
     }
     
     public IAccount getAccount(int accountNumber) {
