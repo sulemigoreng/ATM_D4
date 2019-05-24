@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Rayhan Azka  <rayhan.azka.tif418@polban.ac.id>
  */
-public abstract class Customer implements IAccount, Comparable<Customer> {   
+public abstract class Customer implements IAccount, Comparable<Customer> {
    private int accountNumber; // account number
    private int pin; // PIN for authentication
    private double availableBalance; // funds available for withdrawal
@@ -21,7 +21,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    private double dailyWithdrawal[];
 
    // Account constructor initializes attributes
-   public Customer (int theAccountNumber, int thePIN, 
+   public Customer (int theAccountNumber, int thePIN,
       double theAvailableBalance, double theTotalBalance) {
       pinLog = new ArrayList<Integer>();
       pinLog.add(new Integer(thePIN));
@@ -43,20 +43,20 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       tryCount = 0;
       dailyWithdrawal = new double[31];
    }
-   
+
    // returns available balance
    public double getAvailableBalance() {
       return availableBalance;
-   } 
+   }
 
    // returns the total balance
    public double getTotalBalance() {
       return totalBalance;
    }
-   
+
    @Override
    public int getAccountNumber() {
-      return accountNumber;  
+      return accountNumber;
    }
 
    public ArrayList<Integer> getPinLog() {
@@ -79,23 +79,23 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    public void setResetRequired() {
       pin = 0;
    }
-   
+
    public void setTotalBalance(double totalBalance) {
       this.totalBalance = totalBalance;
    }
-   
+
    public void setAvailableBalance(double availableBalance) {
       this.availableBalance = availableBalance;
    }
-   
+
    public int getTryCount() {
       return tryCount;
    }
-    
+
    public void setTryCount(int tryCount) {
       this.tryCount = tryCount;
    }
-   
+
    public double[] getDailyWithdrawal() {
       return dailyWithdrawal;
    }
@@ -103,11 +103,11 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    public void setDailyWithdrawal(double[] dailyWithdrawal) {
       this.dailyWithdrawal = dailyWithdrawal;
    }
-   
+
    public boolean isBlocked () {
        return (tryCount >= 3);
    }
-   
+
    public void unblock() {
       tryCount = 0;
    }
@@ -121,7 +121,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
     public boolean isCustomer() {
        return true;
     }
-    
+
     public abstract double getMaxWithdrawal();
     public abstract double getMaxTransfer();
 
@@ -129,7 +129,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       try{
          totalBalance += amount;
       } catch(Exception e){
-            
+
       }
     }
 
@@ -137,15 +137,15 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       availableBalance -= amount;
       totalBalance -= amount;
     }
-    
+
     public boolean isSiswa(){
         return false;
     }
-    
+
     public boolean isBisnis(){
         return false;
     }
-    
+
     public boolean isMasaDepan(){
         return false;
     }

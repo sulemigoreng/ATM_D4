@@ -18,7 +18,7 @@ public class Deposit extends Transaction {
     private double amount; // amount to deposit
     private DepositSlot depositSlot; // reference to deposit slot
     private HashMap<Customer, Integer> envelopeList;
-    
+
     // Deposit constructor
     public Deposit(int userAccountNumber, BankDatabase atmBankDatabase,
 	    DepositSlot atmDepositSlot) {
@@ -31,9 +31,10 @@ public class Deposit extends Transaction {
 
     @Override
     public int execute() {
-        Customer account = getBankDatabase().getCustomer(getAccountNumber());
-	if (depositSlot.isEnvelopeReceived(envelopeList,
-                account, amount)) {
+        BankDatabase bankDatabase = getBankDatabase();
+	Customer account = bankDatabase.getCustomer(getAccountNumber());
+	if (depositSlot.isEnvelopeReceived(bankDatabase.getList(),
+                account, amount, bankDatabase)) {
 	    account.credit(amount);
 	    return DEPOSIT_SUCCESSFUL;
 	} else {
