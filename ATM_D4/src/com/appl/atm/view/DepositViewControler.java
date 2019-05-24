@@ -5,6 +5,7 @@
  */
 package com.appl.atm.view;
 
+import com.appl.atm.model.Customer;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -39,15 +40,17 @@ public class DepositViewControler {
         screen.displayDollarAmount(20);
     }
     
-    public void showList(HashMap theList) {
+    public void showList(HashMap<Customer, Double> theList) {
         //Sumber : https://beginnersbook.com/2013/12/hashmap-in-java-with-example/
         Set set = theList.entrySet();
         Iterator iterator = set.iterator();
         screen.displayMessageLine("Account Number\t\tAmount");
-        while(iterator.hasNext()) {
-            Map.Entry mEntry = (Map.Entry)iterator.next();
-            screen.displayMessageLine(mEntry.getKey() + "\t\t"
-                    + mEntry.getValue());
+        for(Map.Entry<Customer, Double> entry : theList.entrySet()) {
+            Customer key = entry.getKey();
+            
+            screen.displayMessageLine(key.getAccountNumber() + "\t\t\t" + 
+                entry.getValue());
         }
+//        System.out.println(theList.toString());
     }
 }

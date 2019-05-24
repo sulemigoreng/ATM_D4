@@ -26,41 +26,41 @@ public class LoanController extends TransactionController{
     
     @Override
     public int run(){
-        Keypad keypad = getKeypad();
-        Screen screen = getScreen();
-
-        screen.displayMessage("Loan ID: ");
-        int id = keypad.getInput();
-        
-        payment = customer.getInvoce(id);
-        
-        screen.displayMessage("\nPilih opsi: ");
-        screen.displayMessage("1 - Lunas");
-        screen.displayMessage("2 - Cicilan");
-
-        int opsi;
-        do {
-            opsi = keypad.getInput();
-        } while (opsi >= 1 && opsi <= 2);
-
-        double amount;
-        if (opsi == 2) {
-            screen.displayMessage("Enter Nominal: ");
-            amount = keypad.getInput();
-        } else {
-            amount = payment.getBillNominal();
-        }
-
-        if(customer.getAvailableBalance() >= amount ) {
-            if (customer.getTotalBalance() >= amount){
-                payment.reduceNominal(amount);
-                customer.debit(amount);
-            }
-        }
-        if(payment.getBillNominal() == 0) {
-            customer.deleteInvoice(id);
-        }
-        
+//        Keypad keypad = getKeypad();
+//        Screen screen = getScreen();
+//        
+//        screen.displayMessage("Loan ID: ");
+//        int id = keypad.getInput();
+//        
+//        payment = customer.getInvoce(id);
+//        
+//        screen.displayMessage("\nPilih opsi: ");
+//        screen.displayMessage("1 - Lunas");
+//        screen.displayMessage("2 - Cicilan");
+//
+//        int opsi;
+//        do {
+//            opsi = keypad.getInput();
+//        } while (opsi >= 1 && opsi <= 2);
+//
+//        double amount;
+//        if (opsi == 2) {
+//            screen.displayMessage("Enter Nominal: ");
+//            amount = keypad.getInput();
+//        } else {
+//            amount = payment.getBillNominal();
+//        }
+//
+//        if(customer.getAvailableBalance() >= amount ) {
+//            if (customer.getTotalBalance() >= amount){
+//                payment.reduceNominal(amount);
+//                customer.debit(amount);
+//            }
+//        }
+//        if(payment.getBillNominal() == 0) {
+//            customer.deleteInvoice(id);
+//        }
+//        
         return 0;
     }
 }

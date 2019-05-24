@@ -6,8 +6,10 @@
 package com.appl.atm.controller;
 
 import com.appl.atm.model.BankDatabase;
+import com.appl.atm.model.Customer;
 import com.appl.atm.model.Deposit;
 import com.appl.atm.model.DepositSlot;
+import com.appl.atm.model.Transaction;
 import com.appl.atm.view.DepositViewControler;
 import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
@@ -18,27 +20,28 @@ import java.util.HashMap;
  */
 public class AdminController {
     Deposit deposit;
+    DepositSlot updateSlot;
     BankDatabase bankDatabase;
     
-    public AdminController(Deposit theDeposit, BankDatabase theBankDatabase) {
-        deposit = theDeposit;
+    public AdminController(Transaction theDeposit, DepositSlot theDepositSlot,
+        BankDatabase theBankDatabase) {
+        updateSlot = theDepositSlot;
         bankDatabase = theBankDatabase;
     }
     
     public void confirmDeposit(){
         Screen screen = new Screen();
         Keypad keypad = new Keypad();
-        DepositSlot updateSlot = new DepositSlot();
         DepositViewControler depositView = new DepositViewControler();
-//        HashMap theList = deposit.getList();
+        HashMap<Customer, Double> theList = bankDatabase.getList();
         
-//        depositView.showList(deposit.getList());
+        depositView.showList(bankDatabase.getList());
         screen.displayMessage("Choose the account number : ");
         int choosen = keypad.getInput();
         
-//        updateSlot.deleteList(deposit.getList(), bankDatabase.getCustomer(choosen),
-//            deposit.getAmount());
+        updateSlot.deleteList(bankDatabase.getList(), bankDatabase.getCustomer(choosen),
+            bankDatabase);
         
-//        depositView.showList(deposit.getList());
+        depositView.showList(bankDatabase.getList());
     }
 }

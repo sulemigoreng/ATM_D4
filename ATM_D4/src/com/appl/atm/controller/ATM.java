@@ -156,7 +156,8 @@ public class ATM {
                 case CONFIRM_DEPOSIT:
                     //method confirm deposit
                     screen.displayMessageLine("Confirm Deposit\n");
-                    transactionController = new AdminController(deposit, bankDatabase);
+                    transactionController = new AdminController(deposit,
+                            depositSlot, bankDatabase);
                     transactionController.confirmDeposit();
                     break;
                     
@@ -208,6 +209,7 @@ public class ATM {
 	    case DEPOSIT:
 		temp = new Deposit(
 			currentAccountNumber, bankDatabase, depositSlot);
+                deposit = (Deposit) temp;
 		break;
 	}
 
