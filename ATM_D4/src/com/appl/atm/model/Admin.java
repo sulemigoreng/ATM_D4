@@ -10,6 +10,10 @@ public class Admin implements IAccount {
       accountNumber = userAccountNumber;
       pin = userPin;
    }
+   
+   public boolean isAdmin(int userAccountNumber, int userPin) {
+       return (userAccountNumber == this.accountNumber && userPin == this.pin);
+   }
 
     /**
      * @return the accountNumber

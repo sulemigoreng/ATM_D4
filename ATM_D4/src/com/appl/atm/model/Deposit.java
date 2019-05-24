@@ -6,6 +6,8 @@
 package com.appl.atm.model;
 
 import static com.appl.atm.model.Constants.*;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  *
@@ -27,8 +29,10 @@ public class Deposit extends Transaction {
 
     @Override
     public int execute() {
-	if (depositSlot.isEnvelopeReceived()) {
-	    Customer account = getBankDatabase().getCustomer(getAccountNumber());
+        BankDatabase bankDatabase = getBankDatabase();
+	Customer account = bankDatabase.getCustomer(getAccountNumber());
+	if (depositSlot.isEnvelopeReceived(bankDatabase.getList(),
+                account, amount, bankDatabase)) {
 	    account.credit(amount);
 	    return DEPOSIT_SUCCESSFUL;
 	} else {
