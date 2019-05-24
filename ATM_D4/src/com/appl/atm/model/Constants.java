@@ -15,7 +15,8 @@ public final class Constants {
     public static final int BALANCE_INQUIRY = 1;
     public static final int WITHDRAWAL = 2;
     public static final int DEPOSIT = 3;
-    public static final int EXIT = 4;
+    public static final int BANKSTATEMENT = 4;
+    public static final int EXIT = 5;
     
     // withdraw
     public static final int WITHDRAWAL_CANCELED = 7;
