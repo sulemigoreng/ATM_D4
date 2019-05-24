@@ -41,9 +41,6 @@ public class DepositViewControler {
     }
     
     public void showList(HashMap<Customer, Double> theList) {
-        //Sumber : https://beginnersbook.com/2013/12/hashmap-in-java-with-example/
-        Set set = theList.entrySet();
-        Iterator iterator = set.iterator();
         screen.displayMessageLine("Account Number\t\tAmount");
         for(Map.Entry<Customer, Double> entry : theList.entrySet()) {
             Customer key = entry.getKey();
@@ -51,6 +48,5 @@ public class DepositViewControler {
             screen.displayMessageLine(key.getAccountNumber() + "\t\t\t" + 
                 entry.getValue());
         }
-//        System.out.println(theList.toString());
     }
 }
