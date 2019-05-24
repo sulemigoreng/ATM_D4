@@ -10,8 +10,8 @@ package com.appl.atm.model;
  * @author Rayhan Azka  <rayhan.azka.tif418@polban.ac.id>
  */
 public class Siswa extends Customer {
-    private static  double MAX_WITHDRAWAL = 100;
-    private static  double MAX_TRANSFER = 200;
+    private static double MAX_WITHDRAWAL = 20;
+    private static double MAX_TRANSFER = 0;
     
     public Siswa(int theAccountNumber, int thePIN, double theAvailableBalance, double theTotalBalance) {
         super(theAccountNumber, thePIN, theAvailableBalance, theTotalBalance);
@@ -27,5 +27,8 @@ public class Siswa extends Customer {
         return MAX_TRANSFER;
     }
     
-    
+    @Override
+    public boolean isSiswa(){
+        return true;
+    }
 }
