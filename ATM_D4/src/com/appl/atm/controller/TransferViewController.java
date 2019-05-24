@@ -20,11 +20,11 @@ public class TransferViewController {
         return view.inputTheAmountV();
     }
     
-    public void processDisplayMaxOneTimeLimitV(int limit){
+    public void processDisplayMaxOneTimeLimitV(double limit){
         view.displayMaxOneTimeLimitV(limit);
     }
     
-    public void precessDisplayMaxOneDayLimitV(double limit){ // tolong diperbaiki namanya hehe
+    public void processDisplayMaxOneDayLimitV(double limit){
         view.displayMaxOneDayLimitV(limit);
     }
     
@@ -37,7 +37,7 @@ public class TransferViewController {
     }
      
      public void processDisplayAccountNotCustomer(){
-        view.displayNotConsumer();
+        view.displayNotCustomer();
     }
      
      public void processCanceled(){
@@ -48,6 +48,17 @@ public class TransferViewController {
         view.displayTransferred();
     }
     
+    public void processDeclineSiswa(){
+        view.displaySiswaCantTransfer();
+    }
+    
+    public void processDeclineTransferOwnAccount(){
+        view.displayCantTransferToOwnAccount();
+    }
+    
+    public void processExceedsLimit(){
+        view.displayExceedsOneTimeTransfer();
+    }
     
     
      public double processTransferV(int recipientAccountNumber, double Amount){
