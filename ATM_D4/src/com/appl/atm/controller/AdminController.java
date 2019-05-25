@@ -22,6 +22,7 @@ public class AdminController {
     Deposit deposit;
     DepositSlot updateSlot;
     BankDatabase bankDatabase;
+    private BankStatementController bankStatement;
     
     public AdminController(Transaction theDeposit, DepositSlot theDepositSlot,
         BankDatabase theBankDatabase) {
@@ -39,9 +40,12 @@ public class AdminController {
         screen.displayMessage("Choose the account number : ");
         int choosen = keypad.getInput();
         
-        updateSlot.deleteList(bankDatabase.getList(), bankDatabase.getCustomer(choosen),
+        if (theList.containsKey(bankDatabase.getCustomer(choosen))){
+            bankStatement = new BankStatementController(keypad,screen,bankDatabase.getCustomer(choosen));
+            bankStatement.addLogDeposit(String.valueOf(choosen),theList.get(bankDatabase.getCustomer(choosen)), "Deposit", true);
+            updateSlot.deleteList(bankDatabase.getList(), bankDatabase.getCustomer(choosen),
             bankDatabase);
-        
-        depositView.showList(bankDatabase.getList());
+            depositView.showList(bankDatabase.getList());
+        }
     }
 }

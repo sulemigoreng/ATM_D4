@@ -25,6 +25,8 @@ public class DepositController extends TransactionController {
     public DepositController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
 	super(theKeypad, theScreen);
 	transaction = (Deposit) theTransaction;
+        customer = transaction.getBankDatabase().getCustomer(transaction.getAccountNumber());
+        bankStatement = new BankStatementController(theKeypad,theScreen,customer);
     }
 
     @Override
@@ -43,7 +45,7 @@ public class DepositController extends TransactionController {
                 getScreen().displayMessageLine("Your envelope has been received.");
                 getScreen().displayMessageLine("NOTE: The money just deposited will not be available until we verify the amount of any enclosed cash and your checks clear.");
                 getScreen().displayMessageLine("check your balance to see the status of your previous deposit");
-                bankStatement.addLogDeposit(String.valueOf(customer.getAccountNumber()), amount, "Withdrawal", false);
+                bankStatement.addLogDeposit(String.valueOf(customer.getAccountNumber()), amount, "Deposit", false);
             } else {
                 getScreen().displayMessageLine("Your envelope is not received");
             }
