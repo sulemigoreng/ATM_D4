@@ -250,12 +250,10 @@ public class ATM {
 	screen.displayMessageLine("1 - View my balance");
 	screen.displayMessageLine("2 - Withdraw cash");
 	screen.displayMessageLine("3 - Deposit funds");
-        screen.displayMessageLine("4 - Log Transaction");
-	screen.displayMessageLine("5 - Exit\n");
-    screen.displayMessageLine("3 - Deposit funds");
-    screen.displayMessageLine("4 - Transfer");
+        screen.displayMessageLine("4 - Transfer");
 	screen.displayMessageLine("5 - Payment");
-	screen.displayMessageLine("6 - Exit\n");
+        screen.displayMessageLine("6 - Log Transaction");
+	screen.displayMessageLine("7 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
 	return keypad.getInput(); // return user's selection
     }
@@ -290,17 +288,15 @@ public class ATM {
             case BANKSTATEMENT:
                 //temp = new 
 		break;
-	}
             case TRANSFER:
 		temp = new Transfer(
 			currentAccountNumber, bankDatabase);
 		break;
-        case PAYMENT:
-        temp = new Payment(
-            currentAccountNumber, bankDatabase);
-        break;
-    }
-
+            case PAYMENT:
+            temp = new Payment(
+                currentAccountNumber, bankDatabase);
+            break;
+	}
 	return temp;
     }
 
