@@ -7,6 +7,9 @@ package com.appl.atm.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Date;
 
 /**
  *
@@ -16,7 +19,9 @@ public class BankDatabase {
     
     private ArrayList<IAccount> accounts; // array of Accounts
     private HashMap<Customer, Double> envelopeList;
-
+    private Calendar calendar;
+    private Date date;
+    
     public BankDatabase() {
         accounts = new ArrayList<IAccount>();
         accounts.add(new Admin(1, 3333));
@@ -28,6 +33,7 @@ public class BankDatabase {
         accounts.add(new Bisnis(4000, 4000, 1000, 1200)); //Asuransi
 
         envelopeList = new HashMap<Customer, Double>();
+        calendar = new GregorianCalendar();
     }
     
     public IAccount getAccount(int accountNumber) {
@@ -83,5 +89,12 @@ public class BankDatabase {
             envelopeList.remove(theAccount);
         }
     }
-
+    
+    public Date getDate(){
+        return calendar.getTime();
+    }
+    
+    public void addDate(){
+        calendar.add(Calendar.DATE, 1);
+    }
 }
