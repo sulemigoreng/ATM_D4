@@ -90,8 +90,8 @@ public class BankDatabase {
         }
     }
     
-    public Date getDate(){
-        return calendar.getTime();
+    public Calendar getDate(){
+        return (Calendar)calendar.clone();
     }
     
     public void addDate(){

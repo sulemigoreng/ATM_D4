@@ -7,6 +7,9 @@ package com.appl.atm.model;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
+import java.util.Calendar;
+import javafx.util.Pair;
+import java.util.Comparator;
 
 /**
  *
@@ -21,6 +24,8 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    private ArrayList<Integer> pinLog;
    private double dailyWithdrawal[];
    private TreeSet<Invoice> invoiceList;
+   private TreeSet<Pair<Calendar, Double>> maxDailyWithdrawal;
+   private TreeSet<Pair<Calendar, Double>> maxDailyTransfer;
 
    // Account constructor initializes attributes
    public Customer (int theAccountNumber, int thePIN, 
@@ -35,6 +40,15 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       dailyWithdrawal = new double[31];
       setPin(thePIN);
       invoiceList = new TreeSet<Invoice>();
+      Comparator<Pair<Calendar, Double>> calendarComparator = new Comparator<Pair<Calendar, Double>>(){
+          @Override
+          public int compare(Pair<Calendar, Double> t, Pair<Calendar, Double> t1) {
+              return t.getKey().compareTo(t1.getKey());
+          }
+          
+      };
+      maxDailyWithdrawal = new TreeSet<Pair<Calendar, Double>>(calendarComparator);
+      maxDailyTransfer = new TreeSet<Pair<Calendar, Double>>(calendarComparator);
    }
 
    public Customer (int theAccountNumber, double theBalance) {
@@ -177,5 +191,23 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
          }
       }
       return null;
+    }
+    
+    public void Withdraw(Calendar calendar, double amount){
+        for (Pair<Calendar, Double> data : maxDailyWithdrawal) {
+            if (data.getKey().get(Calendar.DAY_OF_YEAR) < calendar.get(Calendar.DAY_OF_YEAR)){
+                maxDailyWithdrawal.remove(data);
+            }
+        }
+        maxDailyWithdrawal.add(new Pair(calendar, amount));       
+    }
+    
+    public void Transfer(Calendar calendar, double amount){
+        for (Pair<Calendar, Double> data : maxDailyTransfer) {
+            if (data.getKey().get(Calendar.DAY_OF_YEAR) < calendar.get(Calendar.DAY_OF_YEAR)){
+                maxDailyTransfer.remove(data);
+            }
+        }
+        maxDailyTransfer.add(new Pair(calendar, amount));
     }
 }
