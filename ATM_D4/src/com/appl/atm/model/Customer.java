@@ -6,13 +6,12 @@
 package com.appl.atm.model;
 
 import java.util.ArrayList;
-import java.util.TreeSet;
 
 /**
  *
  * @author Rayhan Azka  <rayhan.azka.tif418@polban.ac.id>
  */
-public abstract class Customer implements IAccount, Comparable<Customer> {   
+public abstract class Customer implements IAccount, Comparable<Customer> {
    private int accountNumber; // account number
    private int pin; // PIN for authentication
    private double availableBalance; // funds available for withdrawal
@@ -20,10 +19,9 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    private int tryCount;
    private ArrayList<Integer> pinLog;
    private double dailyWithdrawal[];
-   private TreeSet<Invoice> invoiceList;
 
    // Account constructor initializes attributes
-   public Customer (int theAccountNumber, int thePIN, 
+   public Customer (int theAccountNumber, int thePIN,
       double theAvailableBalance, double theTotalBalance) {
       pinLog = new ArrayList<Integer>();
       pinLog.add(new Integer(thePIN));
@@ -34,7 +32,6 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       tryCount = 0;
       dailyWithdrawal = new double[31];
       setPin(thePIN);
-      invoiceList = new TreeSet<Invoice>();
    }
 
    public Customer (int theAccountNumber, double theBalance) {
@@ -45,22 +42,21 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       totalBalance = theBalance;
       tryCount = 0;
       dailyWithdrawal = new double[31];
-      invoiceList = new TreeSet<Invoice>();
    }
-   
+
    // returns available balance
    public double getAvailableBalance() {
       return availableBalance;
-   } 
+   }
 
    // returns the total balance
    public double getTotalBalance() {
       return totalBalance;
    }
-   
+
    @Override
    public int getAccountNumber() {
-      return accountNumber;  
+      return accountNumber;
    }
 
    public ArrayList<Integer> getPinLog() {
@@ -83,23 +79,23 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    public void setResetRequired() {
       pin = 0;
    }
-   
+
    public void setTotalBalance(double totalBalance) {
       this.totalBalance = totalBalance;
    }
-   
+
    public void setAvailableBalance(double availableBalance) {
       this.availableBalance = availableBalance;
    }
-   
+
    public int getTryCount() {
       return tryCount;
    }
-    
+
    public void setTryCount(int tryCount) {
       this.tryCount = tryCount;
    }
-   
+
    public double[] getDailyWithdrawal() {
       return dailyWithdrawal;
    }
@@ -107,11 +103,11 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    public void setDailyWithdrawal(double[] dailyWithdrawal) {
       this.dailyWithdrawal = dailyWithdrawal;
    }
-   
+
    public boolean isBlocked () {
        return (tryCount >= 3);
    }
-   
+
    public void unblock() {
       tryCount = 0;
    }
@@ -125,7 +121,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
     public boolean isCustomer() {
        return true;
     }
-    
+
     public abstract double getMaxWithdrawal();
     public abstract double getMaxTransfer();
 
@@ -133,7 +129,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       try{
          totalBalance += amount;
       } catch(Exception e){
-            
+
       }
     }
 
@@ -141,41 +137,16 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       availableBalance -= amount;
       totalBalance -= amount;
     }
-    
+
     public boolean isSiswa(){
         return false;
     }
-    
+
     public boolean isBisnis(){
         return false;
     }
-    
+
     public boolean isMasaDepan(){
         return false;
-    }
-
-    public void addInvoice(int id, int applicant, double amount, String description) {
-      invoiceList.add(new Invoice(id, description, amount, applicant));
-    }
-
-    public void deleteInvoice(int id) {
-      for (Invoice payment : invoiceList) {
-         if (payment.getID() == id) {
-            invoiceList.remove(payment);
-         }
-      }
-    }
-
-    public TreeSet<Invoice> getInvoiceList() {
-       return invoiceList;
-    }
-
-    public Invoice getInvoce(int id) {
-      for (Invoice invoice : invoiceList) {
-         if (invoice.getID() == id) {
-            return invoice;
-         }
-      }
-      return null;
     }
 }

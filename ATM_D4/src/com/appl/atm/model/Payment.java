@@ -1,70 +1,51 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.appl.atm.model;
 
-import static com.appl.atm.model.Constants.*;
+/**
+ *
+ * @author Rayhan Azka
+ */
+public class Payment implements Comparable<Payment> {
+    private int id;
+    private String billInformation;
+    private double billNominal;
+    private int applicantAccNum;
 
-import java.util.Iterator;
-import java.util.TreeSet;
+    public Payment(int id, String billInformation, double billNominal, int applicantAccNum) {
+        this.id = id;
+        this.billInformation = billInformation;
+        this.billNominal = billNominal;
+        this.applicantAccNum = applicantAccNum;
+    }
 
-public class Payment extends Transaction {
-    private Customer customer;
-    private double amount;
-    private int invoiceID;
+    public int getID() {
+        return id;
+    }
 
-    public Payment(int userAccountNumber, BankDatabase atmBankDatabase) {
-        // initialize superclass variables
-        super(userAccountNumber, atmBankDatabase);
-        customer = getBankDatabase().getCustomer(getAccountNumber());
+    public String getBillInformation() {
+        return billInformation;
+    }
 
-        amount = 0;
+    public double getBillNominal() {
+        return billNominal;
+    }
+
+    public int getApplicantAccNum() {
+        return applicantAccNum;
     }
 
     @Override
-    public int execute() {
-        Invoice invoice = customer.getInvoce(getinvoiceID());
-        if (invoice == null) {
-            return 1;
-        }
-
-        if (getAmount() > invoice.getBillNominal()) {
-            return 3;
-        }
-
-        if (getAmount() <= 0) {
-            setAmount(invoice.getBillNominal());
-        }
-
-        if (customer.getAvailableBalance() >= getAmount()) {
-            customer.debit(getAmount());
-            invoice.reduceNominal(getAmount());
-
-            if(invoice.getBillNominal() == 0) {
-                customer.getInvoiceList().remove(invoice);
-            }
-        } else {
-            return 2;
-        }
-
-        return 0;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public int getinvoiceID() {
-        return invoiceID;
-    }
-
-    
-    public TreeSet<Invoice> getInvoiceList() {
-        return new TreeSet<Invoice>(customer.getInvoiceList());
+    public int compareTo(Payment t) {
+        return id - t.id;
     }
     
-    public void setinvoiceID(int id) {
-        this.invoiceID = id;
-    }
+    public void reduceNominal (double amount) {
+        if (amount <= billNominal) {
+            billNominal -= amount;
+        }
+    }        
 }
