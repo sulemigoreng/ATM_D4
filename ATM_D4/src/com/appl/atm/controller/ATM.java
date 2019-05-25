@@ -163,14 +163,20 @@ public class ATM {
                         currentTransactionController.run(); // execute transaction
                         break;
 
-					case PAYMENT:
-						currentTransaction
-							= createTransaction(mainMenuSelection);
-						currentTransactionController
-							= new PaymentController(currentTransaction, keypad, screen);
-						currentTransactionController.run(); // execute transaction
-						break;
-			
+                    case PAYMENT:
+                            currentTransaction
+                                    = createTransaction(mainMenuSelection);
+                            currentTransactionController
+                                    = new PaymentController(currentTransaction, keypad, screen);
+                            currentTransactionController.run(); // execute transaction
+                            break;
+                    case BANKSTATEMENT:
+                            currentTransaction
+                                    = createTransaction(mainMenuSelection);
+                           // currentTransactionController
+                                //    = new //DepositController(currentTransaction, keypad, screen);
+                            //currentTransactionController.run(); // execute transaction
+                            break;        
                     case EXIT: // user chose to terminate session
                         screen.displayMessageLine("\nExiting the system...");
                         userExited = true; // this ATM session should end
@@ -182,7 +188,7 @@ public class ATM {
                         break;
                 }
             }
-		}
+	}
     }
 /*
     private void adminMode() {
@@ -260,8 +266,8 @@ public class ATM {
     
     // display the Admin main menu and return an input selection
     private int displayAdminMainMenu() {
-    screen.displayMessageLine("\nAdmin Main menu:");
-    screen.displayMessageLine("1 - Confirm deposit");
+        screen.displayMessageLine("\nAdmin Main menu:");
+        screen.displayMessageLine("1 - Confirm deposit");
 	screen.displayMessageLine("2 - Give Payment Invoice To Customer");
 	screen.displayMessageLine("3 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
