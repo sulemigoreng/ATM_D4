@@ -23,11 +23,22 @@ public class BankStatementController extends TransactionController {
     
     
     public void addLog(String accountNumber, int amount, String Transaction){
-        customer.getTransaksiLog().add("[DATE] "+Transaction+" Account Number "+accountNumber+" with amount"+amount);
+        customer.getTransaksiLog().add("[DATE] "+Transaction+"      Account_Number : "+accountNumber+"      with amount $ "+amount);
     }
 
     @Override
     public int run() {
+        Screen screen = getScreen();
+        
+        if(customer.getTransaksiLog().isEmpty()){
+            screen.displayMessageLine("Empty Log Transaction!");
+        }
+        else{
+            for(int i = 0; i < customer.getTransaksiLog().size();i++){
+                screen.displayMessageLine(customer.getTransaksiLog().get(i));
+            }
+        }
+        
         return 0;
     }
 }

@@ -171,11 +171,9 @@ public class ATM {
                             currentTransactionController.run(); // execute transaction
                             break;
                     case BANKSTATEMENT:
-                            currentTransaction
-                                    = createTransaction(mainMenuSelection);
-                           // currentTransactionController
-                                //    = new //DepositController(currentTransaction, keypad, screen);
-                            //currentTransactionController.run(); // execute transaction
+                            currentTransactionController
+                                   = new BankStatementController(keypad, screen, bankDatabase.getCustomer(currentAccountNumber));
+                            currentTransactionController.run(); // execute transaction
                             break;        
                     case EXIT: // user chose to terminate session
                         screen.displayMessageLine("\nExiting the system...");
@@ -290,9 +288,6 @@ public class ATM {
 		temp = new Deposit(
 			currentAccountNumber, bankDatabase, depositSlot);
                 deposit = (Deposit) temp;
-		break;
-            case BANKSTATEMENT:
-                //temp = new 
 		break;
             case TRANSFER:
 		temp = new Transfer(
