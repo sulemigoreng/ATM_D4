@@ -52,7 +52,7 @@ public class Transfer extends Transaction{
                     //accountTransfered = screen.processInputRecipientV();
                     
                         Customer accountTransfer = getBankDatabase().getCustomer(accountTransfered);
-                        
+                        accountTransfer.getTransaksiLog().add("[DATE] Transfer      From Account_Number : "+ String.valueOf(getAccountNumber())+"     with amount $ "+String.valueOf(amount));
                         account.debit(amount);
                         accountTransfer.credit(amount);
                         //screen.processDisplayTransfered();
@@ -87,6 +87,14 @@ public class Transfer extends Transaction{
     
     public double getMaxT(){
         return this.max_transfer;
+    }
+    
+    public int getAccountTransferred(){
+        return accountTransfered;
+    }
+    
+    public double getAmount(){
+        return amount;
     }
     /*
        ATMBankDatabase bankDatabase = getBankDatabase();

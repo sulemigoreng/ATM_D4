@@ -10,6 +10,7 @@ import com.appl.atm.model.Transfer;
 import com.appl.atm.model.Transaction;
 import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
+import com.appl.atm.model.Customer;
 /**
  *
  * @author dewan
@@ -17,11 +18,14 @@ import com.appl.atm.view.Screen;
 
 public class TransferController extends TransactionController{
     private Transfer transaction;
-    
+    private BankStatementController bankStatement;
+    private Customer customer;
     
     public TransferController (Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
         super(theKeypad, theScreen);
         transaction = (Transfer) theTransaction;
+        customer=transaction.getBankDatabase().getCustomer(transaction.getAccountNumber());
+        bankStatement=new BankStatementController(theKeypad, theScreen, customer);
     }
 
     @Override
@@ -48,6 +52,7 @@ public class TransferController extends TransactionController{
                         screen.processDisplayNotEnoughSaldo();
                         break;
                     case TRANSFER_SUCCESS:
+                        bankStatement.addLog(String.valueOf(customer.getAccountNumber())+" to "+ String.valueOf(transaction.getAccountTransferred()), (int)transaction.getAmount(), "Transfer");
                         screen.processDisplayTransfered();
                         break;
                     case EXCEED_ONE_TIME_TRANSFER_BISNIS:

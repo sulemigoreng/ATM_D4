@@ -162,7 +162,13 @@ public class ATM {
                                 = new DepositController(currentTransaction, keypad, screen);
                         currentTransactionController.run(); // execute transaction
                         break;
-
+                    case TRANSFER:
+                        currentTransaction
+                                = createTransaction(mainMenuSelection);
+                        currentTransactionController
+                                = new TransferController(currentTransaction, keypad, screen);
+                        currentTransactionController.run(); // execute transaction
+                        break; 
                     case PAYMENT:
                             currentTransaction
                                     = createTransaction(mainMenuSelection);
