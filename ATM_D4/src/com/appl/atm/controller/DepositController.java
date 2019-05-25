@@ -6,6 +6,7 @@
 package com.appl.atm.controller;
 
 import static com.appl.atm.model.Constants.*;
+import com.appl.atm.model.Customer;
 import com.appl.atm.model.Deposit;
 import com.appl.atm.model.Transaction;
 import com.appl.atm.view.Keypad;
@@ -18,6 +19,8 @@ import com.appl.atm.view.Screen;
 public class DepositController extends TransactionController {
 
     private Deposit transaction;
+    private BankStatementController bankStatement;
+    private Customer customer;
 
     public DepositController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
 	super(theKeypad, theScreen);
@@ -40,6 +43,7 @@ public class DepositController extends TransactionController {
                 getScreen().displayMessageLine("Your envelope has been received.");
                 getScreen().displayMessageLine("NOTE: The money just deposited will not be available until we verify the amount of any enclosed cash and your checks clear.");
                 getScreen().displayMessageLine("check your balance to see the status of your previous deposit");
+                bankStatement.addLogDeposit(String.valueOf(customer.getAccountNumber()), amount, "Withdrawal", false);
             } else {
                 getScreen().displayMessageLine("Your envelope is not received");
             }
