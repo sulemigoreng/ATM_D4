@@ -27,7 +27,7 @@ public class BankStatementController extends TransactionController {
     }
     
     public void addLogDeposit(String accountNumber, double amount, String Transaction, boolean status){
-        customer.getTransaksiLog().add("[DATE] "+Transaction+"      Account_Number : "+accountNumber+"      with amount $ "+amount+ "      Status : " + status );
+        customer.getTransaksiLog().add("[DATE] "+Transaction+"      Account_Number : "+accountNumber+"      with amount $ "+amount+ "      Verified : " + status );
     }
     
     @Override
