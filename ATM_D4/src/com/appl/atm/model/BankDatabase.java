@@ -20,8 +20,8 @@ public class BankDatabase {
     public BankDatabase() {
         accounts = new ArrayList<IAccount>();
         accounts.add(new Admin(1, 3333));
-		accounts.add(new MasaDepan(1234, 4321, 1000.0, 1200.0));
-		accounts.add(new MasaDepan(8765, 5678, 200.0, 200.0));
+	accounts.add(new MasaDepan(1234, 4321, 1000.0, 1200.0));
+	accounts.add(new MasaDepan(8765, 5678, 200.0, 200.0));
         accounts.add(new Bisnis(1000, 1000, 1000, 1200)); //PLN
         accounts.add(new Bisnis (2000, 1000, 1000, 1200));//PDAM
         accounts.add(new Bisnis(3000, 3000, 1000, 1200)); //TV/Internet berlangganan
@@ -30,16 +30,19 @@ public class BankDatabase {
         envelopeList = new HashMap<Customer, Double>();
     }
     
-    public void addAccountSiswa(int accountNumber){
-        accounts.add(new Siswa(accountNumber, 0, 0, 0));
+    public void addAccount(Siswa newSiswa){
+        accounts.add(new Siswa(newSiswa.getAccountNumber(), newSiswa.getPin(),
+                newSiswa.getAvailableBalance(), newSiswa.getTotalBalance()));
     }
     
-    public void addAccountBisnis(){
-        
+    public void addAccount(Bisnis newBisnis){
+        accounts.add(new Bisnis(newBisnis.getAccountNumber(), newBisnis.getPin(),
+                newBisnis.getAvailableBalance(), newBisnis.getTotalBalance()));
     }
     
-    public void addAccountMasaDepan(){
-        
+    public void addAccount(MasaDepan newMasaDepan){
+        accounts.add(new MasaDepan(newMasaDepan.getAccountNumber(), newMasaDepan.getPin(),
+                newMasaDepan.getAvailableBalance(), newMasaDepan.getTotalBalance()));
     }
     
     public IAccount getAccount(int accountNumber) {
@@ -52,7 +55,7 @@ public class BankDatabase {
         return null; // if no matching account was found, return null
     }
 
-	public Customer getCustomer(int accountNumber) {
+    public Customer getCustomer(int accountNumber) {
 		int i;
         for (i = 0; i < accounts.size(); i++) {
             if (accounts.get(i).getAccountNumber() == accountNumber && accounts.get(i).isCustomer()) {
@@ -94,6 +97,15 @@ public class BankDatabase {
         if(envelopeList.containsKey(theAccount)) {
             envelopeList.remove(theAccount);
         }
+    }
+    
+    public boolean isUserExist(int accountNumber){
+        for (int i = 0; i < accounts.size(); i++) {
+            if (accounts.get(i).getAccountNumber() == accountNumber) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
