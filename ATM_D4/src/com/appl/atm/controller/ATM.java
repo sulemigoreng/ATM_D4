@@ -62,7 +62,7 @@ public class ATM {
         //    } else {
         //        performTransactions(); // user is now authenticated
         //    }
-        performTransactions(); // user is now authenticated
+            performTransactions(); // user is now authenticated
         
 	    userAuthenticated = 0; // reset before next ATM session
 	    currentAccountNumber = 0; // reset before next ATM session
@@ -74,23 +74,29 @@ public class ATM {
     private void authenticateUser() {
 	    screen.displayMessage("Please enter your account number\t: ");
 	    int accountNumber = keypad.getInput(); // input account number
-	    screen.displayMessage("Enter your PIN\t\t\t\t: "); // prompt for PIN
-	    int pin = keypad.getInput(); // input PIN
+            
+            if (!bankDatabase.isUserBlocked(accountNumber)){
+                screen.displayMessage("Enter your PIN\t\t\t\t: "); // prompt for PIN
+                int pin = keypad.getInput(); // input PIN
 
-//	if(theAdmin.isAdmin(accountNumber, pin)) {
-//            userAuthenticated = 1;
-//            currentAccountNumber = accountNumber;
-//        } else {
-            // set userAuthenticated to boolean value returned by database
-        userAuthenticated
-		    = bankDatabase.authenticateUser(accountNumber, pin);
-        // check whether authentication succeeded
-        if (userAuthenticated == 1) {
-            currentAccountNumber = accountNumber; // save user's account #
-        } else {
-            screen.displayMessageLine(
-		"Invalid account number or PIN. Please try again.\n");
-        }
+                //	if(theAdmin.isAdmin(accountNumber, pin)) {
+                //            userAuthenticated = 1;
+                //            currentAccountNumber = accountNumber;
+                //        } else {
+                            // set userAuthenticated to boolean value returned by database
+                userAuthenticated
+                            = bankDatabase.authenticateUser(accountNumber, pin);
+                // check whether authentication succeeded
+                if (userAuthenticated == 1) {
+                    currentAccountNumber = accountNumber; // save user's account #
+                } else {
+                    screen.displayMessageLine(
+                        "Invalid account number or PIN. Please try again.\n");
+                }
+            } else {
+                screen.displayMessageLine("Your account has been blocked");
+                screen.displayMessageLine("Please contact the admin to unblock\n");
+            }
 //        }
     }
 
@@ -126,14 +132,34 @@ public class ATM {
                         screen.displayMessageLine("\nExiting the system...");
                         userExited = true; // this ATM session should end
                         break;
-                    case ADD_ACCOUNT :
-                        AdminController adminController = null;
-                        adminController = new AdminController(deposit, depositSlot,
-                                bankDatabase);
+                    case ADD_ACCOUNT :{
+                        AdminController controller = null;
+                        controller = new AdminController(deposit, depositSlot,
+                            bankDatabase);
                         
-                        int accountType = displayAddAcountMenu();
-                        adminController.addAccount(accountType);
+                        int accountType = displayAddAccountMenu();
+                        controller.addAccount(accountType);
                         break;
+                    }
+                    case BLOCK_ACCOUNT : {
+                         AdminController controller = null;
+                        controller = new AdminController(deposit, depositSlot,
+                            bankDatabase);
+                        int blockedAccountNumber = reqAccountNumber();
+                        controller.blockAccount(blockedAccountNumber);
+                        screen.displayMessageLine("Account has been blocked");
+                        break;
+                    }
+                    case UNBLOCK_ACCOUNT : {
+                        AdminController controller = null;
+                        controller = new AdminController(deposit, depositSlot,
+                            bankDatabase);
+                        
+                        int unblockAccountNumber = reqAccountNumber();
+                        controller.unblockAccount(unblockAccountNumber);
+                        screen.displayMessageLine("Account unblocked");
+                        break;
+                    }
                     default: // 
                         screen.displayMessageLine(
                            "\nYou did not enter a valid selection. Try again.");
@@ -171,13 +197,13 @@ public class ATM {
                         currentTransactionController.run(); // execute transaction
                         break;
 
-					case PAYMENT:
-						currentTransaction
-							= createTransaction(mainMenuSelection);
-						currentTransactionController
-							= new PaymentController(currentTransaction, keypad, screen);
-						currentTransactionController.run(); // execute transaction
-						break;
+                    case PAYMENT:
+                            currentTransaction
+                                    = createTransaction(mainMenuSelection);
+                            currentTransactionController
+                                    = new PaymentController(currentTransaction, keypad, screen);
+                            currentTransactionController.run(); // execute transaction
+                            break;
 			
                     case EXIT: // user chose to terminate session
                         screen.displayMessageLine("\nExiting the system...");
@@ -240,13 +266,15 @@ public class ATM {
         screen.displayMessageLine("\nAdmin Main menu:");
         screen.displayMessageLine("1 - Confirm deposit");
 	screen.displayMessageLine("2 - Give Payment Invoice To Customer");
-        screen.displayMessageLine("3 - Add Account\n");
-        screen.displayMessageLine("4 - Exit\n");
+        screen.displayMessageLine("3 - Add Account");
+        screen.displayMessageLine("4 - Block Account");
+        screen.displayMessageLine("5 - Unblock Account");
+        screen.displayMessageLine("6 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
 	return keypad.getInput(); // return user's selection
     }
     
-    private int displayAddAcountMenu() {
+    private int displayAddAccountMenu() {
         screen.displayMessageLine("\nChoose account type:");
         screen.displayMessageLine("1 - Bisnis");
 	screen.displayMessageLine("2 - Siswa");
@@ -297,6 +325,11 @@ public class ATM {
         }
     
         return temp;
+    }
+
+    private int reqAccountNumber() {
+        screen.displayMessage("\nEnter the account number : ");
+        return keypad.getInput();
     }
     
 
