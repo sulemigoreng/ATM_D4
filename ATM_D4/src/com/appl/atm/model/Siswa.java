@@ -12,6 +12,8 @@ package com.appl.atm.model;
 public class Siswa extends Customer {
     private static double MAX_WITHDRAWAL = 20;
     private static double MAX_TRANSFER = 200;
+    private double maxWithdrawal;
+    private double maxTransfer;
     
     public Siswa(int theAccountNumber, int thePIN, double theAvailableBalance, double theTotalBalance) {
         super(theAccountNumber, thePIN, theAvailableBalance, theTotalBalance);
@@ -31,4 +33,21 @@ public class Siswa extends Customer {
     public boolean isSiswa(){
         return true;
     }
+    
+    public double getmaxWithdrawal(){
+        return maxWithdrawal;
+    }
+    
+    public double getmaxTranser(){
+        return maxTransfer;
+    }
+    
+    public void setmaxTransfer(double maxTransfer){
+        this.maxTransfer = maxTransfer;
+    }
+    
+    public void setmaxWithdrawal(double maxWithdrawal){
+        this.maxWithdrawal = maxWithdrawal;
+    }
+    
 }
