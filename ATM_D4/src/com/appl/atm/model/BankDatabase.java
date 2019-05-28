@@ -15,13 +15,10 @@ import java.util.HashMap;
 public class BankDatabase {
     
     private ArrayList<IAccount> accounts; // array of Accounts
-    private ArrayList<Customer> blockedAccount;
     private HashMap<Customer, Double> envelopeList;
 
     public BankDatabase() {
         accounts = new ArrayList<IAccount>();
-        blockedAccount = new ArrayList<Customer>();
-        
         accounts.add(new Admin(1, 3333));
 	accounts.add(new MasaDepan(1234, 4321, 1000.0, 1200.0));
 	accounts.add(new MasaDepan(8765, 5678, 200.0, 200.0));
@@ -67,7 +64,7 @@ public class BankDatabase {
         }
         return null; // if no matching account was found, return null
     }
-    
+
     public int authenticateUser(int userAccountNumber, int userPIN) {
     IAccount userAccount = getAccount(userAccountNumber);
 
@@ -110,29 +107,5 @@ public class BankDatabase {
         }
         return false;
     }
-    
-    public void addBlockedAccount(Customer blockedCustomer){
-        blockedAccount.add(blockedCustomer);
-    }
-    
-    public void removeBlockedAccount(int unblockIndex){
-        blockedAccount.remove(unblockIndex);
-    }
-    public boolean isUserBlocked(int accountNumber){
-        for (int i = 0; i < blockedAccount.size(); i++) {
-            if (blockedAccount.get(i).getAccountNumber() == accountNumber) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    public int getAccountIndex(int accountNumber){
-        for (int i = 0; i < blockedAccount.size(); i++) {
-            if (blockedAccount.get(i).getAccountNumber() == accountNumber) {
-                return i;
-            }
-        }
-        return -1;
-    }
+
 }

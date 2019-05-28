@@ -14,7 +14,7 @@ import com.appl.atm.model.DepositSlot;
 import com.appl.atm.model.MasaDepan;
 import com.appl.atm.model.Siswa;
 import com.appl.atm.model.Transaction;
-import com.appl.atm.view.AdminViewController;
+import com.appl.atm.view.AddAccountViewController;
 import com.appl.atm.view.DepositViewControler;
 import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
@@ -52,7 +52,7 @@ public class AdminController {
     }
     
     public void addAccount(int accountType) {
-        AdminViewController view = new AdminViewController();
+        AddAccountViewController view = new AddAccountViewController();
         
         int accountNumber = 0;
         boolean isUnique = false;
@@ -88,26 +88,5 @@ public class AdminController {
                 break;
             }
         }
-    }
-    
-    public void blockAccount(int accountNumber){
-        Customer blockedCustomer = bankDatabase.getCustomer(accountNumber);
-        if(blockedCustomer != null){
-            bankDatabase.addBlockedAccount(blockedCustomer);
-        } else {
-            AdminViewController view = new AdminViewController();
-            view.displayUserDoesntExist();
-        }
-    }
-    
-    public void unblockAccount(int accountNumber){
-       int unblockIndex = bankDatabase.getAccountIndex(accountNumber);
-        if(unblockIndex == -1){
-            AdminViewController view = new AdminViewController();
-            view.displayUserDoesntExist();
-        }else{
-            bankDatabase.removeBlockedAccount(unblockIndex);
-        }
-        
     }
 }
