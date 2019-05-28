@@ -27,13 +27,13 @@ public class View {
         return Amount;
     }
     
-    public void displayMaxOneTimeLimitV(int limit){
+    public void displayMaxOneTimeLimitV(double limit){
         screen.displayMessage("\nThe maximum limit for 1x transfer is ");
         screen.displayDollarAmount(limit);
     }
     
     public void displayNotEnoughSaldo(){
-        screen.displayMessage("\nSaldo ga cukup."); //tolong ganti pake bahasa inggris
+        screen.displayMessage("\nThe balance is not sufficient.");
     }
     
   public void displayMaxOneDayLimitV(double limit){
@@ -67,8 +67,8 @@ public class View {
       screen.displayMessage("Canceling Transfer...");
   }
   
-  public void displayNotConsumer(){
-      screen.displayMessage("Your are not consumer (alert)"); //perbaiki kalimatna hehe
+  public void displayNotCustomer(){
+      screen.displayMessage("Only Customer allowed."); //perbaiki kalimatna hehe
   }
   
   public void displayAccountNotFound(){
@@ -79,7 +79,17 @@ public class View {
       screen.displayMessageLine("Please enter Y/N.");
   }
   
-    
+  public void displaySiswaCantTransfer(){
+      screen.displayMessageLine("Siswa cannot transfer.");
+  }
+  
+  public void displayCantTransferToOwnAccount(){
+      screen.displayMessageLine("You cant transfer to your own account.");
+  }
+  
+  public void displayExceedsOneTimeTransfer(){
+      screen.displayMessageLine("The Amount of money is exceeding one time transfer limit.");
+  }
 }
     
 

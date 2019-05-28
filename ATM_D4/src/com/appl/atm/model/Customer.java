@@ -6,6 +6,7 @@
 package com.appl.atm.model;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  *
@@ -19,6 +20,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    private int tryCount;
    private ArrayList<Integer> pinLog;
    private double dailyWithdrawal[];
+   private TreeSet<Invoice> invoiceList;
 
    // Account constructor initializes attributes
    public Customer (int theAccountNumber, int thePIN, 
@@ -32,6 +34,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       tryCount = 0;
       dailyWithdrawal = new double[31];
       setPin(thePIN);
+      invoiceList = new TreeSet<Invoice>();
    }
 
    public Customer (int theAccountNumber, double theBalance) {
@@ -42,6 +45,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       totalBalance = theBalance;
       tryCount = 0;
       dailyWithdrawal = new double[31];
+      invoiceList = new TreeSet<Invoice>();
    }
    
    // returns available balance
@@ -136,5 +140,42 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
     public void debit(double amount) {
       availableBalance -= amount;
       totalBalance -= amount;
+    }
+    
+    public boolean isSiswa(){
+        return false;
+    }
+    
+    public boolean isBisnis(){
+        return false;
+    }
+    
+    public boolean isMasaDepan(){
+        return false;
+    }
+
+    public void addInvoice(int id, int applicant, double amount, String description) {
+      invoiceList.add(new Invoice(id, description, amount, applicant));
+    }
+
+    public void deleteInvoice(int id) {
+      for (Invoice payment : invoiceList) {
+         if (payment.getID() == id) {
+            invoiceList.remove(payment);
+         }
+      }
+    }
+
+    public TreeSet<Invoice> getInvoiceList() {
+       return invoiceList;
+    }
+
+    public Invoice getInvoce(int id) {
+      for (Invoice invoice : invoiceList) {
+         if (invoice.getID() == id) {
+            return invoice;
+         }
+      }
+      return null;
     }
 }

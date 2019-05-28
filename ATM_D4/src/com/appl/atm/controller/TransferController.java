@@ -17,7 +17,6 @@ import com.appl.atm.view.Screen;
 
 public class TransferController extends TransactionController{
     private Transfer transaction;
-    private TransferViewController viewC;
     
     
     public TransferController (Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
@@ -27,7 +26,47 @@ public class TransferController extends TransactionController{
 
     @Override
     public int run() {
-        transaction.execute();
+        TransferViewController screen = new TransferViewController();
+        if(transaction.execute()!=IS_SISWA||transaction.execute()!=NOT_A_CUSTOMER){
+            transaction.setAccountTransferred(screen.processInputRecipientV());
+            if(transaction.execute()==ACCOUNT_NOT_FOUND){
+                screen.processDisplayAccountNotFound();
+                return 0;
+            }
+            if(transaction.execute()==SAME_ACCOUNT){
+                screen.processDeclineTransferOwnAccount();
+                return 0;
+            }
+            else{
+                screen.processDisplayMaxOneTimeLimitV(transaction.getMaxT());
+                transaction.setAmount(screen.processInputTheAmountV());
+                switch(transaction.execute()){
+                    case TRANSFER_CANCELED:
+                        screen.processCanceled();
+                        break;
+                    case NOT_ENOUGH_SALDO:
+                        screen.processDisplayNotEnoughSaldo();
+                        break;
+                    case TRANSFER_SUCCESS:
+                        screen.processDisplayTransfered();
+                        break;
+                    case EXCEED_ONE_TIME_TRANSFER_BISNIS:
+                        screen.processExceedsLimit();
+                        break;
+                    case EXCEED_ONE_TIME_TRANSFER_MASA_DEPAN:
+                        screen.processExceedsLimit();
+                        break;
+                }
+            }
+        }
+        else{
+            if(transaction.execute()!=IS_SISWA){
+                screen.processDeclineSiswa();
+            }
+            else{
+                screen.processDisplayAccountNotCustomer();
+            }
+        }
         return 0;
     }
 }
