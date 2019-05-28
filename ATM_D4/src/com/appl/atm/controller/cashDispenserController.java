@@ -23,6 +23,11 @@ public class cashDispenserController{
     
       
     }
+
+    cashDispenserController() {
+       
+    }
+
     
     public int run(){
        
@@ -42,11 +47,11 @@ public class cashDispenserController{
         }
         return 0;
     }
-    private int getAmount(){
-        int amount;
-        System.out.println("masukan jumlah uang untu ditambahkan ke cash dispenser");
-        keypad = new Keypad();
-        amount = keypad.getInput();
+    public int getAmount(){
+      int amount;
+      System.out.println("masukan jumlah uang untu ditambahkan ke cash dispenser");
+      keypad = new Keypad();
+      amount = keypad.getInput();
         return amount;
     }
 }
