@@ -19,6 +19,7 @@ import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
 import static com.appl.atm.model.Constants.*;
 import com.appl.atm.model.GiveInvoice;
+import com.appl.atm.controller.DateController;
 
 /**
  *
@@ -33,6 +34,7 @@ public class ATM {
     private DepositSlot depositSlot;
     private Deposit deposit;
     private BankDatabase bankDatabase; // account information database
+    private DateController dateController;
 //    private Admin theAdmin;
 
 
@@ -44,6 +46,7 @@ public class ATM {
 	cashDispenser = new CashDispenser();
 	depositSlot = new DepositSlot();
 	bankDatabase = new BankDatabase();
+        dateController = new DateController(bankDatabase);
 //        theAdmin = new Admin(0000, 0000);
     }
 
@@ -121,6 +124,9 @@ public class ATM {
                         currentTransaction = createAdminTransaction(mainMenuSelection);
                         currentTransactionController = new GiveInvoiceController(currentTransaction, keypad, screen);
                         currentTransactionController.run();
+                        break;
+                    case DATE_CHANGED :
+                        dateController.changeDate();
                         break;
                     case EXIT_ADMIN :
                         screen.displayMessageLine("\nExiting the system...");
@@ -216,7 +222,8 @@ public class ATM {
 */
     // display the main menu and return an input selection
     private int displayMainMenu() {
-	screen.displayMessageLine("\nMain menu:");
+        dateController.showDate();
+	screen.displayMessageLine("Main menu:");
 	screen.displayMessageLine("1 - View my balance");
 	screen.displayMessageLine("2 - Withdraw cash");
     screen.displayMessageLine("3 - Deposit funds");
@@ -229,10 +236,12 @@ public class ATM {
     
     // display the Admin main menu and return an input selection
     private int displayAdminMainMenu() {
-    screen.displayMessageLine("\nAdmin Main menu:");
+        dateController.showDate();
+    screen.displayMessageLine("Admin Main menu:");
     screen.displayMessageLine("1 - Confirm deposit");
 	screen.displayMessageLine("2 - Give Payment Invoice To Customer");
-	screen.displayMessageLine("3 - Exit\n");
+	screen.displayMessageLine("3 - Change The Date");
+	screen.displayMessageLine("4 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
 	return keypad.getInput(); // return user's selection
     }

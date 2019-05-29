@@ -43,7 +43,12 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       totalBalance = theTotalBalance;
       tryCount = 0;
       setPin(thePIN);
-      invoiceList = new TreeSet<Invoice>();
+      invoiceList = new TreeSet<Invoice>(new Comparator<Invoice>() {
+			@Override
+			public int compare(Invoice o1, Invoice o2) {
+				return o1.getID() - o2.getID();
+			}
+	  });
       Comparator<Pair<Calendar, Double>> calendarComparator = new Comparator<Pair<Calendar, Double>>(){
           @Override
           public int compare(Pair<Calendar, Double> t, Pair<Calendar, Double> t1) {
@@ -54,7 +59,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       withdrawalLog = new TreeSet<Pair<Calendar, Double>>(calendarComparator);
       transferLog = new TreeSet<Pair<Calendar, Double>>(calendarComparator);
    }
-
+   
    public Customer (int theAccountNumber, double theBalance) {
       pinLog = new ArrayList<Integer>();
       accountNumber = theAccountNumber;
@@ -163,9 +168,9 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
         return false;
     }
 
-    public void addInvoice(int id, int applicant, double amount, String description) {
-      invoiceList.add(new Invoice(id, description, amount, applicant));
-    }
+	public boolean addInvoice(int id, int applicant, double amount, String description) {
+    	return invoiceList.add(new Invoice(id, description, amount, applicant));
+	}
 
     public void deleteInvoice(int id) {
       for (Invoice payment : invoiceList) {
@@ -188,24 +193,24 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       return null;
     }
     
-	public boolean insertWithdrawalLog(Calendar calendar, double amount){
+    public boolean insertWithdrawalLog(Calendar calendar, double amount){
     	if (amount + getSameDayTransactionAmount(ETransactionKind.WITHDRAWAL, calendar) > getDailyWithdrawalLimit()) {
             return false;
         }
         withdrawalLog.add(new Pair(calendar, amount));       
-            return true;
-	}
+        return true;
+    }
     
     public boolean insertTransferLog(Calendar calendar, double amount){
-    	if (amount + getSameDayTransactionAmount(ETransactionKind.WITHDRAWAL, calendar) > getDailyTransferLimit()) {
+    	if (amount + getSameDayTransactionAmount(ETransactionKind.TRANSFER, calendar) > getDailyTransferLimit()) {
             return false;
 	}
-	withdrawalLog.add(new Pair(calendar, amount));
-        return true;
+	return transferLog.add(new Pair(calendar, amount));
+//        return true;
     }
 
 	public double getSameDayTransactionAmount(ETransactionKind transactionKind, Calendar findDate) {
-		double amount = 0;
+            double amount = 0.0;
 
 		int findYear = findDate.get(Calendar.YEAR);
 		int findDayOfYear = findDate.get(Calendar.DAY_OF_YEAR);
@@ -214,31 +219,34 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
 		
 		Iterator<Pair<Calendar, Double>> itLog;
 		switch (transactionKind) {
-			case WITHDRAWAL:
-				itLog = withdrawalLog.descendingIterator();		
+                    case WITHDRAWAL:
+                        itLog = withdrawalLog.descendingIterator();		
+                    break;
+                    case TRANSFER:
+                        itLog = transferLog.descendingIterator();
 			break;
-			case TRANSFER:
-				itLog = transferLog.descendingIterator();
-				break;
-			default:
-				// undefined behaviour
-				return 0.0;
+                    default:
+                    // undefined behaviour
+                    return 0.0;
 		}
-
+                
 		while (itLog.hasNext()) {
-			currentLog = itLog.next();
-			if (currentLog.getKey().get(Calendar.YEAR) > findYear) {
-				continue;
-			}
-			break;
+                    currentLog = itLog.next(); 
+                    if (currentLog.getKey().get(Calendar.YEAR) > findYear) {
+                        continue;
+                    } do {
+                        if (currentLog.getKey().get(Calendar.DAY_OF_YEAR) < findDayOfYear) {
+                            break;
+                        }
+                        amount += currentLog.getValue();
+                        if (itLog.hasNext()) {
+                            currentLog = itLog.next();                            
+                            continue;
+                        }
+                        break;
+                    } while (true);
+                    break;
 		}
-		
-		do {
-			if (currentLog.getKey().get(Calendar.DAY_OF_YEAR) < findDayOfYear) {
-				break;
-			}
-			amount += currentLog.getValue();
-		} while (true);
 		
 		return amount;
 	}

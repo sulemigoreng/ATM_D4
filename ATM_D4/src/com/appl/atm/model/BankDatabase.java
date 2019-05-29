@@ -5,6 +5,7 @@
  */
 package com.appl.atm.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ public class BankDatabase {
     private ArrayList<IAccount> accounts; // array of Accounts
     private HashMap<Customer, Double> envelopeList;
     private Calendar calendar;
+    private long startMillisecond;
     
     public BankDatabase() {
         accounts = new ArrayList<IAccount>();
@@ -33,6 +35,7 @@ public class BankDatabase {
 
         envelopeList = new HashMap<Customer, Double>();
         calendar = new GregorianCalendar();
+        startMillisecond = System.currentTimeMillis();
     }
     
     public IAccount getAccount(int accountNumber) {
@@ -90,10 +93,30 @@ public class BankDatabase {
     }
     
     public Calendar getDate(){
+        refreshDate();
         return (Calendar)calendar.clone();
     }
     
     public void addDate(){
+        refreshDate();
         calendar.add(Calendar.DATE, 1);
+    }
+    
+    public void refreshDate() {
+        try {
+            Thread.sleep(1);
+
+            long endMillisecond = startMillisecond;
+            startMillisecond = System.currentTimeMillis();
+
+            calendar.setTimeInMillis(calendar.getTimeInMillis() + (startMillisecond - endMillisecond));                    
+        } catch(Exception e) {
+            
+        }
+    }
+    
+    public String showDate() {
+        SimpleDateFormat currentFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return currentFormat.format(calendar.getTime());
     }
 }
