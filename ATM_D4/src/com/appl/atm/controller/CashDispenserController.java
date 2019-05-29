@@ -17,31 +17,31 @@ public class CashDispenserController extends TransactionController {
     private final static int CANCELED = 0;
     private Keypad keypad;
     private CashDispenser cashDispenser;
-    
+
     public CashDispenserController(CashDispenser cashDispenser, Keypad keypad,
             Screen screen) {
         super(keypad, screen);
-        
+
         this.cashDispenser = cashDispenser;
     }
-    
+
     public int run(){
-       
+
         boolean end = false;
         keypad = getKeypad();
         while(!end){
            int amount;
             System.out.println("masukan jumlah uang untuk ditambahkan ke cash dispenser");
-            
+
             amount = keypad.getInput();
             if(amount==CANCELED){ //if amount =0, cancelled
-              
+
                 end=true;
             } else {
                 if(amount>0){
                     cashDispenser.AddCashDispenser(amount);
                     end=true;
-                }  
+                }
             }
         }
         return 0;

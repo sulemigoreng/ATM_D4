@@ -25,9 +25,9 @@ import static org.junit.Assert.*;
  *
  * @author ASUS
  */
-public class cashDispenserControllerTest {
+public class CashDispenserControllerTest {
     
-    public cashDispenserControllerTest() {
+    public CashDispenserControllerTest() {
     }
     
     @BeforeClass
@@ -51,14 +51,19 @@ public class cashDispenserControllerTest {
      */
     
     @Test
-        public void getAmountShouldReturnAsItsInput() {
+        public void runTest() {
        Scanner scanner = new Scanner(System.in);
-       int input=5;
-       ByteArrayInputStream in = new ByteArrayInputStream("5".getBytes());
-       System.setIn(in);
-       cashDispenserController test=new cashDispenserController();
+//       int input = 5;
+//       ByteArrayInputStream in = new ByteArrayInputStream("5".getBytes());
+//       System.setIn(in);
+       CashDispenser cashDispenser = new CashDispenser();
+       Keypad keypad = new Keypad();
+       Screen screen = new Screen();
+      
+       CashDispenserController test = new CashDispenserController(cashDispenser,
+            keypad, screen);
         // assert statements
-        assertEquals(in,test.getAmount());
+        assertEquals(0, test.run());
     }
 }
     

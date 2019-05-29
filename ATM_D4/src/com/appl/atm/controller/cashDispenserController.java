@@ -25,11 +25,6 @@ public class CashDispenserController extends TransactionController {
         this.cashDispenser = cashDispenser;
     }
 
-    cashDispenserController() {
-
-    }
-
-
     public int run(){
 
         boolean end = false;
