@@ -19,6 +19,7 @@ import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
 import static com.appl.atm.model.Constants.*;
 import com.appl.atm.model.GiveInvoice;
+import com.appl.atm.controller.DateController;
 
 /**
  *
@@ -33,6 +34,7 @@ public class ATM {
     private DepositSlot depositSlot;
     private Deposit deposit;
     private BankDatabase bankDatabase; // account information database
+    private DateController dateController;
 //    private Admin theAdmin;
 
 
@@ -44,6 +46,7 @@ public class ATM {
 	cashDispenser = new CashDispenser();
 	depositSlot = new DepositSlot();
 	bankDatabase = new BankDatabase();
+        dateController = new DateController(bankDatabase);
 //        theAdmin = new Admin(0000, 0000);
     }
 
@@ -169,6 +172,9 @@ public class ATM {
                         currentTransactionController.run();
                         break;
 
+                    case DATE_CHANGED :
+                        dateController.changeDate();
+                        break;
                     case EXIT_ADMIN :
                         screen.displayMessageLine("\nExiting the system...");
                         userExited = true; // this ATM session should end
@@ -326,7 +332,8 @@ public class ATM {
         screen.displayMessageLine("5 - Unblock Account");
         screen.displayMessageLine("6 - Add cash dispenser");
         screen.displayMessageLine("7 - Check cash dispenser");
-        screen.displayMessageLine("8 - Exit\n");
+        screen.displayMessageLine("8 - Change The Date");
+        screen.displayMessageLine("9 - Exit\n");
 	      screen.displayMessage("Enter a choice: ");
 	      return keypad.getInput(); // return user's selection
     }

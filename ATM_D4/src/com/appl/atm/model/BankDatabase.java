@@ -5,8 +5,12 @@
  */
 package com.appl.atm.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Date;
 
 /**
  *
@@ -17,7 +21,9 @@ public class BankDatabase {
     private ArrayList<IAccount> accounts; // array of Accounts
     private ArrayList<Customer> blockedAccount;
     private HashMap<Customer, Double> envelopeList;
-
+    private Calendar calendar;
+    private long startMillisecond;
+    
     public BankDatabase() {
         accounts = new ArrayList<IAccount>();
         blockedAccount = new ArrayList<Customer>();
@@ -31,6 +37,8 @@ public class BankDatabase {
         accounts.add(new Bisnis(4000, 4000, 1000, 1200)); //Asuransi
 
         envelopeList = new HashMap<Customer, Double>();
+        calendar = new GregorianCalendar();
+        startMillisecond = System.currentTimeMillis();
     }
     
     public void addAccount(Siswa newSiswa){
@@ -134,5 +142,33 @@ public class BankDatabase {
             }
         }
         return -1;
+    }
+    
+    public Calendar getDate(){
+        refreshDate();
+        return (Calendar)calendar.clone();
+    }
+    
+    public void addDate(){
+        refreshDate();
+        calendar.add(Calendar.DATE, 1);
+    }
+    
+    public void refreshDate() {
+        try {
+            Thread.sleep(1);
+
+            long endMillisecond = startMillisecond;
+            startMillisecond = System.currentTimeMillis();
+
+            calendar.setTimeInMillis(calendar.getTimeInMillis() + (startMillisecond - endMillisecond));                    
+        } catch(Exception e) {
+            
+        }
+    }
+    
+    public String showDate() {
+        SimpleDateFormat currentFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return currentFormat.format(calendar.getTime());
     }
 }

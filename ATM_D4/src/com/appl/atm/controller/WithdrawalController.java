@@ -48,7 +48,7 @@ public class WithdrawalController extends TransactionController {
 	    } else if (res == CASHDISPENSER_NOT_ENOUGH) {
 		WVC.cashdispenserNotEnough();
 	    } else if (res == REACHED_MAX_WITHDRAWAL) {
-                WVC.maxWithdrawal(customer.getMaxWithdrawal());
+                WVC.maxWithdrawal(transaction.getBankDatabase().getCustomer(transaction.getAccountNumber()).getDailyWithdrawalLimit());
             }
 	}
 

@@ -28,7 +28,8 @@ public final class Constants {
     public static final int UNBLOCK_ACCOUNT = 5;
     public static final int ADD_DISPENSER = 6;
     public static final int CHECK_DISPENSER = 7;
-    public static final int EXIT_ADMIN = 8;
+    public static final int DATE_CHANGED = 8;
+    public static final int EXIT_ADMIN = 9;
 
     //admin add account
     public static final int ADD_BISNIS = 1;

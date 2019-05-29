@@ -27,21 +27,20 @@ public class Withdrawal extends Transaction {
 
     @Override
     public int execute() {
-	Customer account = getBankDatabase().getCustomer(getAccountNumber());
-        if(account.isSiswa() || account.isBisnis() || account.isMasaDepan()) {
-            if(amount > account.getMaxWithdrawal()) {
-                return REACHED_MAX_WITHDRAWAL;
-            }
-        }
+    Customer account = getBankDatabase().getCustomer(getAccountNumber());
         
 	if (account.getAvailableBalance() < amount || account.getAvailableBalance()-amount < 10) {
 	    return BALANCE_NOT_ENOUGH;
 	}
 
 	if (cashDispenser.isSufficientCashAvailable(amount)) {
-	    cashDispenser.dispenseCash(amount);
-	    account.debit(amount);
-	    return WITHDRAW_SUCCESSFUL;
+        if (account.insertWithdrawalLog(getBankDatabase().getDate(), amount)) {
+            cashDispenser.dispenseCash(amount);
+            account.debit(amount);    
+            return WITHDRAW_SUCCESSFUL;
+        } else {
+            return REACHED_MAX_WITHDRAWAL;
+        }
 	} else {
 	    return CASHDISPENSER_NOT_ENOUGH;
 	}

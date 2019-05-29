@@ -14,7 +14,6 @@ import static com.appl.atm.model.Constants.*;
 public class Transfer extends Transaction{
     private double amount;
     private int accountTransfered;
-    private double max_transfer;
 
     public Transfer(int userAccountNumber, BankDatabase atmBankDatabase) {
         super(userAccountNumber, atmBankDatabase);
@@ -23,9 +22,8 @@ public class Transfer extends Transaction{
     @Override
     public int execute() {
         Customer account = getBankDatabase().getCustomer(getAccountNumber());
-        max_transfer = account.getMaxTransfer();
         
-        if(account.getMaxTransfer()==0){
+        if(account.isSiswa()) {
             return IS_SISWA;
         }
         
@@ -48,7 +46,7 @@ public class Transfer extends Transaction{
                 return TRANSFER_CANCELED;
             }
             else{
-                if(account.getMaxTransfer() >= amount){
+                if(account.insertTransferLog(getBankDatabase().getDate(), amount)){
                     //accountTransfered = screen.processInputRecipientV();
                     
                         Customer accountTransfer = getBankDatabase().getCustomer(accountTransfered);
@@ -61,10 +59,10 @@ public class Transfer extends Transaction{
                 }
                 else{
                     //screen.precessDisplayMaxOneDayLimitV(account.getMaxTransfer()); //ini bener ga?
-                    if(account.getMaxTransfer()==EXCEED_ONE_TIME_TRANSFER_BISNIS){
+                    if (account.isBisnis()) {
                         return EXCEED_ONE_TIME_TRANSFER_BISNIS;
                     }
-                    if(account.getMaxTransfer()==EXCEED_ONE_TIME_TRANSFER_MASA_DEPAN){
+                    if (account.isMasaDepan()) {
                         return EXCEED_ONE_TIME_TRANSFER_MASA_DEPAN;
                     }
                 }
@@ -86,7 +84,7 @@ public class Transfer extends Transaction{
     }
     
     public double getMaxT(){
-        return this.max_transfer;
+        return getBankDatabase().getCustomer(getAccountNumber()).getDailyTransferLimit();
     }
     
     public int getAccountTransferred(){

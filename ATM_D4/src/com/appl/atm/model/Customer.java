@@ -7,6 +7,11 @@ package com.appl.atm.model;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
+import java.util.Calendar;
+import javafx.util.Pair;
+import java.util.Comparator;
+import java.util.Iterator;
+
 /**
  *
  * @author Rayhan Azka  <rayhan.azka.tif418@polban.ac.id>
@@ -18,9 +23,15 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    private double totalBalance; // funds available & pending deposits
    private int tryCount;
    private ArrayList<Integer> pinLog;
-   private double dailyWithdrawal[];
-   private ArrayList<String> transaksiLog;
    private TreeSet<Invoice> invoiceList;
+   private TreeSet<Pair<Calendar, Double>> withdrawalLog;
+   private TreeSet<Pair<Calendar, Double>> transferLog;
+   private ArrayList<String> transaksiLog;
+
+	enum ETransactionKind {
+		WITHDRAWAL,
+		TRANSFER
+	}
 
    // Account constructor initializes attributes
    public Customer (int theAccountNumber, int thePIN, 
@@ -33,11 +44,24 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       availableBalance = theAvailableBalance;
       totalBalance = theTotalBalance;
       tryCount = 0;
-      dailyWithdrawal = new double[31];
       setPin(thePIN);
-      invoiceList = new TreeSet<Invoice>();
+      invoiceList = new TreeSet<Invoice>(new Comparator<Invoice>() {
+			@Override
+			public int compare(Invoice o1, Invoice o2) {
+				return o1.getID() - o2.getID();
+			}
+	  });
+      Comparator<Pair<Calendar, Double>> calendarComparator = new Comparator<Pair<Calendar, Double>>(){
+          @Override
+          public int compare(Pair<Calendar, Double> t, Pair<Calendar, Double> t1) {
+              return t.getKey().compareTo(t1.getKey());
+          }
+          
+      };
+      withdrawalLog = new TreeSet<Pair<Calendar, Double>>(calendarComparator);
+      transferLog = new TreeSet<Pair<Calendar, Double>>(calendarComparator);
    }
-
+   
    public Customer (int theAccountNumber, double theBalance) {
       pinLog = new ArrayList<Integer>();
       transaksiLog = new ArrayList<String>();
@@ -46,7 +70,6 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       availableBalance = theBalance;
       totalBalance = theBalance;
       tryCount = 0;
-      dailyWithdrawal = new double[31];
       invoiceList = new TreeSet<Invoice>();
    }
    
@@ -106,14 +129,6 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       this.tryCount = tryCount;
    }
    
-   public double[] getDailyWithdrawal() {
-      return dailyWithdrawal;
-   }
-
-   public void setDailyWithdrawal(double[] dailyWithdrawal) {
-      this.dailyWithdrawal = dailyWithdrawal;
-   }
-   
    public boolean isBlocked () {
        return (tryCount >= 3);
    }
@@ -132,8 +147,8 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
        return true;
     }
     
-    public abstract double getMaxWithdrawal();
-    public abstract double getMaxTransfer();
+    public abstract double getDailyWithdrawalLimit();
+    public abstract double getDailyTransferLimit();
 
     public void credit(double amount) {
       try{
@@ -159,10 +174,10 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
     public boolean isMasaDepan(){
         return false;
     }
-    
-    public void addInvoice(int id, int applicant, double amount, String description) {
-      invoiceList.add(new Invoice(id, description, amount, applicant));
-    }
+
+	public boolean addInvoice(int id, int applicant, double amount, String description) {
+    	return invoiceList.add(new Invoice(id, description, amount, applicant));
+	}
 
     public void deleteInvoice(int id) {
       for (Invoice payment : invoiceList) {
@@ -184,4 +199,62 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       }
       return null;
     }
+    
+    public boolean insertWithdrawalLog(Calendar calendar, double amount){
+    	if (amount + getSameDayTransactionAmount(ETransactionKind.WITHDRAWAL, calendar) > getDailyWithdrawalLimit()) {
+            return false;
+        }
+        withdrawalLog.add(new Pair(calendar, amount));       
+        return true;
+    }
+    
+    public boolean insertTransferLog(Calendar calendar, double amount){
+    	if (amount + getSameDayTransactionAmount(ETransactionKind.TRANSFER, calendar) > getDailyTransferLimit()) {
+            return false;
+	}
+	return transferLog.add(new Pair(calendar, amount));
+//        return true;
+    }
+
+	public double getSameDayTransactionAmount(ETransactionKind transactionKind, Calendar findDate) {
+            double amount = 0.0;
+
+		int findYear = findDate.get(Calendar.YEAR);
+		int findDayOfYear = findDate.get(Calendar.DAY_OF_YEAR);
+		
+		Pair<Calendar, Double> currentLog = null;
+		
+		Iterator<Pair<Calendar, Double>> itLog;
+		switch (transactionKind) {
+                    case WITHDRAWAL:
+                        itLog = withdrawalLog.descendingIterator();		
+                    break;
+                    case TRANSFER:
+                        itLog = transferLog.descendingIterator();
+			break;
+                    default:
+                    // undefined behaviour
+                    return 0.0;
+		}
+                
+		while (itLog.hasNext()) {
+                    currentLog = itLog.next(); 
+                    if (currentLog.getKey().get(Calendar.YEAR) > findYear) {
+                        continue;
+                    } do {
+                        if (currentLog.getKey().get(Calendar.DAY_OF_YEAR) < findDayOfYear) {
+                            break;
+                        }
+                        amount += currentLog.getValue();
+                        if (itLog.hasNext()) {
+                            currentLog = itLog.next();                            
+                            continue;
+                        }
+                        break;
+                    } while (true);
+                    break;
+		}
+		
+		return amount;
+	}
 }
