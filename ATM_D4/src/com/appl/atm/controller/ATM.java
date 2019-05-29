@@ -11,12 +11,14 @@ import com.appl.atm.model.BankDatabase;
 import com.appl.atm.model.CashDispenser;
 import com.appl.atm.model.Deposit;
 import com.appl.atm.model.DepositSlot;
+import com.appl.atm.model.Payment;
 import com.appl.atm.model.Transaction;
 import com.appl.atm.model.Withdrawal;
 import com.appl.atm.model.Transfer;
 import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
 import static com.appl.atm.model.Constants.*;
+import com.appl.atm.model.GiveInvoice;
 
 /**
  *
@@ -31,7 +33,7 @@ public class ATM {
     private DepositSlot depositSlot;
     private Deposit deposit;
     private BankDatabase bankDatabase; // account information database
-    private Admin theAdmin;
+//    private Admin theAdmin;
 
 
     public ATM() {
@@ -42,7 +44,7 @@ public class ATM {
 	cashDispenser = new CashDispenser();
 	depositSlot = new DepositSlot();
 	bankDatabase = new BankDatabase();
-        theAdmin = new Admin(0000, 0000);
+//        theAdmin = new Admin(0000, 0000);
     }
 
     // start ATM 
@@ -105,7 +107,7 @@ public class ATM {
 	TransactionController currentTransactionController = null;
 
 	boolean userExited = false; // user has not chosen to exit
-
+    	int mainMenuSelection;
 	// loop while user has not chosen option to exit system
 	while (!userExited) {
 	    // show main menu and get user selection
@@ -216,7 +218,7 @@ public class ATM {
             }
 		}
     }
-    
+/*
     private void adminMode() {
         boolean adminExited = false;
         AdminController transactionController = null;
@@ -245,7 +247,7 @@ public class ATM {
             }
         }
     }
-
+*/
     // display the main menu and return an input selection
     private int displayMainMenu() {
 	screen.displayMessageLine("\nMain menu:");
@@ -263,7 +265,7 @@ public class ATM {
     private int displayAdminMainMenu() {
         screen.displayMessageLine("\nAdmin Main menu:");
         screen.displayMessageLine("1 - Confirm deposit");
-	    screen.displayMessageLine("2 - Give Payment Invoice To Customer");
+	screen.displayMessageLine("2 - Give Payment Invoice To Customer");
         screen.displayMessageLine("3 - Add Account");
         screen.displayMessageLine("4 - Block Account");
         screen.displayMessageLine("5 - Unblock Account");
@@ -281,7 +283,7 @@ public class ATM {
 	screen.displayMessage("Enter a choice: ");
 	return keypad.getInput(); // return user's selection
     }
-
+    
     private Transaction createTransaction(int type) {
 	Transaction temp = null;
 
@@ -303,7 +305,11 @@ public class ATM {
 		temp = new Transfer(
 			currentAccountNumber, bankDatabase);
 		break;
-	}
+        case PAYMENT:
+        temp = new Payment(
+            currentAccountNumber, bankDatabase);
+        break;
+    }
 
 	return temp;
     }

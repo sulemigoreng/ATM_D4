@@ -10,8 +10,6 @@ import com.appl.atm.model.Customer;
 import java.util.HashMap;
 import java.util.Map;
 
-import java.util.HashMap;
-
 /**
  *
  * @author Annazar
@@ -35,7 +33,7 @@ public class DepositSlot {
             return true;
         }
     }
-
+    
     public boolean deleteList(HashMap<Customer, Double> envelopes, Customer theCustomer,
             BankDatabase theBankDatabase){
         if(envelopes.containsKey(theCustomer)){

@@ -17,7 +17,6 @@ public class Deposit extends Transaction {
 
     private double amount; // amount to deposit
     private DepositSlot depositSlot; // reference to deposit slot
-    private HashMap<Customer, Integer> envelopeList;
 
     // Deposit constructor
     public Deposit(int userAccountNumber, BankDatabase atmBankDatabase,
@@ -26,7 +25,6 @@ public class Deposit extends Transaction {
 	// initialize superclass variables
 	super(userAccountNumber, atmBankDatabase);
 	depositSlot = atmDepositSlot;
-        envelopeList = new HashMap<Customer, Integer>();
     }
 
     @Override

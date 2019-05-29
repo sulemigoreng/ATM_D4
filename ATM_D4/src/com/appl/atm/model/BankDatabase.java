@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @author Annazar
  */
 public class BankDatabase {
-
+    
     private ArrayList<IAccount> accounts; // array of Accounts
     private ArrayList<Customer> blockedAccount;
     private HashMap<Customer, Double> envelopeList;
@@ -23,8 +23,8 @@ public class BankDatabase {
         blockedAccount = new ArrayList<Customer>();
         
         accounts.add(new Admin(1, 3333));
-	    accounts.add(new MasaDepan(1234, 4321, 1000.0, 1200.0));
-	    accounts.add(new MasaDepan(8765, 5678, 200.0, 200.0));
+	accounts.add(new MasaDepan(1234, 4321, 1000.0, 1200.0));
+	accounts.add(new MasaDepan(8765, 5678, 200.0, 200.0));
         accounts.add(new Bisnis(1000, 1000, 1000, 1200)); //PLN
         accounts.add(new Bisnis (2000, 1000, 1000, 1200));//PDAM
         accounts.add(new Bisnis(3000, 3000, 1000, 1200)); //TV/Internet berlangganan
@@ -71,7 +71,7 @@ public class BankDatabase {
     public int authenticateUser(int userAccountNumber, int userPIN) {
     IAccount userAccount = getAccount(userAccountNumber);
 
-	if(userAccount != null)
+    if(userAccount != null)
 	{
 	    if(userAccount.getPin() == userPIN)
 	    {
