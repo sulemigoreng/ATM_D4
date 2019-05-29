@@ -56,6 +56,9 @@ public class GiveInvoiceController extends TransactionController {
             screen.displayMessage("Please enter Invoice Description : ");
             description = keypad.getStr();
             customer.addInvoice(id, applicant, amount, description);
+            customer.getTransaksiLog().add("[DATE] Bill "+String.valueOf(description)+" | Invoice Id : "
+                    +String.valueOf(id)+"   From Applicant : "+String.valueOf(applicant)
+                    +"   with amount $ "+String.valueOf(amount)+"   Paid off : false");
             screen.displayMessageLine("Invoice Added Succesfully to This Customer");
         } else {
             screen.displayMessageLine("That Customer Account Number is not available");

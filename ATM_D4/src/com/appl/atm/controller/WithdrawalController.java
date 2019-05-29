@@ -6,6 +6,7 @@
 package com.appl.atm.controller;
 
 import static com.appl.atm.model.Constants.*;
+import com.appl.atm.model.Customer;
 import com.appl.atm.model.Transaction;
 import com.appl.atm.model.Withdrawal;
 import com.appl.atm.view.Keypad;
@@ -19,11 +20,15 @@ public class WithdrawalController extends TransactionController {
 
     private Withdrawal transaction;
     private WithdrawalViewController WVC;
+    private BankStatementController bankStatement;
+    private Customer customer;
 
     public WithdrawalController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
 	super(theKeypad, theScreen);
 	transaction = (Withdrawal) theTransaction;
         WVC = new WithdrawalViewController(theScreen,theKeypad);
+        customer=transaction.getBankDatabase().getCustomer(transaction.getAccountNumber());
+        bankStatement=new BankStatementController(theKeypad, theScreen, customer);
     }
 
 
@@ -37,12 +42,13 @@ public class WithdrawalController extends TransactionController {
 
 	    if (res == WITHDRAW_SUCCESSFUL) {
 		WVC.withdrawalSuccessful();
+                bankStatement.addLog(String.valueOf(customer.getAccountNumber()), amount, "Withdrawal");
 	    } else if (res == BALANCE_NOT_ENOUGH) {
 		WVC.balanceNotEnough();
 	    } else if (res == CASHDISPENSER_NOT_ENOUGH) {
 		WVC.cashdispenserNotEnough();
 	    } else if (res == REACHED_MAX_WITHDRAWAL) {
-                WVC.maxWithdrawal(transaction.getBankDatabase().getCustomer(transaction.getAccountNumber()).getMaxWithdrawal());
+                WVC.maxWithdrawal(customer.getMaxWithdrawal());
             }
 	}
 

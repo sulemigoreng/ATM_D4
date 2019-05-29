@@ -196,7 +196,13 @@ public class ATM {
                                 = new DepositController(currentTransaction, keypad, screen);
                         currentTransactionController.run(); // execute transaction
                         break;
-
+                    case TRANSFER:
+                        currentTransaction
+                                = createTransaction(mainMenuSelection);
+                        currentTransactionController
+                                = new TransferController(currentTransaction, keypad, screen);
+                        currentTransactionController.run(); // execute transaction
+                        break; 
                     case PAYMENT:
                             currentTransaction
                                     = createTransaction(mainMenuSelection);
@@ -204,7 +210,11 @@ public class ATM {
                                     = new PaymentController(currentTransaction, keypad, screen);
                             currentTransactionController.run(); // execute transaction
                             break;
-			
+                    case BANKSTATEMENT:
+                            currentTransactionController
+                                   = new BankStatementController(keypad, screen, bankDatabase.getCustomer(currentAccountNumber));
+                            currentTransactionController.run(); // execute transaction
+                            break;        
                     case EXIT: // user chose to terminate session
                         screen.displayMessageLine("\nExiting the system...");
                         userExited = true; // this ATM session should end
@@ -216,7 +226,7 @@ public class ATM {
                         break;
                 }
             }
-		}
+	}
     }
 /*
     private void adminMode() {
@@ -239,6 +249,36 @@ public class ATM {
                     screen.displayMessageLine("\nExiting the system...");
 		    adminExited = true; // this ATM session should end
 		    break;
+		    
+		case WITHDRAWAL:
+		    currentTransaction
+			    = createTransaction(mainMenuSelection);
+		    currentTransactionController
+			    = new WithdrawalController(currentTransaction, keypad, screen);
+		    currentTransactionController.run(); // execute transaction
+		    break;
+		    
+		case DEPOSIT:
+		    currentTransaction
+			    = createTransaction(mainMenuSelection);
+		    currentTransactionController
+			    = new DepositController(currentTransaction, keypad, screen);
+		    currentTransactionController.run(); // execute transaction
+		    break;
+                case BANKSTATEMENT:
+                    currentTransaction
+			    = createTransaction(mainMenuSelection);
+		   // currentTransactionController
+			//    = new //DepositController(currentTransaction, keypad, screen);
+		    //currentTransactionController.run(); // execute transaction
+		    break;
+		    
+		case EXIT: // user chose to terminate session
+		    screen.displayMessageLine("\nExiting the system...");
+		    userExited = true; // this ATM session should end
+		    break;
+		    
+		default: // 
                     
                 default: // 
 		    screen.displayMessageLine(
@@ -256,7 +296,8 @@ public class ATM {
         screen.displayMessageLine("3 - Deposit funds");
         screen.displayMessageLine("4 - Transfer");
 	screen.displayMessageLine("5 - Payment");
-	screen.displayMessageLine("6 - Exit\n");
+        screen.displayMessageLine("6 - Log Transaction");
+	screen.displayMessageLine("7 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
 	return keypad.getInput(); // return user's selection
     }
@@ -305,12 +346,11 @@ public class ATM {
 		temp = new Transfer(
 			currentAccountNumber, bankDatabase);
 		break;
-        case PAYMENT:
-        temp = new Payment(
-            currentAccountNumber, bankDatabase);
-        break;
-    }
-
+            case PAYMENT:
+            temp = new Payment(
+                currentAccountNumber, bankDatabase);
+            break;
+	}
 	return temp;
     }
 

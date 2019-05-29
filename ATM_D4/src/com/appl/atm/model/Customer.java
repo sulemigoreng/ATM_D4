@@ -7,7 +7,6 @@ package com.appl.atm.model;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
-
 /**
  *
  * @author Rayhan Azka  <rayhan.azka.tif418@polban.ac.id>
@@ -20,6 +19,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    private int tryCount;
    private ArrayList<Integer> pinLog;
    private double dailyWithdrawal[];
+   private ArrayList<String> transaksiLog;
    private TreeSet<Invoice> invoiceList;
 
    // Account constructor initializes attributes
@@ -28,6 +28,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
       pinLog = new ArrayList<Integer>();
       pinLog.add(new Integer(thePIN));
       accountNumber = theAccountNumber;
+      transaksiLog = new ArrayList<String>();
 
       availableBalance = theAvailableBalance;
       totalBalance = theTotalBalance;
@@ -39,6 +40,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
 
    public Customer (int theAccountNumber, double theBalance) {
       pinLog = new ArrayList<Integer>();
+      transaksiLog = new ArrayList<String>();
       accountNumber = theAccountNumber;
       setPin(0);
       availableBalance = theBalance;
@@ -66,7 +68,11 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    public ArrayList<Integer> getPinLog() {
       return pinLog;
    }
-
+   
+   public ArrayList<String> getTransaksiLog() {
+      return transaksiLog;
+   }
+   
    public void setPin(int newPin) {
       this.pin = newPin;
    }
@@ -153,7 +159,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
     public boolean isMasaDepan(){
         return false;
     }
-
+    
     public void addInvoice(int id, int applicant, double amount, String description) {
       invoiceList.add(new Invoice(id, description, amount, applicant));
     }

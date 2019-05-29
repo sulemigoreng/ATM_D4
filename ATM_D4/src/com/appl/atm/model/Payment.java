@@ -36,7 +36,11 @@ public class Payment extends Transaction {
         if (customer.getAvailableBalance() >= getAmount()) {
             customer.debit(getAmount());
             invoice.reduceNominal(getAmount());
-
+            boolean paidOff = (invoice.getBillNominal() == 0);
+            customer.getTransaksiLog().add("[DATE] Payment "+String.valueOf(invoice.getBillInformation())+" | Invoice Id : "
+                    +String.valueOf(invoice.getID())+"   to Applicant : "+String.valueOf(invoice.getApplicantAccNum())
+                    +"   with amount $ "+String.valueOf(getAmount())+" of "+String.valueOf(invoice.getBillNominal()+getAmount())+"   Paid off : "+String.valueOf(paidOff));
+            
             if(invoice.getBillNominal() == 0) {
                 customer.getInvoiceList().remove(invoice);
             }
