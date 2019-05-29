@@ -2,7 +2,7 @@ package com.appl.atm.model;
 
 public class MasaDepan extends Customer {
     private double dailyWithdrawalLimit;
-    private double dailyTransferLimit;
+    private double dailyTransferLimit = 500;
 
     public MasaDepan(int theAccountNumber, int thePIN, double theAvailableBalance, double theTotalBalance) {
         super(theAccountNumber, thePIN, theAvailableBalance, theTotalBalance);

@@ -31,7 +31,7 @@ public class TransferController extends TransactionController{
     @Override
     public int run() {
         TransferViewController screen = new TransferViewController();
-        if(transaction.execute()!=IS_SISWA||transaction.execute()!=NOT_A_CUSTOMER){
+        if(transaction.execute()!=IS_SISWA&&transaction.execute()!=NOT_A_CUSTOMER){
             transaction.setAccountTransferred(screen.processInputRecipientV());
             if(transaction.execute()==ACCOUNT_NOT_FOUND){
                 screen.processDisplayAccountNotFound();
@@ -65,7 +65,7 @@ public class TransferController extends TransactionController{
             }
         }
         else{
-            if(transaction.execute()!=IS_SISWA){
+            if(transaction.execute()==IS_SISWA){
                 screen.processDeclineSiswa();
             }
             else{

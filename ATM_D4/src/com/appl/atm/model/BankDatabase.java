@@ -31,6 +31,7 @@ public class BankDatabase {
         accounts.add(new Admin(1, 3333));
 	accounts.add(new MasaDepan(1234, 4321, 1000.0, 1200.0));
 	accounts.add(new MasaDepan(8765, 5678, 200.0, 200.0));
+        accounts.add(new Siswa(2222, 2222, 10.0, 15.0));
         accounts.add(new Bisnis(1000, 1000, 1000, 1200)); //PLN
         accounts.add(new Bisnis (2000, 1000, 1000, 1200));//PDAM
         accounts.add(new Bisnis(3000, 3000, 1000, 1200)); //TV/Internet berlangganan
