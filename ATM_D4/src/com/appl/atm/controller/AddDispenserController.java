@@ -13,12 +13,12 @@ import com.appl.atm.view.Screen;
  *
  * @author asus
  */
-public class CashDispenserController extends TransactionController {
+public class AddDispenserController extends TransactionController {
     private final static int CANCELED = 0;
     private Keypad keypad;
     private CashDispenser cashDispenser;
 
-    public CashDispenserController(CashDispenser cashDispenser, Keypad keypad,
+    public AddDispenserController(CashDispenser cashDispenser, Keypad keypad,
             Screen screen) {
         super(keypad, screen);
 

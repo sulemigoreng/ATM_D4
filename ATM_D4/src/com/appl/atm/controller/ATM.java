@@ -121,7 +121,7 @@ public class ATM {
                         break;
                         
                     case ADD_DISPENSER:
-                        currentTransactionController = new CashDispenserController(
+                        currentTransactionController = new AddDispenserController(
                             cashDispenser, keypad, screen);
                         currentTransactionController.run();
                         break;

@@ -60,7 +60,7 @@ public class CashDispenserControllerTest {
        Keypad keypad = new Keypad();
        Screen screen = new Screen();
       
-       CashDispenserController test = new CashDispenserController(cashDispenser,
+       AddDispenserController test = new AddDispenserController(cashDispenser,
             keypad, screen);
         // assert statements
         assertEquals(0, test.run());
