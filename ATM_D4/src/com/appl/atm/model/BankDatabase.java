@@ -15,15 +15,39 @@ import java.util.HashMap;
 public class BankDatabase {
 
     private ArrayList<IAccount> accounts; // array of Accounts
+    private ArrayList<Customer> blockedAccount;
     private HashMap<Customer, Double> envelopeList;
 
     public BankDatabase() {
         accounts = new ArrayList<IAccount>();
-	accounts.add(new MasaDepan(1234, 4321, 1000.0, 1200.0));
-	accounts.add(new MasaDepan(8765, 5678, 200.0, 200.0));
+        blockedAccount = new ArrayList<Customer>();
+        
+        accounts.add(new Admin(1, 3333));
+	    accounts.add(new MasaDepan(1234, 4321, 1000.0, 1200.0));
+	    accounts.add(new MasaDepan(8765, 5678, 200.0, 200.0));
+        accounts.add(new Bisnis(1000, 1000, 1000, 1200)); //PLN
+        accounts.add(new Bisnis (2000, 1000, 1000, 1200));//PDAM
+        accounts.add(new Bisnis(3000, 3000, 1000, 1200)); //TV/Internet berlangganan
+        accounts.add(new Bisnis(4000, 4000, 1000, 1200)); //Asuransi
+
         envelopeList = new HashMap<Customer, Double>();
     }
-
+    
+    public void addAccount(Siswa newSiswa){
+        accounts.add(new Siswa(newSiswa.getAccountNumber(), newSiswa.getPin(),
+                newSiswa.getAvailableBalance(), newSiswa.getTotalBalance()));
+    }
+    
+    public void addAccount(Bisnis newBisnis){
+        accounts.add(new Bisnis(newBisnis.getAccountNumber(), newBisnis.getPin(),
+                newBisnis.getAvailableBalance(), newBisnis.getTotalBalance()));
+    }
+    
+    public void addAccount(MasaDepan newMasaDepan){
+        accounts.add(new MasaDepan(newMasaDepan.getAccountNumber(), newMasaDepan.getPin(),
+                newMasaDepan.getAvailableBalance(), newMasaDepan.getTotalBalance()));
+    }
+    
     public IAccount getAccount(int accountNumber) {
 	int i;
         for (i = 0; i < accounts.size(); i++) {
@@ -34,19 +58,18 @@ public class BankDatabase {
         return null; // if no matching account was found, return null
     }
 
-	public Customer getCustomer(int accountNumber) {
+    public Customer getCustomer(int accountNumber) {
 		int i;
         for (i = 0; i < accounts.size(); i++) {
             if (accounts.get(i).getAccountNumber() == accountNumber && accounts.get(i).isCustomer()) {
                 return (Customer)accounts.get(i);
             }
         }
-            return null; // if no matching account was found, return null
-	}
-
-    public int authenticateUser(int userAccountNumber, int userPIN)
-    {
-	IAccount userAccount = getAccount(userAccountNumber);
+        return null; // if no matching account was found, return null
+    }
+    
+    public int authenticateUser(int userAccountNumber, int userPIN) {
+    IAccount userAccount = getAccount(userAccountNumber);
 
 	if(userAccount != null)
 	{
@@ -78,5 +101,38 @@ public class BankDatabase {
             envelopeList.remove(theAccount);
         }
     }
-
+    
+    public boolean isUserExist(int accountNumber){
+        for (int i = 0; i < accounts.size(); i++) {
+            if (accounts.get(i).getAccountNumber() == accountNumber) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void addBlockedAccount(Customer blockedCustomer){
+        blockedAccount.add(blockedCustomer);
+    }
+    
+    public void removeBlockedAccount(int unblockIndex){
+        blockedAccount.remove(unblockIndex);
+    }
+    public boolean isUserBlocked(int accountNumber){
+        for (int i = 0; i < blockedAccount.size(); i++) {
+            if (blockedAccount.get(i).getAccountNumber() == accountNumber) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public int getBlockedAccountIndex(int accountNumber){
+        for (int i = 0; i < blockedAccount.size(); i++) {
+            if (blockedAccount.get(i).getAccountNumber() == accountNumber) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
