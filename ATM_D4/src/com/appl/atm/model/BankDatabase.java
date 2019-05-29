@@ -127,7 +127,7 @@ public class BankDatabase {
         return false;
     }
     
-    public int getAccountIndex(int accountNumber){
+    public int getBlockedAccountIndex(int accountNumber){
         for (int i = 0; i < blockedAccount.size(); i++) {
             if (blockedAccount.get(i).getAccountNumber() == accountNumber) {
                 return i;

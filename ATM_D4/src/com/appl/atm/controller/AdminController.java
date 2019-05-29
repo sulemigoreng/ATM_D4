@@ -101,7 +101,7 @@ public class AdminController {
     }
     
     public void unblockAccount(int accountNumber){
-       int unblockIndex = bankDatabase.getAccountIndex(accountNumber);
+       int unblockIndex = bankDatabase.getBlockedAccountIndex(accountNumber);
         if(unblockIndex == -1){
             AdminViewController view = new AdminViewController();
             view.displayUserDoesntExist();
