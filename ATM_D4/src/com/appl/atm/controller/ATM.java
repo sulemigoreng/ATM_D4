@@ -127,7 +127,9 @@ public class ATM {
                         break;
                         
                     case CHECK_DISPENSER:
-                        
+                        currentTransactionController = new CheckCashDispenserController(
+                            cashDispenser, keypad, screen);
+                        currentTransactionController.run();
                         break;
                         
                     case EXIT_ADMIN :
