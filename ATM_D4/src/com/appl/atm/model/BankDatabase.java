@@ -20,7 +20,6 @@ public class BankDatabase {
     private ArrayList<IAccount> accounts; // array of Accounts
     private HashMap<Customer, Double> envelopeList;
     private Calendar calendar;
-    private Date date;
     
     public BankDatabase() {
         accounts = new ArrayList<IAccount>();
