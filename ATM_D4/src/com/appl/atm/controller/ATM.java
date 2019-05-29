@@ -246,7 +246,7 @@ public class ATM {
         screen.displayMessageLine("4 - Check cash dispenser");
         screen.displayMessageLine("5 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
-	return keypad.getInput(); // return user's selection
+	return keypad.getInput(); // return admin's selection
     }
     
     private Transaction createTransaction(int type) {
