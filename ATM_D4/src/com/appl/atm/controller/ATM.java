@@ -240,7 +240,9 @@ public class ATM {
         screen.displayMessageLine("\nAdmin Main menu:");
         screen.displayMessageLine("1 - Confirm deposit");
 	screen.displayMessageLine("2 - Give Payment Invoice To Customer");
-	screen.displayMessageLine("3 - Exit\n");
+	screen.displayMessageLine("3 - Add cash dispenser");
+        screen.displayMessageLine("4 - Check cash dispenser");
+        screen.displayMessageLine("5 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
 	return keypad.getInput(); // return user's selection
     }
