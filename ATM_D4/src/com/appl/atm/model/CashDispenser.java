@@ -10,7 +10,7 @@ package com.appl.atm.model;
  * @author Annazar
  */
 public class CashDispenser{
-    
+
     // the default initial number of bills in the cash dispenser
     private final static int INITIAL_COUNT = 25;
     private int count; // number of $20 bills remaining
@@ -19,15 +19,15 @@ public class CashDispenser{
     public CashDispenser() {
         count = INITIAL_COUNT; // set count attribute to default
     }
-   	
+
     public int getAmountCashDispenser(){
        return count*20;
    }
-    
+
    public int AddCashDispenser(int amount){
        return count += amount;
    }
-    
+
     // simulates dispensing of specified amount of cash
     public void dispenseCash(int amount) {
         int billsRequired = amount / 20; // number of $20 bills required
@@ -44,5 +44,5 @@ public class CashDispenser{
             return false; // not enough bills available
         }
     }
-   
+
 }
