@@ -32,10 +32,12 @@ public final class Constants {
     public static final int BALANCE_NOT_ENOUGH = 2;
     public static final int CASHDISPENSER_NOT_ENOUGH = 3;
     public static final int REACHED_MAX_WITHDRAWAL = 4;
+    
     // deposit
     public static final int DEPOSIT_CANCELED = 0;
     public static final int DEPOSIT_SUCCESSFUL = 1;
     public static final int ENVELOPE_IS_NOT_RECEIVED = 2;
+    
     //transfer
     public static final int TRANSFER_CANCELED = 0;
     public static final int NOT_ENOUGH_SALDO = 1;

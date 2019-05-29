@@ -171,13 +171,13 @@ public class ATM {
                         currentTransactionController.run(); // execute transaction
                         break;
 
-					case PAYMENT:
-						currentTransaction
-							= createTransaction(mainMenuSelection);
-						currentTransactionController
-							= new PaymentController(currentTransaction, keypad, screen);
-						currentTransactionController.run(); // execute transaction
-						break;
+                    case PAYMENT:
+			currentTransaction
+				= createTransaction(mainMenuSelection);
+			currentTransactionController
+				= new PaymentController(currentTransaction, keypad, screen);
+			currentTransactionController.run(); // execute transaction
+                        break;
 			
                     case EXIT: // user chose to terminate session
                         screen.displayMessageLine("\nExiting the system...");
