@@ -6,30 +6,29 @@
 package com.appl.atm.controller;
 import static com.appl.atm.model.Constants.*;
 import com.appl.atm.model.CashDispenser;
+import com.appl.atm.model.Transaction;
 import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
 /**
  *
  * @author asus
  */
-public class cashDispenserController{
+public class CashDispenserController{
     private final static int CANCELED = 0;
     private Keypad keypad;
     private CashDispenser cashDispenser;
-    public cashDispenserController(Screen atmScreen, Keypad atmKeypad,
-      CashDispenser atmCashDispenser) {
 
-      // initialize superclass variables
+  
     
-      
-    }
-    
-    public int run(){
+    public void run(){
        
         boolean end = false;
-        
+        keypad = new Keypad();
         while(!end){
-            int amount = getAmount();
+           int amount;
+            System.out.println("masukan jumlah uang untu ditambahkan ke cash dispenser");
+            
+            amount = keypad.getInput();
             if(amount==CANCELED){ //if amount =0, cancelled
               
                 end=true;
@@ -40,13 +39,5 @@ public class cashDispenserController{
                 }  
             }
         }
-        return 0;
-    }
-    private int getAmount(){
-        int amount;
-        System.out.println("masukan jumlah uang untu ditambahkan ke cash dispenser");
-        keypad = new Keypad();
-        amount = keypad.getInput();
-        return amount;
     }
 }
