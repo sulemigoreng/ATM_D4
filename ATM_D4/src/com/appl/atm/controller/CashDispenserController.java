@@ -26,7 +26,7 @@ public class CashDispenserController{
         keypad = new Keypad();
         while(!end){
            int amount;
-            System.out.println("masukan jumlah uang untu ditambahkan ke cash dispenser");
+            System.out.println("masukan jumlah uang untuk ditambahkan ke cash dispenser");
             
             amount = keypad.getInput();
             if(amount==CANCELED){ //if amount =0, cancelled
