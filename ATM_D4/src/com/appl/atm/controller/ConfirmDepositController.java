@@ -18,20 +18,24 @@ import java.util.HashMap;
  *
  * @author Zara Veda
  */
-public class AdminController {
+public class ConfirmDepositController extends TransactionController {
     Deposit deposit;
     DepositSlot updateSlot;
     BankDatabase bankDatabase;
+    Keypad keypad;
+    Screen screen;
     
-    public AdminController(Transaction theDeposit, DepositSlot theDepositSlot,
-        BankDatabase theBankDatabase) {
+    public ConfirmDepositController(Transaction theDeposit, DepositSlot theDepositSlot,
+        BankDatabase theBankDatabase, Keypad theKeypad, Screen theScreen) {
+        super(theKeypad, theScreen);
+        
         updateSlot = theDepositSlot;
         bankDatabase = theBankDatabase;
     }
     
-    public void confirmDeposit(){
-        Screen screen = new Screen();
-        Keypad keypad = new Keypad();
+    public int run(){
+        screen = getScreen();
+        keypad = getKeypad();
         DepositViewControler depositView = new DepositViewControler();
         HashMap<Customer, Double> theList = bankDatabase.getList();
         
@@ -43,5 +47,7 @@ public class AdminController {
             bankDatabase);
         
         depositView.showList(bankDatabase.getList());
+        
+        return 0;
     }
 }

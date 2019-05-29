@@ -109,19 +109,27 @@ public class ATM {
                 mainMenuSelection = displayAdminMainMenu();
                 switch (mainMenuSelection) {
                     case CONFIRM_DEPOSIT:
-                    AdminController transactionController = null;
-
-                    //method confirm deposit
-                    screen.displayMessageLine("Confirm Deposit\n");
-                    transactionController = new AdminController(deposit,
-                            depositSlot, bankDatabase);
-                    transactionController.confirmDeposit();
+                        currentTransactionController = new ConfirmDepositController(
+                            deposit, depositSlot, bankDatabase, keypad, screen);
+                        currentTransactionController.run();
                         break;
+                        
                     case GIVE_INVOICE :
                         currentTransaction = createAdminTransaction(mainMenuSelection);
                         currentTransactionController = new GiveInvoiceController(currentTransaction, keypad, screen);
                         currentTransactionController.run();
                         break;
+                        
+                    case ADD_DISPENSER:
+                        currentTransactionController = new CashDispenserController(
+                            cashDispenser, keypad, screen);
+                        currentTransactionController.run();
+                        break;
+                        
+                    case CHECK_DISPENSER:
+                        
+                        break;
+                        
                     case EXIT_ADMIN :
                         screen.displayMessageLine("\nExiting the system...");
                         userExited = true; // this ATM session should end
@@ -219,8 +227,8 @@ public class ATM {
 	screen.displayMessageLine("\nMain menu:");
 	screen.displayMessageLine("1 - View my balance");
 	screen.displayMessageLine("2 - Withdraw cash");
-    screen.displayMessageLine("3 - Deposit funds");
-    screen.displayMessageLine("4 - Transfer");
+        screen.displayMessageLine("3 - Deposit funds");
+        screen.displayMessageLine("4 - Transfer");
 	screen.displayMessageLine("5 - Payment");
 	screen.displayMessageLine("6 - Exit\n");
 	screen.displayMessage("Enter a choice: ");
@@ -229,8 +237,8 @@ public class ATM {
     
     // display the Admin main menu and return an input selection
     private int displayAdminMainMenu() {
-    screen.displayMessageLine("\nAdmin Main menu:");
-    screen.displayMessageLine("1 - Confirm deposit");
+        screen.displayMessageLine("\nAdmin Main menu:");
+        screen.displayMessageLine("1 - Confirm deposit");
 	screen.displayMessageLine("2 - Give Payment Invoice To Customer");
 	screen.displayMessageLine("3 - Exit\n");
 	screen.displayMessage("Enter a choice: ");

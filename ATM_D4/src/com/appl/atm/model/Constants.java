@@ -22,7 +22,9 @@ public final class Constants {
     //admin
     public static final int CONFIRM_DEPOSIT = 1;
     public static final int GIVE_INVOICE = 2;
-    public static final int EXIT_ADMIN = 3;  
+    public static final int ADD_DISPENSER = 3;
+    public static final int CHECK_DISPENSER = 4;
+    public static final int EXIT_ADMIN = 5;  
     
     // withdraw
     public static final int WITHDRAWAL_CANCELED = 7;

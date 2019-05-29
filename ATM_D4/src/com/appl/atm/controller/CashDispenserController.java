@@ -13,17 +13,22 @@ import com.appl.atm.view.Screen;
  *
  * @author asus
  */
-public class CashDispenserController{
+public class CashDispenserController extends TransactionController {
     private final static int CANCELED = 0;
     private Keypad keypad;
     private CashDispenser cashDispenser;
-
-  
     
-    public void run(){
+    public CashDispenserController(CashDispenser cashDispenser, Keypad keypad,
+            Screen screen) {
+        super(keypad, screen);
+        
+        this.cashDispenser = cashDispenser;
+    }
+    
+    public int run(){
        
         boolean end = false;
-        keypad = new Keypad();
+        keypad = getKeypad();
         while(!end){
            int amount;
             System.out.println("masukan jumlah uang untuk ditambahkan ke cash dispenser");
@@ -39,5 +44,6 @@ public class CashDispenserController{
                 }  
             }
         }
+        return 0;
     }
 }
