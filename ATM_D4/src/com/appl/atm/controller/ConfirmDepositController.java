@@ -30,6 +30,7 @@ public class ConfirmDepositController extends TransactionController {
     BankDatabase bankDatabase;
     Keypad keypad;
     Screen screen;
+    BankStatementController bankStatement;
     
     public ConfirmDepositController(Transaction theDeposit, DepositSlot theDepositSlot,
         BankDatabase theBankDatabase, Keypad theKeypad, Screen theScreen) {
@@ -39,6 +40,7 @@ public class ConfirmDepositController extends TransactionController {
         bankDatabase = theBankDatabase;
     }
     
+    @Override
     public int run(){
         screen = getScreen();
         keypad = getKeypad();
@@ -48,7 +50,8 @@ public class ConfirmDepositController extends TransactionController {
         depositView.showList(bankDatabase.getList());
         screen.displayMessage("Choose the account number : ");
         int choosen = keypad.getInput();
-        
+        bankStatement = new BankStatementController(keypad,screen,bankDatabase.getCustomer(choosen));
+        bankStatement.addLogDeposit(String.valueOf(choosen),theList.get(bankDatabase.getCustomer(choosen)), "Deposit", true);
         updateSlot.deleteList(bankDatabase.getList(), bankDatabase.getCustomer(choosen),
             bankDatabase);
         
