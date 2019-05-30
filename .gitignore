@@ -1,0 +1,7 @@
+# vscode
+.vscode
+
+# NetBeans (Ant)
+**/build/
+**/dist/
+**/nbproject/private
