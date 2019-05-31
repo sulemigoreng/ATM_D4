@@ -59,4 +59,9 @@ public final class Constants {
     public static final int IS_SISWA = 5;
     public static final int NOT_A_CUSTOMER = 6;
     public static final int SAME_ACCOUNT = 7;
+    
+    //give invoice
+    public static final int ADD_INVOICE_SUCCESS = 1;
+    public static final int CUSTOMER_NOT_EXIST = 2;
+    public static final int ADD_INVOICE_FAILED = 3;
 }

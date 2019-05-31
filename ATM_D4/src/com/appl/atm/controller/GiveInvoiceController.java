@@ -2,70 +2,113 @@ package com.appl.atm.controller;
 
 import com.appl.atm.model.Transaction;
 import com.appl.atm.model.GiveInvoice;
-import com.appl.atm.model.Customer;
-import com.appl.atm.model.Payment;
 import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
+import static com.appl.atm.model.Constants.*;
 
-/**
- *
- * @author Kelompok 1
- */
 public class GiveInvoiceController extends TransactionController {
-    
-    Payment payment;
-    Customer customer;
-    private GiveInvoice Transaction;
+    private Keypad keypad;
+    private Screen screen;
+    private GiveInvoice transaction;
     
     public GiveInvoiceController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
         super(theKeypad, theScreen);
-        Transaction = (GiveInvoice) theTransaction;
+        transaction = (GiveInvoice) theTransaction;
+        screen = getScreen();
+        keypad = getKeypad();
     }
 
     @Override
     public int run() {
-        int accountNumber;
-        int id;
-        int applicant;
-        double amount;
-        String description;
-        Keypad keypad = getKeypad();
-        Screen screen = getScreen();
+        transaction.setCustomerAccountNumber(getCustomerAccountNumber());
+        transaction.setInvoiceId(getInvoiceId());
+        transaction.setApplicantAccountNumber(getApplicantAccountNumber());
+        transaction.setInvoiceAmount(getInvoiceAmount());
+        transaction.setInvoiceDescription(getInvoiceDescription());
+        switch(transaction.execute()) {
+            case ADD_INVOICE_SUCCESS:
+                screen.displayMessageLine("Invoice Succesfully Added to This Customer");
+                break;
+            case CUSTOMER_NOT_EXIST:
+                screen.displayMessageLine("That Customer Account Number is not available");
+                break;
+            case ADD_INVOICE_FAILED:
+                screen.displayMessageLine("Failed to Add Invoice to This Customer.");
+                break;
+        }       
+
+        return 0;   
+    }
+    
+    private int getCustomerAccountNumber() {
+        int customerAccountNumber;
+        
+        // keep asking for account number until valid value received
         do {
             screen.displayMessage("Please enter Customer Account Number : ");
-            accountNumber = keypad.getInput();
-            if (accountNumber <= 0) screen.displayMessageLine("Customer Account Number invalid, please try again");
-        } while (accountNumber <= 0);
-        customer = Transaction.getCustomer(accountNumber);
-        if (customer != null) {
-            do {
-                screen.displayMessage("Please enter Invoice ID Number : ");
-                id = keypad.getInput();
-                if (id <= 0) screen.displayMessageLine("Invoice ID invalid, please try again");
-            } while (id <= 0);
-            do {
-                screen.displayMessage("Please enter Applicant Account Number : ");
-                applicant = keypad.getInput();
-                if (applicant < 0) screen.displayMessageLine("Applicant Account Number invalid, please try again");
-            } while (applicant < 0);
-            do {
-                screen.displayMessage("Please enter Invoice Amount : ");
-                amount = keypad.getInput();
-                if (amount <= 0) screen.displayMessageLine("Invoice Amount invalid, please try again");
-            } while (amount <= 0);
-            screen.displayMessage("Please enter Invoice Description : ");
-            keypad.getStr();
-            description = keypad.getStr();
-            customer.addInvoice(id, applicant, amount, description);
-            
-            BankStatementController bankStatement = new BankStatementController(keypad, screen, customer);
-            bankStatement.addLog("Bill    ", 0.0, 0.0, "[" + description + "] | Invoice Id : [" 
-                    + id + "] | Applicant : [" + applicant + "] | amount : [$ " + amount + "] | PaidOff : [" + false + "]");//menambahkan bankstatement ke akun customer berupa bill yang perlu dibayar
-
-            screen.displayMessageLine("Invoice Added Succesfully to This Customer");
-        } else {
-            screen.displayMessageLine("That Customer Account Number is not available");
-        }
-     return 0;   
+            customerAccountNumber = keypad.getInput();
+            if (customerAccountNumber > 0) {
+                break;
+            }
+            screen.displayMessageLine("Customer Account Number invalid, please try again");
+        } while (true);
+        
+        return customerAccountNumber;
+    }
+    
+    private int getInvoiceId() {
+        int invoiceId;
+        
+        // keep asking for invoice id until valid value received
+        do {
+            screen.displayMessage("Please enter Invoice ID Number : ");
+            invoiceId = keypad.getInput();
+            if (invoiceId > 0) {
+                break;
+            }
+            screen.displayMessageLine("Invoice ID invalid, please try again");
+        } while (true);
+        
+        return invoiceId;
+    }
+    
+    private int getApplicantAccountNumber() {
+        int applicantAccountNumber;
+        
+        // keep asking for applicant number until valid value received
+        do {
+            screen.displayMessage("Please enter Applicant Account Number : ");
+            applicantAccountNumber = keypad.getInput();
+            if (applicantAccountNumber > 0) {
+                break;
+            }
+            screen.displayMessageLine("Applicant Account Number invalid, please try again");
+        } while (true);
+        
+        return applicantAccountNumber;
+    }
+    
+    private double getInvoiceAmount() {
+        double amount; 
+        
+        // keep asking for amount until valid value received
+        do {
+            screen.displayMessage("Please enter Invoice Amount : ");
+            amount = keypad.getInput();
+            if (amount > 0) {
+                break;
+            }
+            screen.displayMessageLine("Applicant Account Number invalid, please try again");
+        } while (true);
+        
+        return amount;
+    }
+    
+    private String getInvoiceDescription() {
+        String description;
+        screen.displayMessage("Please enter Invoice Description : ");
+        description = keypad.getStr();
+        
+        return description;
     }
 }
