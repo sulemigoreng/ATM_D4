@@ -24,51 +24,59 @@ public class TransferController extends TransactionController{
     public TransferController (Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
         super(theKeypad, theScreen);
         transaction = (Transfer) theTransaction;
-        customer=transaction.getBankDatabase().getCustomer(transaction.getAccountNumber());
-        bankStatement=new BankStatementController(theKeypad, theScreen, customer);
+        customer = transaction.getBankDatabase().getCustomer(transaction.getAccountNumber());
+        bankStatement = new BankStatementController(theKeypad, theScreen, customer);
     }
 
     @Override
     public int run() {
         TransferViewController screen = new TransferViewController();
-        if(transaction.execute()!=IS_SISWA&&transaction.execute()!=NOT_A_CUSTOMER){
+        if (transaction.execute() != IS_SISWA && transaction.execute() != NOT_A_CUSTOMER) {
             transaction.setAccountTransferred(screen.processInputRecipientV());
-            if(transaction.execute()==ACCOUNT_NOT_FOUND){
+            
+            //Transfer gagal jika akun target tidak ditemukan
+            if (transaction.execute() == ACCOUNT_NOT_FOUND) {
                 screen.processDisplayAccountNotFound();
                 return 0;
             }
-            if(transaction.execute()==SAME_ACCOUNT){
+            
+            //Transfer gagal jika memasukkan nomor akun sendiri
+            if (transaction.execute() == IS_MY_ACCOUNT) {
                 screen.processDeclineTransferOwnAccount();
                 return 0;
-            }
-            else{
-                screen.processDisplayMaxOneTimeLimitV(transaction.getMaxT());
+            } else {
+                screen.processDisplayMaxOneTimeLimitV(transaction.getTransferLimit());
                 transaction.setAmount(screen.processInputTheAmountV());
-                switch(transaction.execute()){
-                    case TRANSFER_CANCELED:
+                switch (transaction.execute()){
+                    case TRANSFER_CANCELED: {
                         screen.processCanceled();
                         break;
-                    case NOT_ENOUGH_SALDO:
+                    }
+                    case INSUFFICIENT_BALANCE: {
                         screen.processDisplayNotEnoughSaldo();
                         break;
-                    case TRANSFER_SUCCESS:
-                        bankStatement.addLog(String.valueOf(customer.getAccountNumber())+" to "+ String.valueOf(transaction.getAccountTransferred()), (int)transaction.getAmount(), "Transfer");
+                    }
+                    case TRANSFER_SUCCESS: {
+                        bankStatement.addLog(String.valueOf(customer.getAccountNumber()) +
+                                " to " + String.valueOf(transaction.getAccountTransferred()),
+                                (int)transaction.getAmount(), "Transfer");
                         screen.processDisplayTransfered();
                         break;
-                    case EXCEED_ONE_TIME_TRANSFER_BISNIS:
+                    }
+                    case EXCEED_TRANSFER_LIMIT_FOR_BISNIS: {
                         screen.processExceedsLimit();
                         break;
-                    case EXCEED_ONE_TIME_TRANSFER_MASA_DEPAN:
+                    }
+                    case EXCEED_TRANSFER_LIMIT_FOR_MASA_DEPAN: {
                         screen.processExceedsLimit();
                         break;
+                    }
                 }
             }
-        }
-        else{
-            if(transaction.execute()==IS_SISWA){
+        } else {
+            if (transaction.execute() == IS_SISWA) {
                 screen.processDeclineSiswa();
-            }
-            else{
+            } else {
                 screen.processDisplayAccountNotCustomer();
             }
         }

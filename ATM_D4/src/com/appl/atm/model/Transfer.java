@@ -27,49 +27,41 @@ public class Transfer extends Transaction{
             return IS_SISWA;
         }
         
-        if(getBankDatabase().getCustomer(accountTransfered)==null){
+        if(getBankDatabase().getCustomer(accountTransfered) == null){
             return ACCOUNT_NOT_FOUND;
         }
         
         if(accountTransfered == getAccountNumber()){
-            return SAME_ACCOUNT;
+            return IS_MY_ACCOUNT;
         }
         
         if(account.isCustomer()) {
-            //amount = screen.processInputTheAmountV();
             if(account.getAvailableBalance() < amount){
-                //screen.processDisplayNotEnoughSaldo();
-                return NOT_ENOUGH_SALDO;
+                return INSUFFICIENT_BALANCE;
             }
             if(amount == 0){
-                //screen.processCanceled();
                 return TRANSFER_CANCELED;
-            }
-            else{
+            } else {
                 if(account.insertTransferLog(getBankDatabase().getDate(), amount)){
-                    //accountTransfered = screen.processInputRecipientV();
-                    
-                        Customer accountTransfer = getBankDatabase().getCustomer(accountTransfered);
-                        accountTransfer.getTransaksiLog().add("[DATE] Transfer      From Account_Number : "+ String.valueOf(getAccountNumber())+"     with amount $ "+String.valueOf(amount));
-                        account.debit(amount);
-                        accountTransfer.credit(amount);
-                        //screen.processDisplayTransfered();
-                        return TRANSFER_SUCCESS;
-                    
+                    Customer accountTransfer = getBankDatabase().getCustomer(accountTransfered);
+                    accountTransfer.getTransaksiLog().add("[DATE] Transfer      From Account_Number : " + 
+                            String.valueOf(getAccountNumber())+ "     with amount $ " + 
+                            String.valueOf(amount));
+                    account.debit(amount);
+                    accountTransfer.credit(amount);
+                    return TRANSFER_SUCCESS;
                 }
                 else{
-                    //screen.precessDisplayMaxOneDayLimitV(account.getMaxTransfer()); //ini bener ga?
                     if (account.isBisnis()) {
-                        return EXCEED_ONE_TIME_TRANSFER_BISNIS;
+                        return EXCEED_TRANSFER_LIMIT_FOR_BISNIS;
                     }
                     if (account.isMasaDepan()) {
-                        return EXCEED_ONE_TIME_TRANSFER_MASA_DEPAN;
+                        return EXCEED_TRANSFER_LIMIT_FOR_MASA_DEPAN;
                     }
                 }
             }
         }
         else{
-            //screen.processDisplayAccountNotCustomer();
             return NOT_A_CUSTOMER;
         }
         return 0;
@@ -83,7 +75,7 @@ public class Transfer extends Transaction{
         this.accountTransfered = accountNumber;
     }
     
-    public double getMaxT(){
+    public double getTransferLimit(){
         return getBankDatabase().getCustomer(getAccountNumber()).getDailyTransferLimit();
     }
     
