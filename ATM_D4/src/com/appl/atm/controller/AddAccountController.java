@@ -8,49 +8,45 @@ package com.appl.atm.controller;
 import com.appl.atm.model.BankDatabase;
 import com.appl.atm.model.Bisnis;
 import static com.appl.atm.model.Constants.*;
-import com.appl.atm.model.Customer;
-import com.appl.atm.model.Deposit;
-import com.appl.atm.model.DepositSlot;
 import com.appl.atm.model.MasaDepan;
 import com.appl.atm.model.Siswa;
-import com.appl.atm.model.Transaction;
-import com.appl.atm.view.AdminViewController;
-import com.appl.atm.view.DepositViewControler;
 import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
-import com.appl.atm.view.View;
-import java.util.HashMap;
+
 /**
  *
- * @author Zara Veda
+ * @author mufqi
  */
-public class AdminController {
+public class AddAccountController extends TransactionController {
     BankDatabase bankDatabase;
-    
-    public AdminController(Transaction theDeposit, DepositSlot theDepositSlot,
-        BankDatabase theBankDatabase) {
+    AddAccountViewController addAccountViewController;
+
+    public AddAccountController(Keypad theKeypad, Screen theScreen, BankDatabase theBankDatabase) {
+        super(theKeypad, theScreen);
         bankDatabase = theBankDatabase;
     }
     
-    public void addAccount(int accountType) {
-        AdminViewController view = new AdminViewController();
-        
+    
+    @Override
+    public int run() {
+        addAccountViewController = new AddAccountViewController();
+        int accountType = getAccountType();
         int accountNumber = 0;
         boolean isUnique = false;
         
         while (!isUnique){
             boolean isExist;
-            accountNumber = view.reqAccountNumber();
+            accountNumber = addAccountViewController.reqAccountNumber();
             isExist = bankDatabase.isUserExist(accountNumber);
             if (isExist){
-                view.showMessageNotUnique();
+                addAccountViewController.displayMessageNotUnique();
             }else {
                 isUnique = true;
             }
         }
         
-        int pin = view.reqPinNumber();
-        double balance = view.reqBalance(); 
+        int pin = addAccountViewController.reqPinNumber();
+        double balance = addAccountViewController.reqBalance(); 
         
         switch (accountType){
             case ADD_SISWA:{
@@ -69,26 +65,10 @@ public class AdminController {
                 break;
             }
         }
+        return 0;
     }
     
-    public void blockAccount(int accountNumber){
-        Customer blockedCustomer = bankDatabase.getCustomer(accountNumber);
-        if(blockedCustomer != null){
-            bankDatabase.addBlockedAccount(blockedCustomer);
-        } else {
-            AdminViewController view = new AdminViewController();
-            view.displayUserDoesntExist();
-        }
-    }
-    
-    public void unblockAccount(int accountNumber){
-       int unblockIndex = bankDatabase.getBlockedAccountIndex(accountNumber);
-        if(unblockIndex == -1){
-            AdminViewController view = new AdminViewController();
-            view.displayUserDoesntExist();
-        }else{
-            bankDatabase.removeBlockedAccount(unblockIndex);
-        }
-        
+    public int getAccountType(){
+        return addAccountViewController.displayAddAccountMenu();
     }
 }

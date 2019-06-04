@@ -14,7 +14,6 @@ import com.appl.atm.model.DepositSlot;
 import com.appl.atm.model.MasaDepan;
 import com.appl.atm.model.Siswa;
 import com.appl.atm.model.Transaction;
-import com.appl.atm.view.AdminViewController;
 import com.appl.atm.view.DepositViewControler;
 import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;

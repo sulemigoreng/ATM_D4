@@ -130,32 +130,24 @@ public class ATM {
                         break;
 
                     case ADD_ACCOUNT :{
-                        AdminController controller = null;
-                        controller = new AdminController(deposit, depositSlot,
-                            bankDatabase);
-
-                        int accountType = displayAddAccountMenu();
-                        controller.addAccount(accountType);
+                        currentTransactionController = new AddAccountController(
+                            keypad, screen, bankDatabase);
+                        currentTransactionController.run();
                         break;
                     }
 
                     case BLOCK_ACCOUNT : {
-                         AdminController controller = null;
-                        controller = new AdminController(deposit, depositSlot,
-                            bankDatabase);
-                        int blockedAccountNumber = reqAccountNumber();
-                        controller.blockAccount(blockedAccountNumber);
+                        currentTransactionController = new BlockAccountController(
+                            keypad, screen, bankDatabase);
+                        currentTransactionController.run();
                         screen.displayMessageLine("Account has been blocked");
                         break;
                     }
 
                     case UNBLOCK_ACCOUNT : {
-                        AdminController controller = null;
-                        controller = new AdminController(deposit, depositSlot,
-                            bankDatabase);
-
-                        int unblockAccountNumber = reqAccountNumber();
-                        controller.unblockAccount(unblockAccountNumber);
+                        currentTransactionController = new UnblockAccountController(
+                            keypad, screen, bankDatabase);
+                        currentTransactionController.run();
                         screen.displayMessageLine("Account unblocked");
                         break;
                     }
@@ -338,16 +330,6 @@ public class ATM {
 	      return keypad.getInput(); // return user's selection
     }
 
-    private int displayAddAccountMenu() {
-        screen.displayMessageLine("\nChoose account type:");
-        screen.displayMessageLine("1 - Bisnis");
-	      screen.displayMessageLine("2 - Siswa");
-        screen.displayMessageLine("3 - Masa Depan\n");
-        screen.displayMessageLine("4 - Exit\n");
-	      screen.displayMessage("Enter a choice: ");
-	      return keypad.getInput(); // return admin's selection
-    }
-
     private Transaction createTransaction(int type) {
 	Transaction temp = null;
 
@@ -390,10 +372,7 @@ public class ATM {
         return temp;
     }
 
-    private int reqAccountNumber() {
-        screen.displayMessage("\nEnter the account number : ");
-        return keypad.getInput();
-    }
+    
 
 
 }

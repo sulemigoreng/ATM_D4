@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import com.appl.atm.view.AdminViewController;
+import com.appl.atm.controller.AddAccountViewController;
 import com.appl.atm.view.Keypad;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,12 +30,12 @@ public class AdminViewControllerTest {
     private ByteArrayInputStream testIn;
     private ByteArrayOutputStream testOut;
     
-    private AdminViewController testObject;
+    private AddAccountViewController testObject;
     private String inputTest;
     private Keypad keypad;
     
     public AdminViewControllerTest() {
-        testObject = new AdminViewController();
+        testObject = new AddAccountViewController();
     }
     
     @BeforeClass
