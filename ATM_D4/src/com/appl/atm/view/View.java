@@ -21,9 +21,9 @@ public class View {
         return accountNumber;
     }
     
-    public double reqTheAmount(){
+    public double displayInputTransferAmount(){
         double Amount;
-        screen.displayMessage("\nPlease enter the amount (0 to cancel): ");
+        screen.displayMessage("\nPlease enter the amount you want to transfer (0 to cancel): ");
         Amount = keypad.getInput();
         return Amount;
     }
@@ -33,8 +33,8 @@ public class View {
         screen.displayDollarAmount(limit);
     }
     
-    public void displayNotEnoughSaldo(){
-        screen.displayMessage("\nThe balance is not sufficient.");
+    public void displayInsufficientFunds(){
+        screen.displayMessage("\nInsufficient funds.");
     }
     
     public void displayMaxOneDayLimit(double limit){
@@ -44,7 +44,7 @@ public class View {
         screen.displayDollarAmount(limit);
     }
 
-    public void displayAccountNumber(int recipientAccountNumber){
+    public void displayReciverAccountNumber(int recipientAccountNumber){
         screen.displayMessageLine("\nThe recipient's account number : " + recipientAccountNumber);
     }
 
@@ -53,18 +53,18 @@ public class View {
         screen.displayDollarAmount(Amount);
     }
 
-    public String displayCorrect(){
+    public String displayWarningMessage(){
         String answer;
         screen.displayMessageLine("\nAre these information correct? (Y/N)");
         answer = keypad.getStr();
         return answer;
     }
 
-    public void displayTransferred(){
+    public void displayTransferSuccess(){
         screen.displayMessage("The money has been transferred.");
     }
 
-    public void displayCancelTransfer(){
+    public void displayCancelTransferMessage(){
         screen.displayMessage("Canceling Transfer...");
     }
 
@@ -76,11 +76,11 @@ public class View {
         screen.displayMessage("Account not found."); // perbaiki
     }
 
-    public void displayEnter(){
+    public void displayEnterChoice(){
         screen.displayMessageLine("Please enter Y/N.");
     }
 
-    public void displaySiswaCantTransfer(){
+    public void displaySiswaNotAllowed(){
         screen.displayMessageLine("Siswa cannot transfer.");
     }
 

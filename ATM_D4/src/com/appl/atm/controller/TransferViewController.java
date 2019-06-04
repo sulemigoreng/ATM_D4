@@ -12,12 +12,12 @@ import com.appl.atm.view.View;
 public class TransferViewController {
     private View view = new View();
     
-    public int processInputRecipientV(){
+    public int processInputRecipientAccountNumber(){
         return view.reqRecipientAccountNumber();
     }
     
-    public double processInputTheAmountV(){
-        return view.reqTheAmount();
+    public double processInputTransferAmount(){
+        return view.displayInputTransferAmount();
     }
     
     public void processDisplayMaxOneTimeLimitV(double limit){
@@ -28,28 +28,28 @@ public class TransferViewController {
         view.displayMaxOneDayLimit(limit);
     }
     
-    public void processDisplayNotEnoughSaldo(){
-        view.displayNotEnoughSaldo();
+    public void processInsufficientFunds(){
+        view.displayInsufficientFunds();
     }
     
-     public void processDisplayAccountNotFound(){
+     public void processAccountNotFound(){
         view.displayAccountNotFound();
     }
      
-     public void processDisplayAccountNotCustomer(){
+     public void processNotCustomer(){
         view.displayNotCustomer();
     }
      
-     public void processCanceled(){
-        view.displayCancelTransfer();
+     public void processCancelTransfer(){
+        view.displayCancelTransferMessage();
     }
     
-    public void processDisplayTransfered(){
-        view.displayTransferred();
+    public void processTransferSuccess(){
+        view.displayTransferSuccess();
     }
     
     public void processDeclineSiswa(){
-        view.displaySiswaCantTransfer();
+        view.displaySiswaNotAllowed();
     }
     
     public void processDeclineTransferOwnAccount(){
@@ -64,21 +64,21 @@ public class TransferViewController {
      public double processTransferV(int recipientAccountNumber, double Amount){
         String answer;
         boolean IsAnswerRight = false;
-        view.displayAccountNumber(recipientAccountNumber);
+        view.displayReciverAccountNumber(recipientAccountNumber);
         view.displayAmount(Amount);
         while(!IsAnswerRight) {
-           answer = view.displayCorrect();
+           answer = view.displayWarningMessage();
             if(answer.equals("Y")){
-               view.displayTransferred();
+               view.displayTransferSuccess();
                 return 1;
             }
             else { 
                 if(answer.equals("N")){
-                   view.displayCancelTransfer();
+                   view.displayCancelTransferMessage();
                     return 2;
                 }
                 else {
-                   view.displayEnter();
+                   view.displayEnterChoice();
                 }
             }
         }

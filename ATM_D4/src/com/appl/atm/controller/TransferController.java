@@ -32,11 +32,11 @@ public class TransferController extends TransactionController{
     public int run() {
         TransferViewController screen = new TransferViewController();
         if (transaction.execute() != IS_SISWA && transaction.execute() != NOT_A_CUSTOMER) {
-            transaction.setAccountTransferred(screen.processInputRecipientV());
+            transaction.setAccountTransferred(screen.processInputRecipientAccountNumber());
             
             //Transfer gagal jika akun target tidak ditemukan
             if (transaction.execute() == ACCOUNT_NOT_FOUND) {
-                screen.processDisplayAccountNotFound();
+                screen.processAccountNotFound();
                 return 0;
             }
             
@@ -46,21 +46,21 @@ public class TransferController extends TransactionController{
                 return 0;
             } else {
                 screen.processDisplayMaxOneTimeLimitV(transaction.getTransferLimit());
-                transaction.setAmount(screen.processInputTheAmountV());
+                transaction.setAmount(screen.processInputTransferAmount());
                 switch (transaction.execute()){
                     case TRANSFER_CANCELED: {
-                        screen.processCanceled();
+                        screen.processCancelTransfer();
                         break;
                     }
                     case INSUFFICIENT_BALANCE: {
-                        screen.processDisplayNotEnoughSaldo();
+                        screen.processInsufficientFunds();
                         break;
                     }
                     case TRANSFER_SUCCESS: {
                         bankStatement.addLog(String.valueOf(customer.getAccountNumber()) +
                                 " to " + String.valueOf(transaction.getAccountTransferred()),
                                 (int)transaction.getAmount(), "Transfer");
-                        screen.processDisplayTransfered();
+                        screen.processTransferSuccess();
                         break;
                     }
                     case EXCEED_TRANSFER_LIMIT_FOR_BISNIS: {
@@ -77,7 +77,7 @@ public class TransferController extends TransactionController{
             if (transaction.execute() == IS_SISWA) {
                 screen.processDeclineSiswa();
             } else {
-                screen.processDisplayAccountNotCustomer();
+                screen.processNotCustomer();
             }
         }
         return 0;
