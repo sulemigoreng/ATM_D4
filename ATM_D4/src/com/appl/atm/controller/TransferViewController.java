@@ -13,19 +13,19 @@ public class TransferViewController {
     private View view = new View();
     
     public int processInputRecipientV(){
-        return view.inputRecipientAccountNumberV();
+        return view.reqRecipientAccountNumber();
     }
     
     public double processInputTheAmountV(){
-        return view.inputTheAmountV();
+        return view.reqTheAmount();
     }
     
     public void processDisplayMaxOneTimeLimitV(double limit){
-        view.displayMaxOneTimeLimitV(limit);
+        view.displayMaxOneTimeLimit(limit);
     }
     
     public void processDisplayMaxOneDayLimitV(double limit){
-        view.displayMaxOneDayLimitV(limit);
+        view.displayMaxOneDayLimit(limit);
     }
     
     public void processDisplayNotEnoughSaldo(){

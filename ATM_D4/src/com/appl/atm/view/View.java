@@ -14,21 +14,21 @@ public class View {
     Keypad keypad = new Keypad();
     
     /* Transfer View */
-    public int inputRecipientAccountNumberV(){
+    public int reqRecipientAccountNumber(){
         int accountNumber;
         screen.displayMessage("\nPlease enter the recipient's account number : ");
         accountNumber = keypad.getInput();
         return accountNumber;
     }
     
-    public double inputTheAmountV(){
+    public double reqTheAmount(){
         double Amount;
         screen.displayMessage("\nPlease enter the amount (0 to cancel): ");
         Amount = keypad.getInput();
         return Amount;
     }
     
-    public void displayMaxOneTimeLimitV(double limit){
+    public void displayMaxOneTimeLimit(double limit){
         screen.displayMessage("\nThe maximum limit for 1x transfer is ");
         screen.displayDollarAmount(limit);
     }
@@ -37,7 +37,7 @@ public class View {
         screen.displayMessage("\nThe balance is not sufficient.");
     }
     
-    public void displayMaxOneDayLimitV(double limit){
+    public void displayMaxOneDayLimit(double limit){
         screen.displayMessage("\nThe maximum limit for one day transfer is ");
         screen.displayDollarAmount(1000);
         screen.displayMessage("\nThe amount of money you already transferred in one day : ");
