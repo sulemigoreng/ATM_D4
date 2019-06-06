@@ -21,23 +21,23 @@ public class AddAccountViewController {
         this.keypad = new Keypad();
     }
 
-    public int reqAccountNumber() {
+    public int requestAccountNumber() {
         screen.displayMessage("\nPlease enter new account's account number: ");     
         return keypad.getInput();
     }
 
-    public int reqPinNumber() {
+    public int requestPinNumber() {
         screen.displayMessage("\nPlease enter new account's pin number: ");     
         return keypad.getInput();
     }
 
-    public double reqBalance() {
+    public double requestBalance() {
         screen.displayMessage("\nPlease enter new account's balance: ");     
         return keypad.getInput();
     }
 
     public void displayMessageNotUnique() {
-        screen.displayMessageLine("\nUser account number already exist!");
+        screen.displayMessageLine("\nAccount number already exist!");
         screen.displayMessageLine("Please input a unique account number");
     }
     

@@ -14,16 +14,16 @@ public class View {
     Keypad keypad = new Keypad();
     
     /* Transfer View */
-    public int reqRecipientAccountNumber(){
+    public int requestRecipientAccountNumber(){
         int accountNumber;
         screen.displayMessage("\nPlease enter the recipient's account number : ");
         accountNumber = keypad.getInput();
         return accountNumber;
     }
     
-    public double displayInputTransferAmount(){
+    public double requestTransferAmount(){
         double Amount;
-        screen.displayMessage("\nPlease enter the amount you want to transfer (0 to cancel): ");
+        screen.displayMessage("\nPlease enter the amount that will be trasferred (0 to cancel): ");
         Amount = keypad.getInput();
         return Amount;
     }
@@ -34,7 +34,7 @@ public class View {
     }
     
     public void displayInsufficientFunds(){
-        screen.displayMessage("\nInsufficient funds.");
+        screen.displayMessage("\nInsufficient balance.");
     }
     
     public void displayMaxOneDayLimit(double limit){
@@ -85,7 +85,7 @@ public class View {
     }
 
     public void displayCantTransferToOwnAccount(){
-        screen.displayMessageLine("You cant transfer to your own account.");
+        screen.displayMessageLine("You can't transfer to your own account.");
     }
 
     public void displayExceedsOneTimeTransfer(){

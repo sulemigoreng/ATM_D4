@@ -25,8 +25,8 @@ public class BlockAccountViewController {
         screen.displayMessageLine("Please enter a correct account number!");
     }
     
-    public int reqAccountNumber() {
-        screen.displayMessage("\nEnter the account number : ");
+    public int requestAccountNumber() {
+        screen.displayMessage("\nEnter the account number to block: ");
         return keypad.getInput();
     }
 }

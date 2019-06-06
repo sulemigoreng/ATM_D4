@@ -23,13 +23,15 @@ public class UnblockAccountController extends TransactionController{
     @Override
     public int run() {
         BlockAccountViewController viewController = new BlockAccountViewController();
-        int accountNumber = viewController.reqAccountNumber();
+        int accountNumber = viewController.requestAccountNumber();
         int unblockIndex = bankDatabase.getBlockedAccountIndex(accountNumber);
+        
         if(unblockIndex == -1){
             viewController.displayUserDoesntExist();
-        }else{
+        } else {
             bankDatabase.removeBlockedAccount(unblockIndex);
         }
+        
         return 0;
     }
 }

@@ -24,13 +24,15 @@ public class BlockAccountController extends TransactionController {
     @Override
     public int run() {
         BlockAccountViewController viewController = new BlockAccountViewController();
-        int accountNumber = viewController.reqAccountNumber();
+        int accountNumber = viewController.requestAccountNumber();
+        
         Customer blockedCustomer = bankDatabase.getCustomer(accountNumber);
-        if(blockedCustomer != null){
+        if(blockedCustomer != null) {
             bankDatabase.addBlockedAccount(blockedCustomer);
         } else {
             viewController.displayUserDoesntExist();
         }
+        
         return 0;
     }
     

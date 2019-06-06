@@ -19,7 +19,7 @@ import com.appl.atm.view.Screen;
  */
 public class AddAccountController extends TransactionController {
     BankDatabase bankDatabase;
-    AddAccountViewController addAccountViewController;
+    AddAccountViewController viewController;
 
     public AddAccountController(Keypad theKeypad, Screen theScreen, BankDatabase theBankDatabase) {
         super(theKeypad, theScreen);
@@ -29,37 +29,37 @@ public class AddAccountController extends TransactionController {
     
     @Override
     public int run() {
-        addAccountViewController = new AddAccountViewController();
+        viewController = new AddAccountViewController();
         int accountType = getAccountType();
         int accountNumber = 0;
         boolean isUnique = false;
         
         while (!isUnique){
             boolean isExist;
-            accountNumber = addAccountViewController.reqAccountNumber();
+            accountNumber = viewController.requestAccountNumber();
             isExist = bankDatabase.isUserExist(accountNumber);
-            if (isExist){
-                addAccountViewController.displayMessageNotUnique();
-            }else {
+            if (isExist) {
+                viewController.displayMessageNotUnique();
+            } else {
                 isUnique = true;
             }
         }
         
-        int pin = addAccountViewController.reqPinNumber();
-        double balance = addAccountViewController.reqBalance(); 
+        int pin = viewController.requestPinNumber();
+        double balance = viewController.requestBalance(); 
         
         switch (accountType){
-            case ADD_SISWA:{
+            case ADD_SISWA: {
                 Siswa newSiswa = new Siswa(accountNumber, pin, balance, balance);
                 bankDatabase.addAccount(newSiswa);
                 break;
             }
-            case ADD_BISNIS:{
+            case ADD_BISNIS: {
                 Bisnis newBisnis = new Bisnis(accountNumber, pin, balance, balance);
                 bankDatabase.addAccount(newBisnis);
                 break;
             }
-            case ADD_MASADEPAN:{
+            case ADD_MASADEPAN: {
                 MasaDepan newMasaDepan = new MasaDepan(accountNumber, pin, balance, balance);
                 bankDatabase.addAccount(newMasaDepan);
                 break;
@@ -69,6 +69,6 @@ public class AddAccountController extends TransactionController {
     }
     
     public int getAccountType(){
-        return addAccountViewController.displayAddAccountMenu();
+        return viewController.displayAddAccountMenu();
     }
 }

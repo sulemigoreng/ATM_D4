@@ -13,11 +13,11 @@ public class TransferViewController {
     private View view = new View();
     
     public int processInputRecipientAccountNumber(){
-        return view.reqRecipientAccountNumber();
+        return view.requestRecipientAccountNumber();
     }
     
     public double processInputTransferAmount(){
-        return view.displayInputTransferAmount();
+        return view.requestTransferAmount();
     }
     
     public void processDisplayMaxOneTimeLimitV(double limit){
@@ -66,22 +66,22 @@ public class TransferViewController {
         boolean IsAnswerRight = false;
         view.displayReciverAccountNumber(recipientAccountNumber);
         view.displayAmount(Amount);
+        
         while(!IsAnswerRight) {
            answer = view.displayWarningMessage();
-            if(answer.equals("Y")){
+            if(answer.equals("Y")) {
                view.displayTransferSuccess();
                 return 1;
-            }
-            else { 
+            } else { 
                 if(answer.equals("N")){
                    view.displayCancelTransferMessage();
                     return 2;
-                }
-                else {
+                } else {
                    view.displayEnterChoice();
                 }
             }
         }
+        
         return 0;
     }
    
