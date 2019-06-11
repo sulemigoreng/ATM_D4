@@ -24,8 +24,8 @@ public class DepositViewControler {
          "CENTS (or 0 to cancel): ");
     }
     
-    public void transactionFailed() {
-        screen.displayMessageLine("Your transaction failed.");
+    public void envelopednotReceiped() {
+        screen.displayMessageLine("Your envelope is not received");
     }
     
     public void envelopeReceived() {
@@ -33,11 +33,13 @@ public class DepositViewControler {
         screen.displayMessageLine("NOTE: The money just deposited will"
             + " not be available until we verify the amount of any "
             + "enclosed cash and your checks clear.");
+        screen.displayMessageLine("check your balance to see the status of your previous deposit");
     }
     
-    public void envelopeDeposit() {
-        screen.displayMessage("Please insert a deposit envelope containing ");
-        screen.displayDollarAmount(20);
+    public void envelopeDeposit(double amount) {
+        screen.displayMessage("Please insert a deposit envelope containing $");
+        screen.displayDollarAmount(amount);
+        screen.displayMessage("/n");
     }
     
     public void showList(HashMap<Customer, Double> theList) {
