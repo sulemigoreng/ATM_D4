@@ -31,7 +31,7 @@ public class DepositController extends TransactionController {
 
     @Override
     public int run() {
-	double amount = promptForDepositAmount();
+	double amount = promptForDepositAmount(); // get return from method promptForDepositAmount()
 
 	if (amount == DEPOSIT_CANCELED) {
 	    getScreen().displayMessageLine("Canceling transaction...");
@@ -45,7 +45,7 @@ public class DepositController extends TransactionController {
                 getScreen().displayMessageLine("Your envelope has been received.");
                 getScreen().displayMessageLine("NOTE: The money just deposited will not be available until we verify the amount of any enclosed cash and your checks clear.");
                 getScreen().displayMessageLine("check your balance to see the status of your previous deposit");
-                bankStatement.addLogDeposit(String.valueOf(customer.getAccountNumber()), amount, "Deposit", false);
+                bankStatement.addLogDeposit(String.valueOf(customer.getAccountNumber()), amount, "Deposit", false); // addlist the envelope to method AddlogDeposit()
             } else {
                 getScreen().displayMessageLine("Your envelope is not received");
             }
