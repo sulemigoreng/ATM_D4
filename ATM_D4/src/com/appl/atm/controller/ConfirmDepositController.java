@@ -25,13 +25,12 @@ import java.util.HashMap;
  * @author Zara Veda
  */
 public class ConfirmDepositController extends TransactionController {
-    Deposit deposit;
     DepositSlot updateSlot;
     BankDatabase bankDatabase;
     Keypad keypad;
     Screen screen;
     
-    public ConfirmDepositController(Transaction theDeposit, DepositSlot theDepositSlot,
+    public ConfirmDepositController(DepositSlot theDepositSlot,
         BankDatabase theBankDatabase, Keypad theKeypad, Screen theScreen) {
         super(theKeypad, theScreen);
         
@@ -42,17 +41,21 @@ public class ConfirmDepositController extends TransactionController {
     public int run(){
         screen = getScreen();
         keypad = getKeypad();
-        DepositViewControler depositView = new DepositViewControler();
+        DepositViewControler screenView = new DepositViewControler();
+        
+        /* Getting the list of deposit slot */
         HashMap<Customer, Double> theList = bankDatabase.getList();
         
-        depositView.showList(bankDatabase.getList());
+        screenView.showList(bankDatabase.getList());
         screen.displayMessage("Choose the account number : ");
         int choosen = keypad.getInput();
         
+        /* Deleting the deposit slot that accepted by admin */
         updateSlot.deleteList(bankDatabase.getList(), bankDatabase.getCustomer(choosen),
             bankDatabase);
         
-        depositView.showList(bankDatabase.getList());
+        /* Showing the updated deposit slot */
+        screenView.showList(bankDatabase.getList());
         
         return 0;
     }
