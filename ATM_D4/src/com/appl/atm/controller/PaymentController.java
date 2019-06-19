@@ -24,7 +24,7 @@ public class PaymentController extends TransactionController {
         Screen screen = getScreen();
 
         screen.displayMessageLine("\nInvoice List: ");
-        screen.displayMessageLine("ID\t|Issuer\t|Amount\t\t|Desc");
+        screen.displayMessageLine("ID\t|Issuer\t|Amount\t\t\t|Description");
         for (Invoice invoice : transaction.getInvoiceList()) {
             screen.displayMessage(invoice.getID() + "\t|" + invoice.getApplicantAccNum() + "\t|");
             screen.displayDollarAmount(invoice.getBillNominal());

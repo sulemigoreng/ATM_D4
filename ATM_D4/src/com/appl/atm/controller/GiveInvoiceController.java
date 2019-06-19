@@ -54,6 +54,7 @@ public class GiveInvoiceController extends TransactionController {
                 if (amount <= 0) screen.displayMessageLine("Invoice Amount invalid, please try again");
             } while (amount <= 0);
             screen.displayMessage("Please enter Invoice Description : ");
+            keypad.getStr();
             description = keypad.getStr();
             customer.addInvoice(id, applicant, amount, description);
             customer.getTransaksiLog().add("[DATE] Bill "+String.valueOf(description)+" | Invoice Id : "
