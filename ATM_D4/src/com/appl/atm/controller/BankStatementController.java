@@ -22,12 +22,8 @@ public class BankStatementController extends TransactionController {
     }
     
     
-    public void addLog(String accountNumber, int amount, String Transaction){
-        customer.getTransaksiLog().add("[DATE] "+Transaction+"      Account_Number : "+accountNumber+"      with amount $ "+amount);
-    }
-    
-    public void addLogDeposit(String accountNumber, double amount, String Transaction, boolean status){
-        customer.getTransaksiLog().add("[DATE] "+Transaction+"      Account_Number : "+accountNumber+"      with amount $ "+amount+ "      Verified : " + status );
+    public void addLog(String description, double debit, double credit, String information){
+        customer.getTransaksiLog().add("[DATE]\t"+description+"\t$ "+debit+"\t$ "+credit+"\t\t$ "+customer.getAvailableBalance()+"\t\t$ "+customer.getTotalBalance()+"\t\t"+information);
     }
     
     @Override
@@ -35,9 +31,14 @@ public class BankStatementController extends TransactionController {
         Screen screen = getScreen();
         
         if(customer.getTransaksiLog().isEmpty()){
+            screen.displayMessage("Account Number : ");
+            screen.displayMessageLine(String.valueOf(customer.getAccountNumber()));
             screen.displayMessageLine("Empty Log Transaction!");
         }
         else{
+            screen.displayMessage("Account Number : ");
+            screen.displayMessageLine(String.valueOf(customer.getAccountNumber()));
+            screen.displayMessageLine("Date\tDescription\tDebit\tCredit\t\tAvailable Balance\tTotal Balance\tInformation");
             for(int i = 0; i < customer.getTransaksiLog().size();i++){
                 screen.displayMessageLine(customer.getTransaksiLog().get(i));
             }

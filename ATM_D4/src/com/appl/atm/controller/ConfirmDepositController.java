@@ -51,7 +51,9 @@ public class ConfirmDepositController extends TransactionController {
         screen.displayMessage("Choose the account number : ");
         int choosen = keypad.getInput();
         bankStatement = new BankStatementController(keypad,screen,bankDatabase.getCustomer(choosen));
-        bankStatement.addLogDeposit(String.valueOf(choosen),theList.get(bankDatabase.getCustomer(choosen)), "Deposit", true);
+        bankDatabase.getCustomer(choosen).setAvailableBalance(
+                bankDatabase.getCustomer(choosen).getAvailableBalance()+theList.get(bankDatabase.getCustomer(choosen)));
+        bankStatement.addLog("Deposit  ", 0.0, theList.get(bankDatabase.getCustomer(choosen)), "Verified : [" + true + "]");
         updateSlot.deleteList(bankDatabase.getList(), bankDatabase.getCustomer(choosen),
             bankDatabase);
         

@@ -50,9 +50,12 @@ public class Transfer extends Transaction{
                     //accountTransfered = screen.processInputRecipientV();
                     
                         Customer accountTransfer = getBankDatabase().getCustomer(accountTransfered);
-                        accountTransfer.getTransaksiLog().add("[DATE] Transfer      From Account_Number : "+ String.valueOf(getAccountNumber())+"     with amount $ "+String.valueOf(amount));
                         account.debit(amount);
                         accountTransfer.credit(amount);
+                        accountTransfer.setAvailableBalance(amount+accountTransfer.getAvailableBalance());
+                        accountTransfer.getTransaksiLog().add("[DATE]\tTransfer\t$ 0.0\t$ "+ amount + "\t\t$ " + 
+                                accountTransfer.getAvailableBalance() + "\t\t$ " + accountTransfer.getTotalBalance() 
+                                + "\t\tFrom : [" + account.getAccountNumber() + "]");
                         //screen.processDisplayTransfered();
                         return TRANSFER_SUCCESS;
                     

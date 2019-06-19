@@ -42,7 +42,7 @@ public class WithdrawalController extends TransactionController {
 
 	    if (res == WITHDRAW_SUCCESSFUL) {
 		WVC.withdrawalSuccessful();
-                bankStatement.addLog(String.valueOf(customer.getAccountNumber()), amount, "Withdrawal");
+                bankStatement.addLog("Withdrawal",amount,0.0,"-");
 	    } else if (res == BALANCE_NOT_ENOUGH) {
 		WVC.balanceNotEnough();
 	    } else if (res == CASHDISPENSER_NOT_ENOUGH) {
