@@ -118,8 +118,9 @@ public class ATM {
                 mainMenuSelection = displayAdminMainMenu();
                 switch (mainMenuSelection) {
                     case CONFIRM_DEPOSIT:
-                        currentTransactionController = new ConfirmDepositController(
-                            deposit, depositSlot, bankDatabase, keypad, screen);
+                        currentTransactionController = 
+                            new ConfirmDepositController(depositSlot, 
+                                bankDatabase, keypad, screen);
                         currentTransactionController.run();
                         break;
 
