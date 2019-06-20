@@ -27,10 +27,10 @@ public class PaymentTest {
         assertNull(customer.getInvoce(1));
         assertNotNull(customer.getInvoce(5));
         
-        customer.getInvoce(5).reduceNominal(20);
-        assertEquals(480, customer.getInvoce(5).getBillNominal(), 0.0);
-        assertEquals(2, customer.getInvoce(5).getApplicantAccNum());
-        assertEquals("Desc 1", customer.getInvoce(5).getBillInformation());   
+        customer.getInvoce(5).pay(20);
+        assertEquals(480, customer.getInvoce(5).getAmount(), 0.0);
+        assertEquals(2, customer.getInvoce(5).getApplicantAccountNumber());
+        assertEquals("Desc 1", customer.getInvoce(5).getAmount());   
         
         customer.getInvoiceList().remove(customer.getInvoce(5));
         assertNull(customer.getInvoce(5));
