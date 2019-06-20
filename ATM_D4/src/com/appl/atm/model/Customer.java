@@ -28,233 +28,219 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
    private TreeSet<Pair<Calendar, Double>> transferLog;
    private ArrayList<String> transaksiLog;
 
-	enum ETransactionKind {
-		WITHDRAWAL,
-		TRANSFER
-	}
-
    // Account constructor initializes attributes
    public Customer (int theAccountNumber, int thePIN, 
-      double theAvailableBalance, double theTotalBalance) {
-      pinLog = new ArrayList<Integer>();
-      pinLog.add(new Integer(thePIN));
-      accountNumber = theAccountNumber;
-      transaksiLog = new ArrayList<String>();
+	  double theAvailableBalance, double theTotalBalance) {
+	  pinLog = new ArrayList<Integer>();
+	  pinLog.add(new Integer(thePIN));
+	  accountNumber = theAccountNumber;
+	  transaksiLog = new ArrayList<String>();
 
-      availableBalance = theAvailableBalance;
-      totalBalance = theTotalBalance;
-      tryCount = 0;
-      setPin(thePIN);
-      invoiceList = new TreeSet<Invoice>(new Comparator<Invoice>() {
+	  availableBalance = theAvailableBalance;
+	  totalBalance = theTotalBalance;
+	  tryCount = 0;
+	  setPin(thePIN);
+	  invoiceList = new TreeSet<Invoice>(new Comparator<Invoice>() {
 			@Override
 			public int compare(Invoice o1, Invoice o2) {
 				return o1.getID() - o2.getID();
 			}
 	  });
-      Comparator<Pair<Calendar, Double>> calendarComparator = new Comparator<Pair<Calendar, Double>>(){
-          @Override
-          public int compare(Pair<Calendar, Double> t, Pair<Calendar, Double> t1) {
-              return t.getKey().compareTo(t1.getKey());
-          }
           
-      };
-      withdrawalLog = new TreeSet<Pair<Calendar, Double>>(calendarComparator);
-      transferLog = new TreeSet<Pair<Calendar, Double>>(calendarComparator);
+	  Comparator<Pair<Calendar, Double>> calendarComparator = 
+                  (Pair<Calendar, Double> t, Pair<Calendar, Double> t1) -> 
+                          t.getKey().compareTo(t1.getKey());
+	  
+          withdrawalLog = new TreeSet<>(calendarComparator);
+	  transferLog = new TreeSet<>(calendarComparator);
    }
    
    public Customer (int theAccountNumber, double theBalance) {
-      pinLog = new ArrayList<Integer>();
-      transaksiLog = new ArrayList<String>();
-      accountNumber = theAccountNumber;
-      setPin(0);
-      availableBalance = theBalance;
-      totalBalance = theBalance;
-      tryCount = 0;
-      invoiceList = new TreeSet<Invoice>();
+	  pinLog = new ArrayList<Integer>();
+	  transaksiLog = new ArrayList<String>();
+	  accountNumber = theAccountNumber;
+	  setPin(0);
+	  availableBalance = theBalance;
+	  totalBalance = theBalance;
+	  tryCount = 0;
+	  invoiceList = new TreeSet<Invoice>();
    }
    
    // returns available balance
    public double getAvailableBalance() {
-      return availableBalance;
+	  return availableBalance;
    } 
 
    // returns the total balance
    public double getTotalBalance() {
-      return totalBalance;
+	  return totalBalance;
    }
    
    @Override
    public int getAccountNumber() {
-      return accountNumber;  
+	  return accountNumber;  
    }
 
    public ArrayList<Integer> getPinLog() {
-      return pinLog;
+	  return pinLog;
    }
    
    public ArrayList<String> getTransaksiLog() {
-      return transaksiLog;
+	  return transaksiLog;
    }
    
    public void setPin(int newPin) {
-      this.pin = newPin;
+	  this.pin = newPin;
    }
 
    @Override
    public int getPin() {
-      return pin;
+	  return pin;
    }
 
    public boolean isResetRequired() {
-      return (pin == 0);
+	  return (pin == 0);
    }
 
    public void setResetRequired() {
-      pin = 0;
+	  pin = 0;
    }
    
    public void setTotalBalance(double totalBalance) {
-      this.totalBalance = totalBalance;
+	  this.totalBalance = totalBalance;
    }
    
    public void setAvailableBalance(double availableBalance) {
-      this.availableBalance = availableBalance;
+	  this.availableBalance = availableBalance;
    }
    
    public int getTryCount() {
-      return tryCount;
+	  return tryCount;
    }
-    
+	
    public void setTryCount(int tryCount) {
-      this.tryCount = tryCount;
+	  this.tryCount = tryCount;
    }
    
    public boolean isBlocked () {
-       return (tryCount >= 3);
+	   return (tryCount >= 3);
    }
    
    public void unblock() {
-      tryCount = 0;
+	  tryCount = 0;
    }
 
-    @Override
-    public int compareTo(Customer t) {
-        return accountNumber - t.accountNumber;
-    }
+	@Override
+	public int compareTo(Customer t) {
+		return accountNumber - t.accountNumber;
+	}
 
-    @Override
-    public boolean isCustomer() {
-       return true;
-    }
-    
-    public abstract double getDailyWithdrawalLimit();
-    public abstract double getDailyTransferLimit();
+	@Override
+	public boolean isCustomer() {
+	   return true;
+	}
+	
+	public abstract double getDailyWithdrawalLimit();
+	public abstract double getDailyTransferLimit();
 
-    public void credit(double amount) {
-      try{
-         totalBalance += amount;
-      } catch(Exception e){
-            
-      }
-    }
+	public void credit(double amount) {
+	  try{
+		 totalBalance += amount;
+	  } catch(Exception e){
+			
+	  }
+	}
 
-    public void debit(double amount) {
-      availableBalance -= amount;
-      totalBalance -= amount;
-    }
-    
-    public boolean isSiswa(){
-        return false;
-    }
-    
-    public boolean isBisnis(){
-        return false;
-    }
-    
-    public boolean isMasaDepan(){
-        return false;
-    }
+	public void debit(double amount) {
+	  availableBalance -= amount;
+	  totalBalance -= amount;
+	}
+	
+	public boolean isSiswa(){
+		return false;
+	}
+	
+	public boolean isBisnis(){
+		return false;
+	}
+	
+	public boolean isMasaDepan(){
+		return false;
+	}
 
 	public boolean addInvoice(int id, int applicant, double amount, String description) {
-    	return invoiceList.add(new Invoice(id, description, amount, applicant));
+		return invoiceList.add(new Invoice(id, description, amount, applicant));
 	}
 
-    public void deleteInvoice(int id) {
-      for (Invoice payment : invoiceList) {
-         if (payment.getID() == id) {
-            invoiceList.remove(payment);
-         }
-      }
-    }
+	public void deleteInvoice(int id) {
+	  for (Invoice payment : invoiceList) {
+		 if (payment.getID() == id) {
+			invoiceList.remove(payment);
+		 }
+	  }
+	}
 
-    public TreeSet<Invoice> getInvoiceList() {
-       return invoiceList;
-    }
+	public TreeSet<Invoice> getInvoiceList() {
+	   return invoiceList;
+	}
 
     public Invoice getInvoce(int id) {
-      for (Invoice invoice : invoiceList) {
-         if (invoice.getID() == id) {
-            return invoice;
-         }
-      }
-      return null;
+        for (Invoice invoice : invoiceList) {
+            if (invoice.getID() == id) {
+                return invoice;
+            }
+        }
+        return null;
     }
-    
+		
     public boolean insertWithdrawalLog(Calendar calendar, double amount){
-    	if (amount + getSameDayTransactionAmount(ETransactionKind.WITHDRAWAL, calendar) > getDailyWithdrawalLimit()) {
+        if (isDailyTransactionLimitReached(withdrawalLog, calendar, amount)) {
             return false;
         }
-        withdrawalLog.add(new Pair(calendar, amount));       
-        return true;
+	return withdrawalLog.add(new Pair(calendar, amount));       
     }
-    
+
     public boolean insertTransferLog(Calendar calendar, double amount){
-    	if (amount + getSameDayTransactionAmount(ETransactionKind.TRANSFER, calendar) > getDailyTransferLimit()) {
+        if (isDailyTransactionLimitReached(transferLog, calendar, amount)) {
             return false;
-	}
-	return transferLog.add(new Pair(calendar, amount));
-//        return true;
+        }
+        return transferLog.add(new Pair(calendar, amount));
     }
 
-	public double getSameDayTransactionAmount(ETransactionKind transactionKind, Calendar findDate) {
-            double amount = 0.0;
+    public boolean isDailyTransactionLimitReached(
+            TreeSet<Pair<Calendar, Double>> log ,Calendar calendar, 
+            double amount) {
+        return ((amount + getSameDayTransactionAmount(log, calendar)) 
+                > getDailyWithdrawalLimit());
+    }
 
-		int findYear = findDate.get(Calendar.YEAR);
-		int findDayOfYear = findDate.get(Calendar.DAY_OF_YEAR);
+    public double getSameDayTransactionAmount(
+            TreeSet<Pair<Calendar, Double>> log, Calendar findDate) {
+	double amount = 0.0;
 		
-		Pair<Calendar, Double> currentLog = null;
-		
-		Iterator<Pair<Calendar, Double>> itLog;
-		switch (transactionKind) {
-                    case WITHDRAWAL:
-                        itLog = withdrawalLog.descendingIterator();		
+	int findYear = findDate.get(Calendar.YEAR);
+	int findDayOfYear = findDate.get(Calendar.DAY_OF_YEAR);
+
+	Pair<Calendar, Double> currentLog = null;
+	Iterator<Pair<Calendar, Double>> itLog = log.descendingIterator();
+        while (itLog.hasNext()) {
+            currentLog = itLog.next(); 
+            if (currentLog.getKey().get(Calendar.YEAR) > findYear) {
+                continue;
+            } do {
+                if (currentLog.getKey().get(Calendar.DAY_OF_YEAR) 
+                        < findDayOfYear) {
                     break;
-                    case TRANSFER:
-                        itLog = transferLog.descendingIterator();
-			break;
-                    default:
-                    // undefined behaviour
-                    return 0.0;
-		}
-                
-		while (itLog.hasNext()) {
-                    currentLog = itLog.next(); 
-                    if (currentLog.getKey().get(Calendar.YEAR) > findYear) {
-                        continue;
-                    } do {
-                        if (currentLog.getKey().get(Calendar.DAY_OF_YEAR) < findDayOfYear) {
-                            break;
-                        }
-                        amount += currentLog.getValue();
-                        if (itLog.hasNext()) {
-                            currentLog = itLog.next();                            
-                            continue;
-                        }
-                        break;
-                    } while (true);
-                    break;
-		}
-		
-		return amount;
+		}		
+		amount += currentLog.getValue();
+		if (itLog.hasNext()) {
+                    currentLog = itLog.next();                            
+                    continue;
+                }
+		break;
+            } while (true);
+            break;
 	}
+        return amount;
+    }
 }
