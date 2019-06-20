@@ -28,22 +28,33 @@ public class BankStatementController extends TransactionController {
     
     @Override
     public int run() {
-        Screen screen = getScreen();
         
         if(customer.getTransaksiLog().isEmpty()){
-            screen.displayMessage("Account Number : ");
-            screen.displayMessageLine(String.valueOf(customer.getAccountNumber()));
-            screen.displayMessageLine("Empty Log Transaction!");
+            displayEmptyLogTransaction();
         }
         else{
-            screen.displayMessage("Account Number : ");
-            screen.displayMessageLine(String.valueOf(customer.getAccountNumber()));
-            screen.displayMessageLine("Date\tDescription\tDebit\tCredit\t\tAvailable Balance\tTotal Balance\tInformation");
-            for(int i = 0; i < customer.getTransaksiLog().size();i++){
-                screen.displayMessageLine(customer.getTransaksiLog().get(i));
-            }
+            displayLogTransaction();
         }
         
         return 0;
+    }
+    
+    public void displayEmptyLogTransaction(){
+        Screen screen = getScreen();
+        
+        screen.displayMessage("Account Number : ");
+        screen.displayMessageLine(String.valueOf(customer.getAccountNumber()));
+        screen.displayMessageLine("Empty Log Transaction!");
+    }
+    
+    public void displayLogTransaction(){
+        Screen screen = getScreen();
+        
+        screen.displayMessage("Account Number : ");
+        screen.displayMessageLine(String.valueOf(customer.getAccountNumber()));
+        screen.displayMessageLine("Date\tDescription\tDebit\tCredit\t\tAvailable Balance\tTotal Balance\tInformation");
+        for(int i = 0; i < customer.getTransaksiLog().size();i++){
+            screen.displayMessageLine(customer.getTransaksiLog().get(i));
+        }
     }
 }
