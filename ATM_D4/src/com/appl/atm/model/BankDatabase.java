@@ -21,8 +21,7 @@ public class BankDatabase {
     private ArrayList<IAccount> accounts; // array of Accounts
     private ArrayList<Customer> blockedAccount;
     private HashMap<Customer, Double> envelopeList;
-    private Calendar calendar;
-    private long startMillisecond;
+    private ATMCalendar calendar;
     
     public BankDatabase() {
         accounts = new ArrayList<IAccount>();
@@ -38,8 +37,7 @@ public class BankDatabase {
         accounts.add(new Bisnis(4000, 4000, 1000, 1200)); //Asuransi
 
         envelopeList = new HashMap<Customer, Double>();
-        calendar = new GregorianCalendar();
-        startMillisecond = System.currentTimeMillis();
+        calendar = new ATMCalendar();
     }
     
     public void addAccount(Siswa newSiswa){
@@ -146,30 +144,15 @@ public class BankDatabase {
     }
     
     public Calendar getDate(){
-        refreshDate();
-        return (Calendar)calendar.clone();
+        return calendar.getCalendar();
     }
     
     public void addDate(){
-        refreshDate();
-        calendar.add(Calendar.DATE, 1);
-    }
-    
-    public void refreshDate() {
-        try {
-            Thread.sleep(1);
-
-            long endMillisecond = startMillisecond;
-            startMillisecond = System.currentTimeMillis();
-
-            calendar.setTimeInMillis(calendar.getTimeInMillis() + (startMillisecond - endMillisecond));                    
-        } catch(Exception e) {
-            
-        }
+        calendar.addDate();
     }
     
     public String showDate() {
         SimpleDateFormat currentFormat = new SimpleDateFormat("dd/MM/yyyy");
-        return currentFormat.format(calendar.getTime());
+        return currentFormat.format(calendar.getCalendar().getTime());
     }
 }
