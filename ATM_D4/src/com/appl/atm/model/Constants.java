@@ -59,4 +59,10 @@ public final class Constants {
     public static final int IS_SISWA = 5;
     public static final int NOT_A_CUSTOMER = 6;
     public static final int SAME_ACCOUNT = 7;
+    
+    // payment
+    public static final int PAYMENT_SUCCESS = 0;
+    public static final int PAYMENT_INVOICE_NOTFOUND = 1;
+    public static final int PAYMENT_INSUFICIENT_AMOUNT = 2;
+    public static final int PAYMENT_INVALID_AMOUNT = 3;
 }

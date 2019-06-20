@@ -2,53 +2,61 @@ package com.appl.atm.model;
 
 import static com.appl.atm.model.Constants.*;
 
-import java.util.Iterator;
 import java.util.TreeSet;
 
 public class Payment extends Transaction {
-    private Customer customer;
+    private final Customer customer;
+    private int invoiceId;
     private double amount;
-    private int invoiceID;
 
     public Payment(int userAccountNumber, BankDatabase atmBankDatabase) {
         // initialize superclass variables
         super(userAccountNumber, atmBankDatabase);
-        customer = getBankDatabase().getCustomer(getAccountNumber());
 
+        customer = getBankDatabase().getCustomer(getAccountNumber());
         amount = 0;
     }
 
     @Override
     public int execute() {
-        Invoice invoice = customer.getInvoce(getinvoiceID());
+        Invoice invoice = customer.getInvoce(getinvoiceId());
         if (invoice == null) {
-            return 1;
+            return PAYMENT_INVOICE_NOTFOUND;
         }
 
-        if (getAmount() > invoice.getBillNominal()) {
-            return 3;
+        if (getAmount() > invoice.getAmount()) {
+            return PAYMENT_INVALID_AMOUNT;
         }
 
+        /* threat negative or zero amount as paid off */
         if (getAmount() <= 0) {
-            setAmount(invoice.getBillNominal());
+            setAmount(invoice.getAmount());
         }
 
         if (customer.getAvailableBalance() >= getAmount()) {
             customer.debit(getAmount());
-            invoice.reduceNominal(getAmount());
-            boolean paidOff = (invoice.getBillNominal() == 0);
-            customer.getTransaksiLog().add("[DATE] Payment "+String.valueOf(invoice.getBillInformation())+" | Invoice Id : "
-                    +String.valueOf(invoice.getID())+"   to Applicant : "+String.valueOf(invoice.getApplicantAccNum())
-                    +"   with amount $ "+String.valueOf(getAmount())+" of "+String.valueOf(invoice.getBillNominal()+getAmount())+"   Paid off : "+String.valueOf(paidOff));
+            invoice.pay(getAmount());
+            boolean paidOff = (invoice.getAmount()== 0);
+            customer.getTransaksiLog().add("[DATE] Payment "+String.valueOf(invoice.getDescription())+" | Invoice Id : "
+                    +String.valueOf(invoice.getId())+"   to Applicant : "+String.valueOf(invoice.getApplicantAccountNumber())
+                    +"   with amount $ "+String.valueOf(getAmount())+" of "+String.valueOf(invoice.getAmount()+getAmount())+"   Paid off : "+String.valueOf(paidOff));
             
-            if(invoice.getBillNominal() == 0) {
+            if(invoice.getAmount()== 0) {
                 customer.getInvoiceList().remove(invoice);
             }
         } else {
-            return 2;
+            return PAYMENT_INSUFICIENT_AMOUNT;
         }
 
-        return 0;
+        return PAYMENT_SUCCESS;
+    }
+
+    public int getinvoiceId() {
+        return invoiceId;
+    }
+
+    public void setinvoiceId(int id) {
+        this.invoiceId = id;
     }
 
     public double getAmount() {
@@ -58,17 +66,8 @@ public class Payment extends Transaction {
     public void setAmount(double amount) {
         this.amount = amount;
     }
-
-    public int getinvoiceID() {
-        return invoiceID;
-    }
-
     
     public TreeSet<Invoice> getInvoiceList() {
         return new TreeSet<Invoice>(customer.getInvoiceList());
-    }
-    
-    public void setinvoiceID(int id) {
-        this.invoiceID = id;
     }
 }

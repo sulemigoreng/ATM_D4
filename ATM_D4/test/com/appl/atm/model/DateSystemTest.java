@@ -47,16 +47,12 @@ public class DateSystemTest {
         assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getDate(), 50));
         assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getDate(), 30));
         assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getDate(), 20));
-         
-        assertEquals(110.0, bisnisCustomer.getSameDayTransactionAmount(Customer.ETransactionKind.TRANSFER, bankDatabase.getDate()), 0.0);
-      
+        
+        assertTrue(bisnisCustomer.isDailyTransferLimitReached(bankDatabase.getDate(), 110));
+        
         bankDatabase.addDate();
 
-        assertEquals(0.0, bisnisCustomer.getSameDayTransactionAmount(Customer.ETransactionKind.TRANSFER, bankDatabase.getDate()), 0.0);
         assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getDate(), 50.0));
-        assertEquals(50.0, bisnisCustomer.getSameDayTransactionAmount(Customer.ETransactionKind.TRANSFER, bankDatabase.getDate()), 0.0);
         assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getDate(), 500.0));
-
-        assertEquals(550.0, bisnisCustomer.getSameDayTransactionAmount(Customer.ETransactionKind.TRANSFER, bankDatabase.getDate()), 0.0);
     }
 }

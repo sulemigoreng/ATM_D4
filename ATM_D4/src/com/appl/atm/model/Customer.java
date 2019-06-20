@@ -40,12 +40,8 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
 	  totalBalance = theTotalBalance;
 	  tryCount = 0;
 	  setPin(thePIN);
-	  invoiceList = new TreeSet<Invoice>(new Comparator<Invoice>() {
-			@Override
-			public int compare(Invoice o1, Invoice o2) {
-				return o1.getID() - o2.getID();
-			}
-	  });
+	  invoiceList = new TreeSet<>((Invoice o1, Invoice o2) -> 
+                  o1.getId() - o2.getId());
           
 	  Comparator<Pair<Calendar, Double>> calendarComparator = 
                   (Pair<Calendar, Double> t, Pair<Calendar, Double> t1) -> 
@@ -63,7 +59,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
 	  availableBalance = theBalance;
 	  totalBalance = theBalance;
 	  tryCount = 0;
-	  invoiceList = new TreeSet<Invoice>();
+	  invoiceList = new TreeSet<>();
    }
    
    // returns available balance
@@ -167,26 +163,29 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
 	public boolean isMasaDepan(){
 		return false;
 	}
+        
+    public boolean addInvoice(int id, int applicantAccountNumber, double amount,
+            String description) {
+        return invoiceList.add(
+                new Invoice(id, applicantAccountNumber, amount, description));
+    }
 
-	public boolean addInvoice(int id, int applicant, double amount, String description) {
-		return invoiceList.add(new Invoice(id, description, amount, applicant));
-	}
+    public void deleteInvoice(int id) {
+        for (Invoice payment : invoiceList) {
+            if (payment.getId() == id) {
+                invoiceList.remove(payment);
+                break;
+            }
+        }
+    }
 
-	public void deleteInvoice(int id) {
-	  for (Invoice payment : invoiceList) {
-		 if (payment.getID() == id) {
-			invoiceList.remove(payment);
-		 }
-	  }
-	}
-
-	public TreeSet<Invoice> getInvoiceList() {
-	   return invoiceList;
-	}
+    public TreeSet<Invoice> getInvoiceList() {
+        return invoiceList;
+    }
 
     public Invoice getInvoce(int id) {
         for (Invoice invoice : invoiceList) {
-            if (invoice.getID() == id) {
+            if (invoice.getId() == id) {
                 return invoice;
             }
         }
@@ -194,20 +193,30 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
     }
 		
     public boolean insertWithdrawalLog(Calendar calendar, double amount){
-        if (isDailyTransactionLimitReached(withdrawalLog, calendar, amount)) {
+        if (isDailyWithdrawalLimitReached(calendar, amount)) {
             return false;
         }
 	return withdrawalLog.add(new Pair(calendar, amount));       
     }
 
     public boolean insertTransferLog(Calendar calendar, double amount){
-        if (isDailyTransactionLimitReached(transferLog, calendar, amount)) {
+        if (isDailyTransferLimitReached(calendar, amount)) {
             return false;
         }
         return transferLog.add(new Pair(calendar, amount));
     }
 
-    public boolean isDailyTransactionLimitReached(
+    public boolean isDailyWithdrawalLimitReached(Calendar calendar, 
+            double amount) {
+        return isDailyTransactionLimitReached(withdrawalLog, calendar, amount);
+    }
+
+    public boolean isDailyTransferLimitReached(Calendar calendar, 
+            double amount) {
+        return isDailyTransactionLimitReached(transferLog, calendar, amount);
+    }
+    
+    private boolean isDailyTransactionLimitReached(
             TreeSet<Pair<Calendar, Double>> log ,Calendar calendar, 
             double amount) {
         return ((amount + getSameDayTransactionAmount(log, calendar)) 
