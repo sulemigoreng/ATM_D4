@@ -54,6 +54,7 @@ public class ConfirmDepositController extends TransactionController {
             updatingSlot(bankDatabase, choosen);
 
             /* Showing the updated deposit slot */
+            screen.displayMessage("\n");
             screenView.showList(bankDatabase.getList());
         } else {
             screen.displayMessageLine("Back to menu..");
