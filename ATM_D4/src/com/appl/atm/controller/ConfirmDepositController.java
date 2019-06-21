@@ -47,13 +47,17 @@ public class ConfirmDepositController extends TransactionController {
         HashMap<Customer, Double> theList = bankDatabase.getList();
         
         screenView.showList(bankDatabase.getList());
-        screen.displayMessage("Choose the account number : ");
+        screen.displayMessage("\nChoose the account number (or 0 to cancel) : ");
         int choosen = keypad.getInput();
 
-        updatingSlot(bankDatabase, choosen);
+        if(choosen != 0) {
+            updatingSlot(bankDatabase, choosen);
 
-        /* Showing the updated deposit slot */
-        screenView.showList(bankDatabase.getList());
+            /* Showing the updated deposit slot */
+            screenView.showList(bankDatabase.getList());
+        } else {
+            screen.displayMessageLine("Back to menu..");
+        }
         
         return 0;
     }
