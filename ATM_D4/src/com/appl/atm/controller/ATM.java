@@ -46,7 +46,7 @@ public class ATM {
 	cashDispenser = new CashDispenser();
 	depositSlot = new DepositSlot();
 	bankDatabase = new BankDatabase();
-        dateController = new DateController(bankDatabase);
+        dateController = new DateController(bankDatabase, screen);
 //        theAdmin = new Admin(0000, 0000);
     }
 

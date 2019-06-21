@@ -33,10 +33,7 @@ public class Payment extends Transaction {
             setAmount(invoice.getAmount());
         }
 
-        //if (customer.getAvailableBalance() >= getAmount()) {
-        if (customer.payInvoice(invoice, amount)) {
-            //TO DO
-        } else {
+        if (customer.payInvoice(invoice, amount) == false) {
             return PAYMENT_INSUFICIENT_AMOUNT;
         }
 

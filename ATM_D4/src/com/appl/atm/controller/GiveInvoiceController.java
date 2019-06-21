@@ -7,13 +7,16 @@ import com.appl.atm.view.Screen;
 import static com.appl.atm.model.Constants.*;
 
 public class GiveInvoiceController extends TransactionController {
-    private Keypad keypad;
-    private Screen screen;
-    private GiveInvoice transaction;
-    
+    private final GiveInvoice transaction;
+
+    private final Keypad keypad;
+    private final Screen screen;
+        
     public GiveInvoiceController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
         super(theKeypad, theScreen);
+        
         transaction = (GiveInvoice) theTransaction;
+        
         screen = getScreen();
         keypad = getKeypad();
     }

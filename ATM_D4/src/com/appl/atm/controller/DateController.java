@@ -1,27 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.appl.atm.controller;
 
 import com.appl.atm.model.BankDatabase;
 import com.appl.atm.view.Screen;
+import java.text.SimpleDateFormat;
 
 public class DateController {
-    BankDatabase bankDatabase;
+    private final BankDatabase bankDatabase;
+    private final Screen screen;
     
-    public DateController(BankDatabase theBankDatabase) {
+    public DateController(BankDatabase theBankDatabase, Screen screen) {
         bankDatabase = theBankDatabase;
+        this.screen = screen;
     }
     
     public void changeDate(){
-        Screen screen = new Screen();
         bankDatabase.addDate();
         screen.displayMessage("The Date Has Change.");
     }
     
     public void showDate() {
-       System.out.println("\nThe current date is : " + bankDatabase.showDate());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dateStr = simpleDateFormat.format(bankDatabase.getCalendar().getTime());
+        
+        screen.displayMessageLine("\nThe current date is : " + dateStr);
     }
 }

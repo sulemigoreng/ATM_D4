@@ -19,22 +19,22 @@ public class DateSystemTest {
     @Test 
     public void DateIncrementTest() {
         BankDatabase bankDatabase = new BankDatabase();
-        Calendar prevDate = bankDatabase.getDate();
+        Calendar prevDate = bankDatabase.getCalendar();
         bankDatabase.addDate();
         
-        assertTrue(prevDate.get(Calendar.DAY_OF_YEAR) + 1 == bankDatabase.getDate().get(Calendar.DAY_OF_YEAR));        
+        assertTrue(prevDate.get(Calendar.DAY_OF_YEAR) + 1 == bankDatabase.getCalendar().get(Calendar.DAY_OF_YEAR));        
     }
     
     @Test
     public void DateRefreshTest() {
         BankDatabase bankDatabase = new BankDatabase();
 
-        assertNotEquals(0, bankDatabase.getDate().compareTo(bankDatabase.getDate()));
-        assertNotEquals(0, bankDatabase.getDate().compareTo(bankDatabase.getDate()));
-        assertNotEquals(0, bankDatabase.getDate().compareTo(bankDatabase.getDate()));
-        assertNotEquals(0, bankDatabase.getDate().compareTo(bankDatabase.getDate()));
+        assertNotEquals(0, bankDatabase.getCalendar().compareTo(bankDatabase.getCalendar()));
+        assertNotEquals(0, bankDatabase.getCalendar().compareTo(bankDatabase.getCalendar()));
+        assertNotEquals(0, bankDatabase.getCalendar().compareTo(bankDatabase.getCalendar()));
+        assertNotEquals(0, bankDatabase.getCalendar().compareTo(bankDatabase.getCalendar()));
         bankDatabase.addDate();
-        assertNotEquals(0, bankDatabase.getDate().compareTo(bankDatabase.getDate()));
+        assertNotEquals(0, bankDatabase.getCalendar().compareTo(bankDatabase.getCalendar()));
 
     }
     @Test
@@ -43,16 +43,16 @@ public class DateSystemTest {
         
         Bisnis bisnisCustomer = new Bisnis(1, 1, 1000, 1000);
         
-        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getDate(), 10));
-        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getDate(), 50));
-        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getDate(), 30));
-        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getDate(), 20));
+        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getCalendar(), 10));
+        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getCalendar(), 50));
+        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getCalendar(), 30));
+        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getCalendar(), 20));
         
-        assertTrue(bisnisCustomer.isDailyTransferLimitReached(bankDatabase.getDate(), 110));
+        assertTrue(bisnisCustomer.isDailyTransferLimitReached(bankDatabase.getCalendar(), 110));
         
         bankDatabase.addDate();
 
-        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getDate(), 50.0));
-        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getDate(), 500.0));
+        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getCalendar(), 50.0));
+        assertTrue(bisnisCustomer.insertTransferLog(bankDatabase.getCalendar(), 500.0));
     }
 }

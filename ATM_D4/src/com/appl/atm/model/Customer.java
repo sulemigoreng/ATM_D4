@@ -164,10 +164,8 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
 		return false;
 	}
         
-    public boolean addInvoice(int id, int applicantAccountNumber, double amount,
-            String description) {
-        return invoiceList.add(
-                new Invoice(id, applicantAccountNumber, amount, description));
+    public boolean addInvoice(int id, int applicantAccountNumber, double amount, String description) {
+        return invoiceList.add(new Invoice(id, applicantAccountNumber, amount, description));
     }
 
     public void deleteInvoice(int id) {
@@ -218,38 +216,37 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
         return ((amount + getSameDayTransactionAmount(log, calendar)) > getDailyWithdrawalLimit());
     }
 
-    public double getSameDayTransactionAmount(
-            TreeSet<Pair<Calendar, Double>> log, Calendar findDate) {
+    public double getSameDayTransactionAmount(TreeSet<Pair<Calendar, Double>> log, Calendar findDate) {
 	double amount = 0.0;
 		
 	int findYear = findDate.get(Calendar.YEAR);
 	int findDayOfYear = findDate.get(Calendar.DAY_OF_YEAR);
 
-	Pair<Calendar, Double> currentLog = null;
-	Iterator<Pair<Calendar, Double>> itLog = log.descendingIterator();
-        while (itLog.hasNext()) {
-            currentLog = itLog.next(); 
-            if ( findYear < currentLog.getKey().get(Calendar.YEAR)) {
+	Pair<Calendar, Double> currentLog;
+	Iterator<Pair<Calendar, Double>> logIt = log.descendingIterator();
+        while (logIt.hasNext()) {
+            currentLog = logIt.next();
+            if (findYear < currentLog.getKey().get(Calendar.YEAR)) {
                 continue;
             } do {
                 if (findDayOfYear > currentLog.getKey().get(Calendar.DAY_OF_YEAR)) {
                     break;
 		}		
 		amount += currentLog.getValue();
-		if (itLog.hasNext()) {
-                    currentLog = itLog.next();                            
+		if (logIt.hasNext()) {
+                    currentLog = logIt.next();                            
                     continue;
                 }
 		break;
             } while (true);
             break;
 	}
+        
         return amount;
     }
     
     public boolean payInvoice (Invoice invoice, double amount) {
-        double thisAmount;
-        thisAmount = invoice.getAmount();
+        double thisAmount = invoice.getAmount();
         debit(thisAmount);
         if (amount <= thisAmount) {
             thisAmount -= amount;
@@ -258,7 +255,7 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
             transaksiLog.add("[DATE] Payment "+String.valueOf(invoice.getDescription())+" | Invoice Id : "
                     +String.valueOf(invoice.getId())+"   to Applicant : "+String.valueOf(invoice.getApplicantAccountNumber())
                     +"   with amount $ "+String.valueOf(amount)+" of "+String.valueOf(invoice.getAmount()+amount)+"   Paid off : "+String.valueOf(paidOff));
-            if(invoice.getAmount()== 0) {
+            if(invoice.getAmount() == 0) {
                 invoiceList.remove(invoice);
             }
             return true;

@@ -1,6 +1,5 @@
 package com.appl.atm.model;
 
-import com.appl.atm.model.Customer;
 import static com.appl.atm.model.Constants.*;
 
 public class GiveInvoice extends Transaction {
@@ -30,8 +29,7 @@ public class GiveInvoice extends Transaction {
                 + String.valueOf(applicantAccountNumber) + "   with amount $ "
                 + String.valueOf(invoiceAmount) + "   Paid off : false"); 
 
-        return ADD_INVOICE_SUCCESS;             
-        
+        return ADD_INVOICE_SUCCESS;   
     }
     
     public void setCustomerAccountNumber(int accountNumber) {

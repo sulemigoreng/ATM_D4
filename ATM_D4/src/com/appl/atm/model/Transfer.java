@@ -46,7 +46,7 @@ public class Transfer extends Transaction{
                 return TRANSFER_CANCELED;
             }
             else{
-                if(account.insertTransferLog(getBankDatabase().getDate(), amount)){
+                if(account.insertTransferLog(getBankDatabase().getCalendar(), amount)){
                     //accountTransfered = screen.processInputRecipientV();
                     
                         Customer accountTransfer = getBankDatabase().getCustomer(accountTransfered);
