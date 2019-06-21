@@ -33,17 +33,9 @@ public class Payment extends Transaction {
             setAmount(invoice.getAmount());
         }
 
-        if (customer.getAvailableBalance() >= getAmount()) {
-            customer.debit(getAmount());
-            invoice.pay(getAmount());
-            boolean paidOff = (invoice.getAmount()== 0);
-            customer.getTransaksiLog().add("[DATE] Payment "+String.valueOf(invoice.getDescription())+" | Invoice Id : "
-                    +String.valueOf(invoice.getId())+"   to Applicant : "+String.valueOf(invoice.getApplicantAccountNumber())
-                    +"   with amount $ "+String.valueOf(getAmount())+" of "+String.valueOf(invoice.getAmount()+getAmount())+"   Paid off : "+String.valueOf(paidOff));
-            
-            if(invoice.getAmount()== 0) {
-                customer.getInvoiceList().remove(invoice);
-            }
+        //if (customer.getAvailableBalance() >= getAmount()) {
+        if (customer.payInvoice(invoice, amount)) {
+            //TO DO
         } else {
             return PAYMENT_INSUFICIENT_AMOUNT;
         }

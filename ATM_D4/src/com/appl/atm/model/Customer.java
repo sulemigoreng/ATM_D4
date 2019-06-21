@@ -206,21 +206,16 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
         return transferLog.add(new Pair(calendar, amount));
     }
 
-    public boolean isDailyWithdrawalLimitReached(Calendar calendar, 
-            double amount) {
+    public boolean isDailyWithdrawalLimitReached(Calendar calendar, double amount) {
         return isDailyTransactionLimitReached(withdrawalLog, calendar, amount);
     }
 
-    public boolean isDailyTransferLimitReached(Calendar calendar, 
-            double amount) {
+    public boolean isDailyTransferLimitReached(Calendar calendar, double amount) {
         return isDailyTransactionLimitReached(transferLog, calendar, amount);
     }
     
-    private boolean isDailyTransactionLimitReached(
-            TreeSet<Pair<Calendar, Double>> log ,Calendar calendar, 
-            double amount) {
-        return ((amount + getSameDayTransactionAmount(log, calendar)) 
-                > getDailyWithdrawalLimit());
+    private boolean isDailyTransactionLimitReached(TreeSet<Pair<Calendar, Double>> log, Calendar calendar, double amount) {
+        return ((amount + getSameDayTransactionAmount(log, calendar)) > getDailyWithdrawalLimit());
     }
 
     public double getSameDayTransactionAmount(
@@ -250,5 +245,24 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
             break;
 	}
         return amount;
+    }
+    
+    public boolean payInvoice (Invoice invoice, double amount) {
+        double thisAmount;
+        thisAmount = invoice.getAmount();
+        debit(thisAmount);
+        if (amount <= thisAmount) {
+            thisAmount -= amount;
+            invoice.setAmount(thisAmount);
+            boolean paidOff = (invoice.getAmount()== 0);
+            transaksiLog.add("[DATE] Payment "+String.valueOf(invoice.getDescription())+" | Invoice Id : "
+                    +String.valueOf(invoice.getId())+"   to Applicant : "+String.valueOf(invoice.getApplicantAccountNumber())
+                    +"   with amount $ "+String.valueOf(amount)+" of "+String.valueOf(invoice.getAmount()+amount)+"   Paid off : "+String.valueOf(paidOff));
+            if(invoice.getAmount()== 0) {
+                invoiceList.remove(invoice);
+            }
+            return true;
+        }
+        return false;
     }
 }

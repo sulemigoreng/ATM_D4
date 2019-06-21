@@ -82,8 +82,7 @@ public class PaymentController extends TransactionController {
             selection = keypad.getInput();
     
             switch (selection) {
-                case INSTALLMENT:       
-                    screen.displayMessage("\nEnter Nominal: ");
+                case INSTALLMENT:
                     transaction.setAmount(getAmount());
                 case PAID_OFF:
                     screen.displayMessage("\n");
