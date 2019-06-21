@@ -29,12 +29,13 @@ public class DepositController extends TransactionController {
 	transaction = (Deposit) theTransaction;
         customer = transaction.getBankDatabase().getCustomer(transaction.getAccountNumber());
         bankStatement = new BankStatementController(theKeypad,theScreen,customer);
+        depositviewcontroler = new DepositViewControler();
     }
 
     @Override
     public int run() {
 	double amount = promptForDepositAmount(); // get return from method promptForDepositAmount()
-
+        
 	if (amount == DEPOSIT_CANCELED) {
 	    getScreen().displayMessageLine("Canceling transaction...");
 	} else {
