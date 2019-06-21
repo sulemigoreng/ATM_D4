@@ -23,19 +23,23 @@ public class Transfer extends Transaction{
     public int execute() {
         Customer account = getBankDatabase().getCustomer(getAccountNumber());
         
+        //Jika account customer jenis siswa maka akan langsung return constant
         if(account.isSiswa()) {
             return IS_SISWA;
         }
         
+        //Jika account tujuan tidak ada maka akan return constant
         if(getBankDatabase().getCustomer(accountTransfered) == null){
             return ACCOUNT_NOT_FOUND;
         }
         
+        //Jika account tujuan sama dengan account pengirim maka akan return constant
         if(accountTransfered == getAccountNumber()){
             return IS_MY_ACCOUNT;
         }
         
         if(account.isCustomer()) {
+            //Uang tidak mencukupi
             if(account.getAvailableBalance() < amount){
                 return INSUFFICIENT_BALANCE;
             }
