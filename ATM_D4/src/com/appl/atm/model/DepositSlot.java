@@ -27,18 +27,26 @@ public class DepositSlot {
         }
     }
     
+    //Mendelete sebuah envelope dari list lalu menambahkan banyaknya uang pada envelope tersebut ke available balance customer tersebut
+    //mengembalikan true apabila menemukan envelope customer
     public boolean deleteList(HashMap<Customer, Double> envelopes, Customer theCustomer,
             BankDatabase theBankDatabase){
-        if(envelopes.containsKey(theCustomer)){
+        if(envelopes.containsKey(theCustomer)){//mencari customer di list
             addAvailableBalance(envelopes,theCustomer);
-            theBankDatabase.updateList(theCustomer);
-            return true;
+            deleteEntry(theBankDatabase, theCustomer);
+            return true;//envelope berhasil di-delete dari list
         }else{
-            return false;
+            return false;//tidak dapat menemukan envelope yang dimaksud
         }
     }
     
+    //Menambahkan available balance seorang customer sesuai dengan banyakanya uang di envelopenya
+    //state yang berubah adalah available balance seorang customer
     public void addAvailableBalance(HashMap<Customer, Double> envelopes, Customer theCustomer){
         theCustomer.setAvailableBalance(theCustomer.getAvailableBalance()+(double)envelopes.get(theCustomer));
+    }
+    
+    public void deleteEntry(BankDatabase theBankDatabase, Customer theCustomer){
+        theBankDatabase.updateList(theCustomer);
     }
 }
