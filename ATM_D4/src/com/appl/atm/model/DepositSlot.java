@@ -22,7 +22,7 @@ public class DepositSlot {
         if(envelopes.containsKey(theCustomer)) {
             return false;
         } else {
-            theBankDatabase.setList(theCustomer, amountCashDeposited);
+            setEnvelopeList(theBankDatabase, theCustomer, amountCashDeposited);
             return true;
         }
     }
@@ -40,5 +40,9 @@ public class DepositSlot {
     
     public void addAvailableBalance(HashMap<Customer, Double> envelopes, Customer theCustomer){
         theCustomer.setAvailableBalance(theCustomer.getAvailableBalance()+(double)envelopes.get(theCustomer));
+    }
+    
+    public void setEnvelopeList(BankDatabase theBankDatabase, Customer theCustomer, double amountCashDeposited){
+        theBankDatabase.setList(theCustomer, amountCashDeposited);
     }
 }

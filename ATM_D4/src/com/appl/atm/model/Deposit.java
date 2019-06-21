@@ -46,6 +46,7 @@ public class Deposit extends Transaction {
 	return amount;
     }
 
+    //mengubah nilai amount
     public void setAmount(double amount) {
 	this.amount = amount;
     }
