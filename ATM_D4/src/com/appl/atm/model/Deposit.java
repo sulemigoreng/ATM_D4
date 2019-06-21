@@ -31,8 +31,10 @@ public class Deposit extends Transaction {
     public int execute() {
         BankDatabase bankDatabase = getBankDatabase();
 	Customer account = bankDatabase.getCustomer(getAccountNumber());
-	if (depositSlot.isEnvelopeReceived(bankDatabase.getList(),
-                account, amount, bankDatabase)) {
+	Boolean isEnvelopeReceived = depositSlot.isEnvelopeReceived(bankDatabase.getList(),
+                account, amount, bankDatabase);  
+                
+        if (isEnvelopeReceived) {
 	    account.credit(amount);
 	    return DEPOSIT_SUCCESSFUL;
 	} else {
@@ -40,30 +42,18 @@ public class Deposit extends Transaction {
 	}
     }
 
-    /**
-     * @return the amount
-     */
     public double getAmount() {
 	return amount;
     }
 
-    /**
-     * @param amount the amount to set
-     */
     public void setAmount(double amount) {
 	this.amount = amount;
     }
 
-    /**
-     * @return the depositSlot
-     */
     public DepositSlot getDepositSlot() {
 	return depositSlot;
     }
 
-    /**
-     * @param depositSlot the depositSlot to set
-     */
     public void setDepositSlot(DepositSlot depositSlot) {
 	this.depositSlot = depositSlot;
     }
