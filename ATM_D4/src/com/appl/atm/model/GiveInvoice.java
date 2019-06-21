@@ -1,7 +1,7 @@
 package com.appl.atm.model;
 
 import com.appl.atm.controller.BankStatementController;
-import com.appl.atm.model.Customer;
+
 import static com.appl.atm.model.Constants.*;
 
 public class GiveInvoice extends Transaction {
@@ -30,8 +30,7 @@ public class GiveInvoice extends Transaction {
         bankStatement.addLog("Bill    ", 0.0, 0.0, "[" + invoiceDescription + "] | Invoice Id : ["
                 + invoiceId + "] | Applicant : [" + applicantAccountNumber + "] | amount : [$ " + invoiceAmount + "] | PaidOff : [" + false + "]");//menambahkan bankstatement ke akun customer berupa bill yang perlu dibayar
 
-        return ADD_INVOICE_SUCCESS;             
-        
+        return ADD_INVOICE_SUCCESS;   
     }
     
     public void setCustomerAccountNumber(int accountNumber) {

@@ -9,14 +9,10 @@ import com.appl.atm.view.Keypad;
 import com.appl.atm.view.Screen;
 
 public class PaymentController extends TransactionController {
-    private static final int PAID_OFF    = 1;
-    private static final int INSTALLMENT = 2;
-    private static final int CANCEL      = 0;
-
     private final Payment transaction;
 
-    private Keypad keypad;
-    private Screen screen;
+    private final Keypad keypad;
+    private final Screen screen;
     
     public PaymentController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
         super(theKeypad, theScreen);
@@ -26,19 +22,8 @@ public class PaymentController extends TransactionController {
         keypad = getKeypad();
         screen = getScreen();
     }
-    
-    public void showInvoiceList() {
-        screen.displayMessageLine("\nInvoice List: ");
-        screen.displayMessageLine("ID\t|Issuer\t|Amount\t\t\t|Description");
-        for (Invoice invoice : transaction.getInvoiceList()) {
-            screen.displayMessage(invoice.getId() + "\t|" + invoice.getApplicantAccountNumber()+ "\t|");
-            screen.displayDollarAmount(invoice.getAmount());
-            screen.displayMessageLine("\t\t|" + invoice.getDescription());
-        }
-        screen.displayMessage("\n");        
-    }
-    
-    public int getInvoiceId() {
+
+    private int getInvoiceId() {
         int invoiceId;
 
         do {
@@ -49,7 +34,7 @@ public class PaymentController extends TransactionController {
         return invoiceId;
     }
     
-    public int getAmount() {
+    private int getAmount() {
         int amount;
 
         do {
@@ -59,7 +44,18 @@ public class PaymentController extends TransactionController {
         
         return amount;
     }
-
+    
+    private void showInvoiceList() {
+        screen.displayMessageLine("\nInvoice List: ");
+        screen.displayMessageLine("ID\t|Issuer\t|Amount\t\t\t|Description");
+        for (Invoice invoice : transaction.getInvoiceList()) {
+            screen.displayMessage(invoice.getId() + "\t|" + invoice.getApplicantAccountNumber()+ "\t|");
+            screen.displayDollarAmount(invoice.getAmount());
+            screen.displayMessageLine("\t\t|" + invoice.getDescription());
+        }
+        screen.displayMessage("\n");        
+    }
+    
     @Override
     public int run(){
         showInvoiceList();

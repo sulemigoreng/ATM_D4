@@ -64,9 +64,15 @@ public final class Constants {
     public static final int ADD_INVOICE_SUCCESS = 1;
     public static final int CUSTOMER_NOT_EXIST = 2;
     public static final int ADD_INVOICE_FAILED = 3;
+    
     // payment
     public static final int PAYMENT_SUCCESS = 0;
     public static final int PAYMENT_INVOICE_NOTFOUND = 1;
     public static final int PAYMENT_INSUFICIENT_AMOUNT = 2;
     public static final int PAYMENT_INVALID_AMOUNT = 3;
+    
+    public static final int PAID_OFF    = 1;
+    public static final int INSTALLMENT = 2;
+    public static final int CANCEL      = 0;
+
 }

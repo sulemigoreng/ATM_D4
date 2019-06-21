@@ -5,12 +5,9 @@
  */
 package com.appl.atm.model;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Date;
 
 /**
  *
@@ -143,16 +140,11 @@ public class BankDatabase {
         return -1;
     }
     
-    public Calendar getDate(){
+    public Calendar getCalendar(){
         return calendar.getCalendar();
     }
     
     public void addDate(){
         calendar.addDate();
-    }
-    
-    public String showDate() {
-        SimpleDateFormat currentFormat = new SimpleDateFormat("dd/MM/yyyy");
-        return currentFormat.format(calendar.getCalendar().getTime());
     }
 }

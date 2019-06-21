@@ -21,6 +21,10 @@ public class Invoice implements Comparable<Invoice> {
         return amount;
     }
 
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
     public int getApplicantAccountNumber() {
         return applicantAccountNumber;
     }
@@ -28,24 +32,9 @@ public class Invoice implements Comparable<Invoice> {
     public String getDescription() {
         return description;
     }
-
-    public boolean pay(double amount) {
-        if (amount <= this.amount) {
-            this.setAmount(this.amount - amount);
-            return true;
-        }
-        return false;
-    }
     
     @Override
     public int compareTo(Invoice t) {
         return id - t.id;
     }       
-
-    /**
-     * @param amount the amount to set
-     */
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
 }

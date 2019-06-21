@@ -34,7 +34,7 @@ public class Withdrawal extends Transaction {
 	}
 
 	if (cashDispenser.isSufficientCashAvailable(amount)) {
-        if (account.insertWithdrawalLog(getBankDatabase().getDate(), amount)) {
+        if (account.insertWithdrawalLog(getBankDatabase().getCalendar(), amount)) {
             cashDispenser.dispenseCash(amount);
             account.debit(amount);    
             return WITHDRAW_SUCCESSFUL;
