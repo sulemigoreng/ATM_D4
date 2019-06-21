@@ -49,14 +49,18 @@ public class ConfirmDepositController extends TransactionController {
         screenView.showList(bankDatabase.getList());
         screen.displayMessage("Choose the account number : ");
         int choosen = keypad.getInput();
-        
-        /* Deleting the deposit slot that accepted by admin */
-        updateSlot.deleteList(bankDatabase.getList(), bankDatabase.getCustomer(choosen),
-            bankDatabase);
-        
+
+        updatingSlot(bankDatabase, choosen);
+
         /* Showing the updated deposit slot */
         screenView.showList(bankDatabase.getList());
         
         return 0;
+    }
+    
+    private void updatingSlot(BankDatabase bankDatabase, int choosen) {
+        /* Deleting the deposit slot that accepted by admin */
+        updateSlot.deleteList(bankDatabase.getList(), bankDatabase.getCustomer(choosen),
+            bankDatabase);
     }
 }
