@@ -64,7 +64,11 @@ public class ConfirmDepositController extends TransactionController {
     }
     
     private void updatingSlot(BankDatabase bankDatabase, int choosen) {
-        /* Deleting the deposit slot that accepted by admin */
+        /* Slot tidak kosong
+         * Update dilakukan dengan cara mendelete salah satu envelope
+         * yang diterima oleh admin
+         */
+        
         updateSlot.deleteList(bankDatabase.getList(), bankDatabase.getCustomer(choosen),
             bankDatabase);
     }
