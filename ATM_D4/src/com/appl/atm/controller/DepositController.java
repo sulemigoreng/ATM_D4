@@ -45,7 +45,7 @@ public class DepositController extends TransactionController {
                 getScreen().displayMessageLine("Your envelope has been received.");
                 getScreen().displayMessageLine("NOTE: The money just deposited will not be available until we verify the amount of any enclosed cash and your checks clear.");
                 getScreen().displayMessageLine("check your balance to see the status of your previous deposit");
-                bankStatement.addLog("Deposit   ", 0.0, amount, "Verified : [" + false + "]");
+                bankStatement.addLog("Deposit   ", 0.0, amount, "Verified : [" + false + "]");//menambahkan bankstatement ke akun customer setalah melakukan deposit 
             } else {
                 getScreen().displayMessageLine("Your envelope is not received");
             }

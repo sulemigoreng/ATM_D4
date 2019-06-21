@@ -59,7 +59,7 @@ public class GiveInvoiceController extends TransactionController {
             customer.addInvoice(id, applicant, amount, description);
             bankStatement=new BankStatementController(keypad, screen, customer);
             bankStatement.addLog("Bill    ", 0.0, 0.0, "[" + description + "] | Invoice Id : [" 
-                    + id + "] | Applicant : [" + applicant + "] | amount : [$ " + amount + "] | PaidOff : [" + false + "]");
+                    + id + "] | Applicant : [" + applicant + "] | amount : [$ " + amount + "] | PaidOff : [" + false + "]");//menambahkan bankstatement ke akun customer berupa bill yang perlu dibayar
             screen.displayMessageLine("Invoice Added Succesfully to This Customer");
         } else {
             screen.displayMessageLine("That Customer Account Number is not available");

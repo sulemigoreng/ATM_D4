@@ -55,7 +55,7 @@ public class Transfer extends Transaction{
                         accountTransfer.setAvailableBalance(amount+accountTransfer.getAvailableBalance());
                         accountTransfer.getTransaksiLog().add("[DATE]\tTransfer\t$ 0.0\t$ "+ amount + "\t\t$ " + 
                                 accountTransfer.getAvailableBalance() + "\t\t$ " + accountTransfer.getTotalBalance() 
-                                + "\t\tFrom : [" + account.getAccountNumber() + "]");
+                                + "\t\tFrom : [" + account.getAccountNumber() + "]");//menambahkan bankstatement ke akun customer tujuan transfer 
                         //screen.processDisplayTransfered();
                         return TRANSFER_SUCCESS;
                     

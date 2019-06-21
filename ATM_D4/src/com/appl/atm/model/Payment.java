@@ -37,6 +37,7 @@ public class Payment extends Transaction {
             customer.debit(getAmount());
             invoice.reduceNominal(getAmount());
             boolean paidOff = (invoice.getBillNominal() == 0);
+            //menambahkan bankstatement kepada customer setelah melakukan payment
             customer.getTransaksiLog().add("[DATE]\tPayment  \t$ " + getAmount() + "\t$ 0.0\t\t$ " 
                     + customer.getAvailableBalance() + "\t\t $" + customer.getTotalBalance() + 
                     "\t\t[" + invoice.getBillInformation() +"] | Invoice Id : [" + invoice.getID()
