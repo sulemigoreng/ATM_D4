@@ -21,9 +21,7 @@ public class ATMCalendar {
             startMillisecond = System.currentTimeMillis();
 
             // renew calendar date to latest machine date
-            calendar.setTimeInMillis(
-                    calendar.getTimeInMillis() 
-                            + (startMillisecond - endMillisecond));                    
+            calendar.setTimeInMillis(calendar.getTimeInMillis() + (startMillisecond - endMillisecond));                    
         } catch(InterruptedException e) {
             // TODO
         }

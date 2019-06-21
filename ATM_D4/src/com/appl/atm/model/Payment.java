@@ -33,20 +33,9 @@ public class Payment extends Transaction {
             setAmount(invoice.getAmount());
         }
 
-        if (customer.getAvailableBalance() >= getAmount()) {
-            customer.debit(getAmount());
-            invoice.pay(getAmount());
-            boolean paidOff = (invoice.getAmount() == 0);
-            //menambahkan bankstatement kepada customer setelah melakukan payment
-            customer.getTransaksiLog().add("[DATE]\tPayment  \t$ " + getAmount() + "\t$ 0.0\t\t$ " 
-                    + customer.getAvailableBalance() + "\t\t $" + customer.getTotalBalance() + 
-                    "\t\t[" + String.valueOf(invoice.getDescription()) +"] | Invoice Id : [" + String.valueOf(invoice.getId())
-                    + "] | Applicant : [" + String.valueOf(invoice.getApplicantAccountNumber()) + "] | Amount : [$ " 
-                    + String.valueOf(getAmount()) + "] | Paid Off : [" + paidOff + "]");
-            
-            if(invoice.getAmount() == 0) {
-                customer.getInvoiceList().remove(invoice);
-            }
+        //if (customer.getAvailableBalance() >= getAmount()) {
+        if (customer.payInvoice(invoice, amount)) {
+            //TO DO
         } else {
             return PAYMENT_INSUFICIENT_AMOUNT;
         }

@@ -31,7 +31,7 @@ public class Invoice implements Comparable<Invoice> {
 
     public boolean pay(double amount) {
         if (amount <= this.amount) {
-            this.amount -= amount;
+            this.setAmount(this.amount - amount);
             return true;
         }
         return false;
@@ -41,4 +41,11 @@ public class Invoice implements Comparable<Invoice> {
     public int compareTo(Invoice t) {
         return id - t.id;
     }       
+
+    /**
+     * @param amount the amount to set
+     */
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 }
