@@ -43,7 +43,7 @@ public class DepositController extends TransactionController {
 	    depositviewcontroler.envelopeDeposit(amount);//print  the envelope deopsit to screen
             if(receive == DEPOSIT_SUCCESSFUL){
                 depositviewcontroler.envelopeReceived();//print to screen when the enveloped received
-                bankStatement.addLogDeposit(String.valueOf(customer.getAccountNumber()), amount, "Deposit", false); // addlist the envelope to method AddlogDeposit()
+                bankStatement.addLog("Deposit   ", 0.0, amount, "Verified : [" + false + "]");//menambahkan bankstatement ke akun customer setalah melakukan deposit 
             } else {
                 depositviewcontroler.envelopednotReceiped();//print to screen when the enveloped not received
             }

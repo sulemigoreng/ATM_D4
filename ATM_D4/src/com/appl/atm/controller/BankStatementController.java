@@ -21,28 +21,43 @@ public class BankStatementController extends TransactionController {
         this.customer=customer;
     }
     
-    
-    public void addLog(String accountNumber, int amount, String Transaction){
-        customer.getTransaksiLog().add("[DATE] "+Transaction+"      Account_Number : "+accountNumber+"      with amount $ "+amount);
-    }
-    
-    public void addLogDeposit(String accountNumber, double amount, String Transaction, boolean status){
-        customer.getTransaksiLog().add("[DATE] "+Transaction+"      Account_Number : "+accountNumber+"      with amount $ "+amount+ "      Verified : " + status );
+    // add every transaction executed in log transaction
+    public void addLog(String description, double debit, double credit, String information){
+        // saved in order [date, type of transaction, debit, credit, available balance, total balance, information]
+        customer.getTransaksiLog().add("[DATE]\t"+description+"\t$ "+debit+"\t$ "+credit+"\t\t$ "+customer.getAvailableBalance()+"\t\t$ "+customer.getTotalBalance()+"\t\t"+information);
     }
     
     @Override
     public int run() {
-        Screen screen = getScreen();
         
-        if(customer.getTransaksiLog().isEmpty()){
-            screen.displayMessageLine("Empty Log Transaction!");
+        if(customer.getTransaksiLog().isEmpty()){ // if account has no transaction yet
+            displayEmptyLogTransaction(); // show empty log transaction
         }
         else{
-            for(int i = 0; i < customer.getTransaksiLog().size();i++){
-                screen.displayMessageLine(customer.getTransaksiLog().get(i));
-            }
+            displayLogTransaction(); // show log transaction
         }
         
         return 0;
+    }
+    
+    // show text when user doesn't have log transaction
+    public void displayEmptyLogTransaction(){
+        Screen screen = getScreen();
+        
+        screen.displayMessage("Account Number : ");
+        screen.displayMessageLine(String.valueOf(customer.getAccountNumber()));
+        screen.displayMessageLine("Empty Log Transaction!");
+    }
+    
+    // show log transaction
+    public void displayLogTransaction(){
+        Screen screen = getScreen();
+        
+        screen.displayMessage("Account Number : ");
+        screen.displayMessageLine(String.valueOf(customer.getAccountNumber()));
+        screen.displayMessageLine("Date\tDescription\tDebit\tCredit\t\tAvailable Balance\tTotal Balance\tInformation");
+        for(int i = 0; i < customer.getTransaksiLog().size();i++){ // get size of transaction
+            screen.displayMessageLine(customer.getTransaksiLog().get(i)); // show all history of transcation sorted in descending
+        }
     }
 }

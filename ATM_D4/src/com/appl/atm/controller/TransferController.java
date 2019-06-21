@@ -52,7 +52,7 @@ public class TransferController extends TransactionController{
                         screen.processDisplayNotEnoughSaldo();
                         break;
                     case TRANSFER_SUCCESS:
-                        bankStatement.addLog(String.valueOf(customer.getAccountNumber())+" to "+ String.valueOf(transaction.getAccountTransferred()), (int)transaction.getAmount(), "Transfer");
+                        bankStatement.addLog("Transfer",transaction.getAmount(),0.0,"to : ["+ transaction.getAccountTransferred()+"]");//menambahkan bankstatement ke akun customer setelah transfer sukses
                         screen.processDisplayTransfered();
                         break;
                     case EXCEED_ONE_TIME_TRANSFER_BISNIS:

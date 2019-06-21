@@ -16,6 +16,7 @@ public class GiveInvoiceController extends TransactionController {
     Payment payment;
     Customer customer;
     private GiveInvoice Transaction;
+    private BankStatementController bankStatement;
     
     public GiveInvoiceController(Transaction theTransaction, Keypad theKeypad, Screen theScreen) {
         super(theKeypad, theScreen);
@@ -56,9 +57,9 @@ public class GiveInvoiceController extends TransactionController {
             screen.displayMessage("Please enter Invoice Description : ");
             description = keypad.getStr();
             customer.addInvoice(id, applicant, amount, description);
-            customer.getTransaksiLog().add("[DATE] Bill "+String.valueOf(description)+" | Invoice Id : "
-                    +String.valueOf(id)+"   From Applicant : "+String.valueOf(applicant)
-                    +"   with amount $ "+String.valueOf(amount)+"   Paid off : false");
+            bankStatement=new BankStatementController(keypad, screen, customer);
+            bankStatement.addLog("Bill    ", 0.0, 0.0, "[" + description + "] | Invoice Id : [" 
+                    + id + "] | Applicant : [" + applicant + "] | amount : [$ " + amount + "] | PaidOff : [" + false + "]");//menambahkan bankstatement ke akun customer berupa bill yang perlu dibayar
             screen.displayMessageLine("Invoice Added Succesfully to This Customer");
         } else {
             screen.displayMessageLine("That Customer Account Number is not available");
