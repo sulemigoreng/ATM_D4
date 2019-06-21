@@ -13,7 +13,7 @@ public class View {
     Screen screen = new Screen();
     Keypad keypad = new Keypad();
     
-    /* Transfer View */
+    /*-----Method-method Transfer View-----*/
     public int requestRecipientAccountNumber(){
         int accountNumber;
         screen.displayMessage("\nPlease enter the recipient's account number : ");
@@ -91,6 +91,7 @@ public class View {
     public void displayExceedsOneTimeTransfer(){
         screen.displayMessageLine("The Amount of money is exceeding one time transfer limit.");
     }
+    /*-----Akhir dari Method-method Transfer View-----*/
 }
     
 

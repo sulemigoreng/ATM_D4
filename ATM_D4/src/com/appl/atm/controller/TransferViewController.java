@@ -12,6 +12,8 @@ import com.appl.atm.view.View;
 public class TransferViewController {
     private View view = new View();
     
+    /***Mengambil method-method dari kelas View yang khusus untuk proses transfer***/
+    
     public int processInputRecipientAccountNumber(){
         return view.requestRecipientAccountNumber();
     }

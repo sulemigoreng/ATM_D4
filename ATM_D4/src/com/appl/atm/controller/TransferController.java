@@ -74,6 +74,7 @@ public class TransferController extends TransactionController{
                 }
             }
         } else {
+            //Jika customer bertipe siswa, maka akan ditolak
             if (transaction.execute() == IS_SISWA) {
                 screen.processDeclineSiswa();
             } else {
