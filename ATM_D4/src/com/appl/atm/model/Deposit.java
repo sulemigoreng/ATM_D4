@@ -53,7 +53,8 @@ public class Deposit extends Transaction {
     public DepositSlot getDepositSlot() {
 	return depositSlot;
     }
-
+    
+    //to set depositSlot
     public void setDepositSlot(DepositSlot depositSlot) {
 	this.depositSlot = depositSlot;
     }

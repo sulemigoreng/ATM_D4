@@ -8,11 +8,11 @@ import java.util.Map;
  * @author Annazar
  */
 public class DepositSlot {
+    //return has list been added
     public boolean isEnvelopeReceived(HashMap envelopes, Customer theCustomer,
         double amountCashDeposited, BankDatabase theBankDatabase) {
-        boolean acceptedStatus = addList(envelopes, theCustomer, amountCashDeposited, 
-                theBankDatabase);
-	return acceptedStatus; // deposit envelope was received
+	return addList(envelopes, theCustomer, amountCashDeposited, 
+                theBankDatabase); // deposit envelope was received
     }
 
     //Admin's method
