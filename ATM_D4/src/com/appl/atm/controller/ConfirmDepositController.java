@@ -25,7 +25,7 @@ import java.util.HashMap;
  * @author Zara Veda
  */
 public class ConfirmDepositController extends TransactionController {
-    DepositSlot updateSlot;
+    DepositSlot depositSlot;
     BankDatabase bankDatabase;
     Keypad keypad;
     Screen screen;
@@ -34,7 +34,7 @@ public class ConfirmDepositController extends TransactionController {
         BankDatabase theBankDatabase, Keypad theKeypad, Screen theScreen) {
         super(theKeypad, theScreen);
         
-        updateSlot = theDepositSlot;
+        depositSlot = theDepositSlot;
         bankDatabase = theBankDatabase;
     }
     
@@ -51,7 +51,7 @@ public class ConfirmDepositController extends TransactionController {
         int choosen = keypad.getInput();
 
         if(choosen != 0) {
-            updatingSlot(bankDatabase, choosen);
+            deleteSlot(bankDatabase, choosen);
 
             /* Showing the updated deposit slot */
             screen.displayMessage("\n");
@@ -63,9 +63,12 @@ public class ConfirmDepositController extends TransactionController {
         return 0;
     }
     
-    private void updatingSlot(BankDatabase bankDatabase, int choosen) {
-        /* Deleting the deposit slot that accepted by admin */
-        updateSlot.deleteList(bankDatabase.getList(), bankDatabase.getCustomer(choosen),
+    private void deleteSlot(BankDatabase bankDatabase, int choosen) {
+        /* Slot tidak kosong
+         * Mendelete salah satu envelope yang diterima oleh admin
+         */
+        
+        depositSlot.deleteList(bankDatabase.getList(), bankDatabase.getCustomer(choosen),
             bankDatabase);
     }
 }
