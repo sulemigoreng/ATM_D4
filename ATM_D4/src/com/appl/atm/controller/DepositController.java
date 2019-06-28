@@ -35,7 +35,7 @@ public class DepositController extends TransactionController {
     @Override
     public int run() {
 	double amount = promptForDepositAmount(); // get return from method promptForDepositAmount()
-
+        
 	if (amount == DEPOSIT_CANCELED) {
 	    getScreen().displayMessageLine("Canceling transaction...");
 	} else {
