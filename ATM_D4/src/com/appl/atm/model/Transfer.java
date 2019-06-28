@@ -23,26 +23,27 @@ public class Transfer extends Transaction{
     public int execute() {
         Customer account = getBankDatabase().getCustomer(getAccountNumber());
         
+        //Jika account customer jenis siswa maka akan langsung return constant
         if(account.isSiswa()) {
             return IS_SISWA;
         }
         
-        if(getBankDatabase().getCustomer(accountTransfered)==null){
+        //Jika account tujuan tidak ada maka akan return constant
+        if(getBankDatabase().getCustomer(accountTransfered) == null){
             return ACCOUNT_NOT_FOUND;
         }
         
+        //Jika account tujuan sama dengan account pengirim maka akan return constant
         if(accountTransfered == getAccountNumber()){
             return SAME_ACCOUNT;
         }
         
         if(account.isCustomer()) {
-            //amount = screen.processInputTheAmountV();
+            //Uang tidak mencukupi
             if(account.getAvailableBalance() < amount){
-                //screen.processDisplayNotEnoughSaldo();
-                return NOT_ENOUGH_SALDO;
+                return INSUFFICIENT_BALANCE;
             }
             if(amount == 0){
-                //screen.processCanceled();
                 return TRANSFER_CANCELED;
             }
             else{
@@ -58,21 +59,18 @@ public class Transfer extends Transaction{
                                 + "\t\tFrom : [" + account.getAccountNumber() + "]");//menambahkan bankstatement ke akun customer tujuan transfer 
                         //screen.processDisplayTransfered();
                         return TRANSFER_SUCCESS;
-                    
                 }
                 else{
-                    //screen.precessDisplayMaxOneDayLimitV(account.getMaxTransfer()); //ini bener ga?
                     if (account.isBisnis()) {
-                        return EXCEED_ONE_TIME_TRANSFER_BISNIS;
+                        return EXCEED_TRANSFER_LIMIT_FOR_BISNIS;
                     }
                     if (account.isMasaDepan()) {
-                        return EXCEED_ONE_TIME_TRANSFER_MASA_DEPAN;
+                        return EXCEED_TRANSFER_LIMIT_FOR_MASA_DEPAN;
                     }
                 }
             }
         }
         else{
-            //screen.processDisplayAccountNotCustomer();
             return NOT_A_CUSTOMER;
         }
         return 0;
@@ -86,7 +84,7 @@ public class Transfer extends Transaction{
         this.accountTransfered = accountNumber;
     }
     
-    public double getMaxT(){
+    public double getTransferLimit(){
         return getBankDatabase().getCustomer(getAccountNumber()).getDailyTransferLimit();
     }
     
@@ -97,41 +95,4 @@ public class Transfer extends Transaction{
     public double getAmount(){
         return amount;
     }
-    /*
-       ATMBankDatabase bankDatabase = getBankDatabase();
-        ATMScreen screen = getScreen();
-        ATMDatabaseControl databaseControl = getControl();
-        //ATMBankDatabase bankDatabase = getBankDatabase();
-        //ATMScreen screen = getScreen();
-        
-        tAmount = screen.transferDisplay();
-        if(bankDatabase.getAccount(getAccountNumber()).getAvailableBalance() < tAmount){
-            screen.AmountNotEnough();
-        }
-        else{
-            if(tAmount > 100){
-                screen.MaxTransfer();
-            }
-            else{
-                tAccount = screen.InputAccountNumber();
-                
-                if(bankDatabase.getAccount(tAccount)!=null && tAccount != getAccountNumber()){
-                    databaseControl.credit(bankDatabase.getAccount(getAccountNumber()), tAmount);
-                    databaseControl.transfered(bankDatabase.getAccount(tAccount), tAmount);
-                    screen.TransferSuccess(tAmount);
-                }
-                else{
-                    if(tAccount == getAccountNumber()){
-                        screen.SelfTransfer();
-                    }
-                    else{
-                        screen.AccountNotFound();
-                    }
-                }
-                
-                //bankDatabase.debit(tAccount, tAmount);
-            }
-        }
-        
-    */
 }

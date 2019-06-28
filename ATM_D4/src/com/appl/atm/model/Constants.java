@@ -51,11 +51,11 @@ public final class Constants {
 
     //transfer
     public static final int TRANSFER_CANCELED = 0;
-    public static final int NOT_ENOUGH_SALDO = 1;
+    public static final int INSUFFICIENT_BALANCE = 1;
     public static final int TRANSFER_SUCCESS = 2;
     public static final int ACCOUNT_NOT_FOUND = 3;
-    public static final int EXCEED_ONE_TIME_TRANSFER_BISNIS = 10000;
-    public static final int EXCEED_ONE_TIME_TRANSFER_MASA_DEPAN = 500;
+    public static final int EXCEED_TRANSFER_LIMIT_FOR_BISNIS = 10000;
+    public static final int EXCEED_TRANSFER_LIMIT_FOR_MASA_DEPAN = 500;
     public static final int IS_SISWA = 5;
     public static final int NOT_A_CUSTOMER = 6;
     public static final int SAME_ACCOUNT = 7;
@@ -74,5 +74,4 @@ public final class Constants {
     public static final int PAID_OFF    = 1;
     public static final int INSTALLMENT = 2;
     public static final int CANCEL      = 0;
-
 }

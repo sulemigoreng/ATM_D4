@@ -12,44 +12,46 @@ import com.appl.atm.view.View;
 public class TransferViewController {
     private View view = new View();
     
-    public int processInputRecipientV(){
-        return view.inputRecipientAccountNumberV();
+    /***Mengambil method-method dari kelas View yang khusus untuk proses transfer***/
+    
+    public int processInputRecipientAccountNumber(){
+        return view.requestRecipientAccountNumber();
     }
     
-    public double processInputTheAmountV(){
-        return view.inputTheAmountV();
+    public double processInputTransferAmount(){
+        return view.requestTransferAmount();
     }
     
     public void processDisplayMaxOneTimeLimitV(double limit){
-        view.displayMaxOneTimeLimitV(limit);
+        view.displayMaxOneTimeLimit(limit);
     }
     
     public void processDisplayMaxOneDayLimitV(double limit){
-        view.displayMaxOneDayLimitV(limit);
+        view.displayMaxOneDayLimit(limit);
     }
     
-    public void processDisplayNotEnoughSaldo(){
-        view.displayNotEnoughSaldo();
+    public void processInsufficientFunds(){
+        view.displayInsufficientFunds();
     }
     
-     public void processDisplayAccountNotFound(){
+     public void processAccountNotFound(){
         view.displayAccountNotFound();
     }
      
-     public void processDisplayAccountNotCustomer(){
+     public void processNotCustomer(){
         view.displayNotCustomer();
     }
      
-     public void processCanceled(){
-        view.displayCancelTransfer();
+     public void processCancelTransfer(){
+        view.displayCancelTransferMessage();
     }
     
-    public void processDisplayTransfered(){
-        view.displayTransferred();
+    public void processTransferSuccess(){
+        view.displayTransferSuccess();
     }
     
     public void processDeclineSiswa(){
-        view.displaySiswaCantTransfer();
+        view.displaySiswaNotAllowed();
     }
     
     public void processDeclineTransferOwnAccount(){
@@ -64,24 +66,24 @@ public class TransferViewController {
      public double processTransferV(int recipientAccountNumber, double Amount){
         String answer;
         boolean IsAnswerRight = false;
-        view.displayAccountNumber(recipientAccountNumber);
+        view.displayReciverAccountNumber(recipientAccountNumber);
         view.displayAmount(Amount);
+        
         while(!IsAnswerRight) {
-           answer = view.displayCorrect();
-            if(answer.equals("Y")){
-               view.displayTransferred();
+           answer = view.displayWarningMessage();
+            if(answer.equals("Y")) {
+               view.displayTransferSuccess();
                 return 1;
-            }
-            else { 
+            } else { 
                 if(answer.equals("N")){
-                   view.displayCancelTransfer();
+                   view.displayCancelTransferMessage();
                     return 2;
-                }
-                else {
-                   view.displayEnter();
+                } else {
+                   view.displayEnterChoice();
                 }
             }
         }
+        
         return 0;
     }
    
