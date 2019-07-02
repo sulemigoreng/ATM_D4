@@ -247,8 +247,8 @@ public abstract class Customer implements IAccount, Comparable<Customer> {
     
     public boolean payInvoice (Invoice invoice, double amount) {
         double thisAmount = invoice.getAmount();
-        debit(thisAmount);
-        if (amount <= thisAmount) {
+        if (amount <= thisAmount && amount <= availableBalance) {
+            debit(amount);
             thisAmount -= amount;
             invoice.setAmount(thisAmount);
             boolean paidOff = (invoice.getAmount() == 0);

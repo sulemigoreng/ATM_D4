@@ -50,8 +50,14 @@ public class ConfirmDepositController extends TransactionController {
         int choosen = keypad.getInput();
 
         if(choosen != 0) {
-            deleteSlot(bankDatabase, choosen);
-
+            if(theList.containsKey(bankDatabase.getCustomer(choosen))){
+                bankStatement = new BankStatementController(keypad,screen,bankDatabase.getCustomer(choosen));
+                double depositSize = theList.get(bankDatabase.getCustomer(choosen));
+                deleteSlot(bankDatabase, choosen);
+                bankStatement.addLog("Deposit  ", 0.0, depositSize, "Verified : [" + true + "]");
+            }
+            
+                
             /* Showing the updated deposit slot */
             screen.displayMessage("\n");
             screenView.showList(bankDatabase.getList());
