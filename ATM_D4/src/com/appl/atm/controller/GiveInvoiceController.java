@@ -110,6 +110,7 @@ public class GiveInvoiceController extends TransactionController {
     private String getInvoiceDescription() {
         String description;
         screen.displayMessage("Please enter Invoice Description : ");
+        keypad.getStr();
         description = keypad.getStr();
         
         return description;
